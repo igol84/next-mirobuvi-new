@@ -1,0 +1,208 @@
+@font-face {
+  font-family: icons;
+  font-display: swap;
+  src: url("icomoon.woff2") format("woff2"), url("icomoon.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+%ic {
+  font-family: "icons", serif;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class*="_icon-"] {
+  font-style: normal;
+
+  &:before {
+    @extend %ic;
+    display: block;
+  }
+}
+
+._icon-x1:before {
+  content: "\e92c";
+}
+
+._icon-sliders-solid:before {
+  content: "\e92b";
+}
+
+._icon-sun:before {
+  content: "\e928";
+}
+
+._icon-clouds:before {
+  content: "\e929";
+}
+
+._icon-snow:before {
+  content: "\e92a";
+}
+
+._icon-arrow-down:before {
+  content: "\e90f";
+}
+
+._icon-arrow-left:before {
+  content: "\e910";
+}
+
+._icon-basket:before {
+  content: "\e911";
+}
+
+._icon-logo:before {
+  content: "\e90e";
+}
+
+._icon-menu:before {
+  content: "\e912";
+}
+
+._icon-search:before {
+  content: "\e913";
+}
+
+._icon-viber:before {
+  content: "\e914";
+  text-decoration: none;
+}
+
+._icon-x:before {
+  content: "\e915";
+}
+
+._icon-youtube:before {
+  content: "\e916";
+}
+
+._icon-adidas:before {
+  content: "\e900";
+}
+
+._icon-asics:before {
+  content: "\e901";
+}
+
+._icon-converse:before {
+  content: "\e902";
+}
+
+._icon-dr-martens:before {
+  content: "\e903";
+}
+
+._icon-fila:before {
+  content: "\e904";
+}
+
+._icon-liici:before {
+  content: "\e905";
+}
+
+._icon-new-balance:before {
+  content: "\e906";
+}
+
+._icon-nike:before {
+  content: "\e907";
+}
+
+._icon-prima:before {
+  content: "\e908";
+}
+
+._icon-puma:before {
+  content: "\e909";
+}
+
+._icon-rb:before {
+  content: "\e90a";
+}
+
+._icon-reebok:before {
+  content: "\e90b";
+}
+
+._icon-stilli:before {
+  content: "\e90c";
+}
+
+._icon-ugg:before {
+  content: "\e90d";
+}
+
+._icon-bookmarks:before {
+  content: "\e917";
+}
+
+._icon-boots-shoes:before {
+  content: "\e918";
+}
+
+._icon-clock:before {
+  content: "\e919";
+}
+
+._icon-conv-shoes:before {
+  content: "\e91a";
+}
+
+._icon-credit-card:before {
+  content: "\e91b";
+}
+
+._icon-geo:before {
+  content: "\e91c";
+}
+
+._icon-high-heel-shoes:before {
+  content: "\e91d";
+}
+
+._icon-info:before {
+  content: "\e91e";
+}
+
+._icon-mail:before {
+  content: "\e91f";
+}
+
+._icon-newspaper:before {
+  content: "\e920";
+}
+
+._icon-person:before {
+  content: "\e921";
+}
+
+._icon-phone:before {
+  content: "\e922";
+}
+
+._icon-repeat:before {
+  content: "\e923";
+}
+
+._icon-run-shoes:before {
+  content: "\e924";
+}
+
+._icon-shoe-shoes:before {
+  content: "\e925";
+}
+
+._icon-text:before {
+  content: "\e926";
+}
+
+._icon-truck:before {
+  content: "\e927";
+}

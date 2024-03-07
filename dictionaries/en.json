@@ -1,0 +1,183 @@
+{
+  "global": {
+    "piece": "piece",
+    "price": "price",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "home": {
+    "title": "Buy sneakers and sneakers in the online store, cheap sneakers in Kyiv, Kharkov, Ukraine - online shoe store Mirobuvi.com.ua",
+    "description": "Buy sneakers and sneakers in the online store, cheap sneakers in Kyiv, Kharkov, Ukraine - online shoe store Mirobuvi.com.ua",
+    "toggleMenu": "Toggle Menu",
+    "homePage": "Home page",
+    "viberIcon": "Viber icon",
+    "themeIcon": "Theme Icon",
+    "menu": "Menu",
+    "close": "Close",
+    "brands": "Brands",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "orders": "Orders",
+    "admin": "Admin Panel",
+    "notAdmin": "You are not admin!",
+    "search": "Search",
+    "notFound": "Products not found",
+    "products": "Products"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "brands": "Brands",
+    "products": "Products"
+  },
+  "orderForm": {
+    "clientData": "Client data",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phoneNumber": "Phone number",
+    "delivery": "Delivery",
+    "city": "City and #NP",
+    "cityInfo": "Enter the city and branch of \"Nova Poshta\"",
+    "gt2": "must be at least 2 characters",
+    "lt16": "contain at most 16 characters",
+    "l9": "must be 9 characters length",
+    "invalidEmail": "Invalid Email",
+    "submit": "Submit",
+    "dialogSuccessHeader": "The order has been placed",
+    "dialogSuccessBody1": "The order has been successfully placed.",
+    "dialogSuccessBody2": "Wait for delivery.",
+    "products": "Products",
+    "save": "Save",
+    "back": "Back",
+    "delete": "Delete",
+    "deleteOrder": "Delete Order",
+    "deleteOrderItem": "Delete Item",
+    "sure": "Are you sure? You can't undo this action afterwards.",
+    "cancel": "Cancel",
+    "serverError": "Server error"
+  },
+  "orderList": {
+    "title": "Orders",
+    "description": "Orders",
+    "orders": "Orders",
+    "order": "Order",
+    "order2": "Orders",
+    "yourOrder": "Your Order",
+    "PC": "PC.",
+    "pricePrefix": "₴",
+    "inTotal": "In total",
+    "orderTotal": "Order price",
+    "status": "Status",
+    "firstLastName": "First and last name",
+    "phoneNumber": "Phone number",
+    "delivery": "Delivery",
+    "ordersNotFound": "Orders not found",
+    "orderNotFound": "Order not found",
+    "userNotFound": "User not found!"
+  },
+  "brands": {
+    "title": "List of brands online shoe store Mirobuvi.com.ua",
+    "description": "List of brands online shoe store Mirobuvi.com.ua where you will find such well-known brands producing sports and classic shoes"
+  },
+  "product": {
+    "buy": "Buy",
+    "notAvailable": "Not available",
+    "addedOnCart": "Added on Cart"
+  },
+  "shoes": {
+    "sizes": "Sizes:",
+    "select_size": "Select size.",
+    "insole_length": "Insole length:"
+  },
+  "about": {
+    "welcome": "Welcome!",
+    "back": "back"
+  },
+  "switcher": {
+    "localeSwitcher": "Language Switcher:"
+  },
+  "counter": {
+    "label": "This component is rendered on the client:",
+    "increment": "Increase",
+    "decrement": "Decrease"
+  },
+  "cart": {
+    "cart": "Cart",
+    "checkout": "Checkout",
+    "emptyCart": "Your cart is empty!",
+    "emptyCartImg": "Empty cart image",
+    "total": "Total"
+  },
+  "footer": {
+    "contacts": "Contacts",
+    "monFri": "Mon-Fri",
+    "profile": "Profile",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "orders": "Orders"
+  },
+  "admin": {
+    "title": "Admin",
+    "description": "Admin Panel",
+    "orders": "Orders"
+  },
+  "status": {
+    "New": "new",
+    "InProgress": "in progress",
+    "Done": "done",
+    "NotDone": "not done"
+  },
+  "viewedProducts": {
+    "beforeThatYouLooked": "До цього ви дивилися"
+  },
+  "favorite": {
+    "header": "Add items to your wish list",
+    "loginIn": "Sign in to add an item to your wishlist",
+    "inFan": "In Fan",
+    "fan": "Fan"
+  },
+  "favoriteList": {
+    "title": "Favorite products",
+    "description": "List of favorites products",
+    "heading": "Favorite products",
+    "buttonLabel": "button - delete favorite product",
+    "NoFavoriteProducts": "No favorite products"
+  },
+  "productList": {
+    "title": "Product list",
+    "description": "Product list"
+  },
+  "sortingForm": {
+    "sortingBy": "Sorting:",
+    "byOrder": "by order",
+    "byIncreasingPrice": "by increasing price",
+    "byDecreasingPrice": "by decreasing price",
+    "byName": "by name"
+  },
+  "filter": {
+    "openFilterMenu": "Open filter menu",
+    "minPrice": "minimally price",
+    "maxPrice": "maximally price",
+    "shoes": "Shoes"
+  },
+  "filterGender": {
+    "gender": "Gender",
+    "men's": "Men's",
+    "women's": "Women's"
+  },
+  "filterColor": {
+    "black": "black",
+    "white": "white",
+    "blackWhite": "black-white",
+    "green": "green",
+    "yellow": "yellow",
+    "red": "red",
+    "blue": "blue",
+    "purple": "purple",
+    "brown": "brown"
+  },
+  "filterSeason": {
+    "summer": "summer",
+    "autumn": "autumn",
+    "winter": "winter"
+  }
+}

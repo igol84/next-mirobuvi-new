@@ -1,0 +1,11 @@
+User-agent: *
+
+Disallow: *gender=*
+Disallow: *season=*
+Disallow: *color=*
+Disallow: *size=*
+Disallow: *search=*
+Disallow: *sortingBy=*
+
+
+Host: mir-obuvi.vercel.app

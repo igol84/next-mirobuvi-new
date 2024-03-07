@@ -1,0 +1,32 @@
+button span {
+    margin-left: 3px;
+}
+.arrow::after {
+    content: "";
+    display: inline-block;
+    margin-left: 0.28em;
+    vertical-align: 0.09em;
+    border-top: 0.42em solid;
+    border-right: 0.32em solid transparent;
+    border-left: 0.32em solid transparent;
+}
+
+.dropdown {
+    left: 0;
+    z-index: 9999;
+    min-width: 10rem;
+    list-style: none;
+    border-radius: 0.5rem;
+    display: none;
+
+}
+
+.dropdown.show {
+    display: block;
+}
+
+.dropdown .dropdown-submenu {
+    left: 100%;
+    top: 0;
+}
+

@@ -1,0 +1,184 @@
+{
+  "global": {
+    "piece": "шт.",
+    "price": "цена",
+    "cancel": "Скасувати",
+    "close": "Закрити"
+  },
+  "home": {
+    "title": "Купити фірмові кросівки та кеди в інтернет магазині, дешеві кросівки у Києві, Харкові, Україні - інтернет магазин взуття Mirobuvi.com.ua",
+    "description": "Купити фірмові кросівки та кеди в інтернет магазині, дешеві кросівки у Києві, Харкові, Україні - інтернет магазин взуття Mirobuvi.com.ua",
+    "toggleMenu": "Перемикач меню",
+    "homePage": "Домашня сторінка",
+    "viberIcon": "Значок Вайбер",
+    "themeIcon": "Значок Темы",
+    "menu": "Меню",
+    "close": "Закрити",
+    "brands": "Бренди",
+    "signOut": "Вийти з аккаунта",
+    "signIn": "Увійти",
+    "orders": "Замовлення",
+    "admin": "Панель адміністратора",
+    "notAdmin": "Ви не адмін!",
+    "search": "Пошук",
+    "notFound": "Товарів не знайдено",
+    "products": "Продукти"
+  },
+  "breadcrumb": {
+    "home": "Додому",
+    "brands": "Бренди",
+    "products": "Продукти"
+  },
+  "orderForm": {
+    "clientData": "Дані клієнта",
+    "firstName": "Ім'я",
+    "lastName": "Прізвище",
+    "phoneNumber": "Номер телефону",
+    "delivery": "Доставка",
+    "city": "Місто і #НП",
+    "cityInfo": "Введіть місто та відділення \"Нова Пошта\"",
+    "gt2": "повинно бути принаймні 2 символи",
+    "lt16": "містить не більше 16 символів",
+    "l9": "має містити 9 символів",
+    "invalidEmail": "Недійсний Email",
+    "submit": "Надіслати",
+    "dialogSuccessHeader": "Замовлення оформлене",
+    "dialogSuccessBody1": "Замовлення успішно оформлене.",
+    "dialogSuccessBody2": "Чекайте на доставку.",
+    "products": "Продукти",
+    "save": "Зберегти",
+    "back": "Назад",
+    "delete": "Видалити",
+    "deleteOrder": "Видалити замовлення",
+    "deleteOrderItem": "Видалити товар",
+    "sure": "Ти впевнений? Ви не зможете скасувати цю дію згодом.",
+    "cancel": "Скасувати",
+    "serverError": "Помилка серверу"
+  },
+  "orderList": {
+    "title": "Замовлення",
+    "description": "Замовлення",
+    "orders": "Замовлення",
+    "order": "Замовлення",
+    "order2": "Замовлень",
+    "yourOrder": "Ваше замовлення",
+    "PC": "шт.",
+    "pricePrefix": "грн.",
+    "inTotal": "Всього",
+    "orderTotal": "Сума замовлення",
+    "status": "Статус",
+    "firstLastName": "Ім'я та прізвище",
+    "phoneNumber": "Номер телефону",
+    "delivery": "Спосіб доставки",
+    "ordersNotFound": "Замовлення не знайдено",
+    "orderNotFound": "Замовлення не знайдено",
+    "userNotFound": "Користувач не знайдений!"
+  },
+  "brands": {
+    "title": "Список брендів інтернет магазин взуття Mirobuvi.com.ua",
+    "description": "Список брендів інтернет магазин взуття Mirobuvi.com.ua в якому ви знайдете такі відомі бренди, що виробляють спортивне та класичне взуття"
+  },
+  "product": {
+    "buy": "Купити",
+    "notAvailable": "Немає в наявності",
+    "addedOnCart": "Додано в кошик"
+  },
+  "shoes": {
+    "sizes": "Розміри:",
+    "select_size": "Виберіть розмір.",
+    "insole_length": "Довжина устілки:"
+  },
+  "about": {
+    "welcome": "Ласкаво просимо!",
+    "back": "назад"
+  },
+  "switcher": {
+    "localeSwitcher": "Перемикач язака:"
+  },
+  "counter": {
+    "label": "Цей компонент відображається на клієнті:",
+    "increment": "Збільшити",
+    "decrement": "Зменшити"
+  },
+  "cart": {
+    "cart": "Кошик",
+    "checkout": "Оформити",
+    "emptyCart": "Ваш кошик порожній!",
+    "emptyCartImg": "Зображення порожнього кошика",
+    "total": "Всього"
+  },
+  "footer": {
+    "contacts": "Контакти",
+    "monFri": "Пн-Пт",
+    "profile": "Профіль",
+    "signOut": "Вийти з аккаунта",
+    "signIn": "Увійти",
+    "orders": "Замовлення"
+  },
+  "admin": {
+    "title": "Панель адміністратора",
+    "description": "Панель адміністратора",
+    "orders": "Замовлення"
+  },
+  "status": {
+    "New": "нове",
+    "InProgress": "в процесі",
+    "Done": "доставлене",
+    "NotDone": "не доставлене"
+  },
+  "viewedProducts": {
+    "beforeThatYouLooked": "Before that you looked"
+  },
+  "favorite": {
+    "header": "Додайте товари до списку бажань",
+    "loginIn": "Увійдіть, щоб додати товар у список бажань",
+    "inFan": "В бажаннях",
+    "fan": "В бажання"
+  },
+  "favoriteList": {
+    "title": "Улюблені продукти",
+    "description": "Список улюблених товарів",
+    "heading": "Улюблені продукти",
+    "buttonLabel": "Кнопка - видалити улюблений продукт",
+    "NoFavoriteProducts": "Немає улюблених продуктів"
+  },
+  "productList": {
+    "title": "Список товарів",
+    "description": "Список товарів"
+  },
+  "sortingForm": {
+    "sortingBy": "Сортування:",
+    "byOrder": "за порядком",
+    "byIncreasingPrice": "за зростанням ціни",
+    "byDecreasingPrice": "за зниженням ціни",
+    "byName": "за назвою"
+  },
+  "filter": {
+    "openFilterMenu": "Відкрити меню фільтрів",
+    "minPrice": "мінімальна ціна",
+    "maxPrice": "максимальна ціна",
+    "shoes": "Взуття"
+  },
+  "filterGender": {
+    "gender": "Стать",
+    "men's": "Чоловічі",
+    "women's": "Жіночі"
+  },
+  "filterColor": {
+    "black": "чорний",
+    "white": "білий",
+    "blackWhite": "чорно білий",
+    "green": "зелений",
+    "yellow": "жовтий",
+    "red": "червоний",
+    "blue": "блакитний",
+    "gray": "сірий",
+    "purple": "фіолетовий",
+    "brown": "коричневий"
+  },
+  "filterSeason": {
+    "summer": "літо",
+    "autumn": "осінь",
+    "winter": "зима"
+  }
+}

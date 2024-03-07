@@ -1,0 +1,35 @@
+.desc {
+    & h1 {
+        font-size: 4rem
+    }
+
+    & h2 {
+        font-size: 2rem
+    }
+
+    & h3 {
+        font-size: 1rem
+    }
+
+    & ul {
+        display: block;
+        list-style-type: disc;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0;
+        margin-inline-end: 0;
+        padding-inline-start: 40px;
+    }
+
+    & p {
+        text-indent: 20px;
+    }
+
+    & p {
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0;
+        margin-inline-end: 0;
+    }
+}
