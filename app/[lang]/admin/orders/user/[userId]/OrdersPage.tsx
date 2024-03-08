@@ -19,23 +19,23 @@ const OrdersPage = ({user}: Props) => {
         , 0)
     , 0)
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
-  const [draggableProductId, setDraggableProductId] = useState<string | null>(null)
+  const [draggableProductId, setDraggableProductId] = useState<number | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const handleDragOver = (event: DragOverEvent) => {
     if (event.over) {
-      const draggedProductId = event.active.id as string
+      const draggedProductId = event.active.id as number
       setDraggableProductId(draggedProductId)
     }
   }
-  const moveProductToAnotherOrder = async (productId: string, orderId: string) => {
+  const moveProductToAnotherOrder = async (productId: number, orderId: number) => {
     setIsLoading(true)
     await serverActionMoveProductToAnotherOrder(productId, orderId)
     setIsLoading(false)
   }
   const handleDragEnd = async (event: DragEndEvent) => {
     if (event.over) {
-      const droppedProductId = event.active.id as string
-      const overOrderId = event.over.id as string
+      const droppedProductId = event.active.id as number
+      const overOrderId = event.over.id as number
       const overOrder = user.orders.find(order => order.id === overOrderId)
       if (overOrder) {
         const productIds = overOrder.orderItems.map(item => item.id)

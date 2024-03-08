@@ -1,7 +1,5 @@
-import {OrderStatusType} from "@/components/base/Status/types";
-
 export interface IOrderItem {
-  id: string
+  id: number
   productNameUa: string
   productNameEn: string
   size: number | null
@@ -12,8 +10,8 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
-  id: string
-  userId: string | null
+  id: number
+  userId: number | null
   orderNumber: number
   createdAt: Date
   firstName: string
@@ -22,11 +20,11 @@ export interface IOrder {
   phone: string
   delivery: string
   orderItems: IOrderItem[]
-  status: OrderStatusType
+  status: string
 }
 
 export interface IUser {
-  id: string
+  id: number
   name: string | null
   email: string | null
   image: string | null
@@ -34,5 +32,5 @@ export interface IUser {
 }
 
 export interface IDroppableOrder {
-  productIds: string[]
+  productIds: number[]
 }

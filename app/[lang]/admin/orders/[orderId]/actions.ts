@@ -20,18 +20,18 @@ export const serverActionEditOrder = async (orderFormData: OrderEditFormSchema):
   return {success: true}
 }
 
-export const serverActionDeleteOrder = async (orderId: string) => {
+export const serverActionDeleteOrder = async (orderId: number) => {
   await deleteOrder(orderId)
   revalidatePath("/[lang]/admin/orders")
 }
 
-export const serverActionEditItemQuantity = async (productId: string, quantity: number) => {
+export const serverActionEditItemQuantity = async (productId: number, quantity: number) => {
   const result = await editItemQuantity(productId, quantity)
   revalidatePath("/[lang]/admin/orders")
   return result
 }
 
-export const serverActionDeleteItem = async (productId: string) => {
+export const serverActionDeleteItem = async (productId: number) => {
   const result = await deleteItem(productId)
   revalidatePath("/[lang]/admin/orders")
   return result

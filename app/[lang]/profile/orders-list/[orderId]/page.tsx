@@ -21,7 +21,7 @@ type Props = {
 }
 
 async function orderPage({params: {orderId, lang}}: Props) {
-  const order = await getOrder(orderId)
+  const order = await getOrder(Number(orderId))
   const orderItems: IOrderItem[] = []
   if (order) {
     for (const item of order.orderItems) {

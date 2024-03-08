@@ -21,11 +21,11 @@ export const useFavorite: UseFavorite = (productUrl: string, isHover: boolean) =
   const favoriteHidden = (!isFavorite && !isHover) || !isAuth
 
   const onClickNotAuthorizedUser = () => undefined
-  const onClickOnFavorite = async (userId: string, productUrl: string) => {
+  const onClickOnFavorite = async (userId: number, productUrl: string) => {
     putFavoriteProduct(productUrl)
     await serverActionPutProductLike(userId, productUrl)
   }
-  const onClickOnNotFavorite = async (userId: string, productUrl: string) => {
+  const onClickOnNotFavorite = async (userId: number, productUrl: string) => {
     pushFavoriteProduct(productUrl)
     await serverActionPushProductLike(userId, productUrl)
   }

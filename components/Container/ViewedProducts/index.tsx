@@ -57,16 +57,14 @@ const ViewedProducts = ({viewedProducts}: Props) => {
             modules={[Navigation]}
             className="viewedProductsSwiper"
           >
-            {viewedProducts.map(product => {
+            {viewedProducts.map((product) => {
               const ProductComponent = productCardFactory(product)
               return (
-
                 <WrapItem key={product.id}>
-                  <SwiperSlide className="viewedProductsSwiperSlide">
+                  <SwiperSlide className="viewedProductsSwiperSlide" key={product.id}>
                     {ProductComponent}
                   </SwiperSlide>
                 </WrapItem>
-
               )
             })}
           </Swiper>

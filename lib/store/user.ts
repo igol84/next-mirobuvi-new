@@ -50,5 +50,6 @@ export const createUserSlice: StateCreator<
 }))
 
 export const userConvertFromDB = (user: userDB): User => {
-  return {id: user.id, name: user.name, image: user.image, favoriteProducts: new Set(user.favoriteProducts)}
+  const favoriteProducts = user.favoriteProducts !== '' ? user.favoriteProducts.split('|') : []
+  return {id: user.id, name: user.name, image: user.image, favoriteProducts: new Set(favoriteProducts)}
 }

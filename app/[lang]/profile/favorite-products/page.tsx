@@ -28,14 +28,14 @@ type Props = {
 const Page = async ({params: {lang}}: Props) => {
   const session = await getServerSession(authOptions)
   if (session) {
-    const user = await getUser(session.user.id)
+    const user = await getUser(Number(session.user.id))
     if (!user) {
       return <UserNotFound/>
     }
-    if (user.favoriteProducts.length === 0)
+    if (user.favoriteProducts === '')
       return <NotFavoriteProducts/>
 
-    const favoriteProductUrls = user.favoriteProducts
+    const favoriteProductUrls = user.favoriteProducts.split('|')
     const favoriteProducts: ProductType[] = []
     for (const favoriteProductUrl of favoriteProductUrls) {
       const productFetchData = await getProductData(favoriteProductUrl)
@@ -53,7 +53,7 @@ const Page = async ({params: {lang}}: Props) => {
       <FavoriteProductsPage products={favoriteProducts.reverse()} userId={user.id}/>
     )
   } else {
-    redirect(`/api/auth/signin?callbackUrl=/${lang}/profile/orders-list`)
+    redirect(`/api/auth/signin?callbackUrl=/${lang}/profile/favorite-products`)
   }
 }
 

@@ -1,8 +1,7 @@
 import {z} from "zod";
-import {OrderStatusType} from "@/components/base/Status/types";
 
 export interface IOrderItem {
-  productId: string
+  productId: number
   productNameUa: string
   productNameEn: string
   size: number | null
@@ -13,7 +12,7 @@ export interface IOrderItem {
 }
 
 export interface IOrder {
-  id: string
+  id: number
   orderNumber: number
   createdAt: Date
   firstName: string
@@ -22,11 +21,11 @@ export interface IOrder {
   phone: string
   delivery: string
   orderItems: IOrderItem[]
-  status: OrderStatusType
+  status: string
 }
 
 export const schema = z.object({
-  id: z.string(),
+  id: z.number(),
   firstName: z.string().trim()
     .min(2, 'gt2')
     .max(16, 'lt16'),

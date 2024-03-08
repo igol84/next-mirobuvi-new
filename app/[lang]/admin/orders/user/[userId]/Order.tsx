@@ -12,7 +12,7 @@ import Status from "@/components/base/Status/AdminStatus";
 
 interface Props {
   order: IOrder
-  draggableProductId: string | null
+  draggableProductId: number | null
 }
 
 const Order = ({order, draggableProductId}: Props) => {

@@ -21,7 +21,7 @@ export async function generateMetadata({params: {lang, orderId}}: Props) {
 }
 
 const Page = async ({params: {orderId}}: Props) => {
-  const order = await getOrder(orderId)
+  const order = await getOrder(Number(orderId))
   const orderItems: IOrderItem[] = []
   if (order) {
     for (const item of order.orderItems) {

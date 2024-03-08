@@ -72,7 +72,7 @@ export default async function RootLayout(
   const userId = session?.user.id
   let user = null
   if (userId) {
-    const userDB = await getUser(userId)
+    const userDB = await getUser(Number(userId))
     if (userDB) {
       user = userConvertFromDB(userDB)
     }

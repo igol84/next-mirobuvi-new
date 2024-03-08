@@ -1,9 +1,7 @@
-import {OrderStatusType as StatusType} from "@/lib/db/order";
-
 export interface StatusProps {
-  orderId: string
-  status: OrderStatusType
+  orderId: number
+  status: string
 }
 
-export type OrderStatusType = StatusType
+export type OrderStatusType = string
 export const allStatus: OrderStatusType[] = ['New', 'InProgress', 'Done', 'NotDone']

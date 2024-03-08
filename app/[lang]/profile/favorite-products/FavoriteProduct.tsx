@@ -9,7 +9,7 @@ import {useDictionaryTranslate} from "@/dictionaries/hooks";
 
 interface Props {
   product: ProductType
-  userId: string
+  userId: number
 }
 
 const FavoriteProduct = ({product, userId}: Props) => {

@@ -1,6 +1,4 @@
-import {OrderStatusType as StatusType} from "@/lib/db/order";
-
-export const getColorScheme = (status: StatusType) => {
+export const getColorScheme = (status: string) => {
   switch (status) {
     case 'New':
       return 'green'

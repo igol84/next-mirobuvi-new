@@ -1,5 +1,5 @@
 export interface User {
-  id: string
+  id: number
   name : string | null
   image: string | null
   favoriteProducts: Set<string>

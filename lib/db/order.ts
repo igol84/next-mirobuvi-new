@@ -1,15 +1,14 @@
-import {Prisma, OrderStatus} from "@prisma/client";
+import {Prisma} from "@prisma/client";
 import {OrderFormSchema, ProductDetailsByUrl} from "@/app/[lang]/make-order/types";
 import {prisma} from "@/lib/db/prisma";
 import {ShoppingCart} from "@/lib/db/cart";
 import {OrderEditFormSchema} from "@/app/[lang]/admin/orders/[orderId]/types";
 
-export type OrderStatusType = OrderStatus
-
 export type OrderWithItems = Prisma.OrderGetPayload<{
   include: { orderItems: true }
 }>
 
+export type OrderStatusType = "New" | "InProgress" | "Done" | "NotDone"
 type CreateOrderType = {
   (cart: ShoppingCart, orderFormData: OrderFormSchema, productNamesByUrl: ProductDetailsByUrl): Promise<OrderWithItems>
 }
@@ -18,35 +17,45 @@ export const createOrder: CreateOrderType = async (cart, orderFormData, productD
   const nextOrderNumber = await prisma.order.aggregate({
     _max: {orderNumber: true}
   }).then(data => data._max.orderNumber).then(number => number ? number + 1 : 1)
-  return await prisma.order.create({
-    data: {
-      orderNumber: nextOrderNumber,
-      firstName: orderFormData.firstName,
-      lastName: orderFormData.lastName,
-      delivery: orderFormData.delivery,
-      email: orderFormData.email,
-      phone: orderFormData.phone,
-      userId: cart.userId,
-      orderItems: {
-        createMany: {
-          data: cart.items.map(item => {
-            const productNameEn = productDetailsByUrl.get(item.productId)?.en
-            const productNameUa = productDetailsByUrl.get(item.productId)?.ua
-            const price = productDetailsByUrl.get(item.productId)?.price
-            return {
-              productId: item.productId,
-              productNameEn: productNameEn ? productNameEn : '',
-              productNameUa: productNameUa ? productNameUa : '',
-              size: item.size,
-              quantity: item.quantity,
-              price: price ? price : 0
-            }
-          })
+
+  await prisma.$transaction(async (tx) => {
+    const status: OrderStatusType = "New"
+    const newOrder = await tx.order.create({
+      data: {
+        orderNumber: nextOrderNumber,
+        firstName: orderFormData.firstName,
+        lastName: orderFormData.lastName,
+        delivery: orderFormData.delivery,
+        email: orderFormData.email,
+        phone: orderFormData.phone,
+        userId: cart.userId,
+        status
+      },
+    })
+    for (const item of cart.items) {
+      const productNameEn = productDetailsByUrl.get(item.productId)?.en
+      const productNameUa = productDetailsByUrl.get(item.productId)?.ua
+      const price = productDetailsByUrl.get(item.productId)?.price
+      await tx.orderItem.create({
+        data: {
+          orderId: newOrder.id,
+          productId: item.productId,
+          productNameEn: productNameEn ? productNameEn : '',
+          productNameUa: productNameUa ? productNameUa : '',
+          size: item.size,
+          quantity: item.quantity,
+          price: price ? price : 0
         }
-      }
-    },
-    include: {orderItems: true}
+      })
+    }
   })
+
+  return await prisma.order.findUnique({
+   where: {
+     id : nextOrderNumber
+   },
+    include: {orderItems: true}
+  }) as OrderWithItems
 }
 
 export const editOrder = async (order: OrderEditFormSchema) => {
@@ -62,7 +71,7 @@ export const editOrder = async (order: OrderEditFormSchema) => {
   })
 }
 
-export const deleteOrder = async (orderId: string) => {
+export const deleteOrder = async (orderId: number) => {
   await prisma.order.delete({
     where: {
       id: orderId
@@ -70,7 +79,7 @@ export const deleteOrder = async (orderId: string) => {
   })
 }
 
-export const getUserOrders = async (userId: string): Promise<OrderWithItems[] | null> => {
+export const getUserOrders = async (userId: number): Promise<OrderWithItems[] | null> => {
   const user = await prisma.user.findUnique({
     where: {id: userId},
     include: {orders: {include: {orderItems: true}, orderBy: {createdAt: 'desc'}}}
@@ -79,7 +88,7 @@ export const getUserOrders = async (userId: string): Promise<OrderWithItems[] | 
   return user.orders
 }
 
-export const getOrder = async (orderId: string): Promise<OrderWithItems | null> => {
+export const getOrder = async (orderId: number): Promise<OrderWithItems | null> => {
   try {
     const order = await prisma.order.findUnique({
       where: {id: orderId},
@@ -109,7 +118,7 @@ export const getOrders = async (currentPage: number, pageSize: number): Promise<
   }
 }
 
-export const editItemQuantity = async (productId: string, quantity: number) => {
+export const editItemQuantity = async (productId: number, quantity: number) => {
   try {
     await prisma.orderItem.update({
       where: {id: productId},
@@ -121,7 +130,7 @@ export const editItemQuantity = async (productId: string, quantity: number) => {
   }
 }
 
-export const deleteItem = async (productId: string) => {
+export const deleteItem = async (productId: number) => {
   try {
     await prisma.orderItem.delete({
       where: {id: productId}
@@ -132,14 +141,14 @@ export const deleteItem = async (productId: string) => {
   }
 }
 
-export const moveItemToAnotherOrder = async (productId: string, orderId: string) => {
+export const moveItemToAnotherOrder = async (itemId: number, orderId: number) => {
   try {
     await prisma.order.update({
       where: {id: orderId},
       data: {
         orderItems: {
           connect: {
-            id: productId
+            id: itemId
           }
         }
       }
@@ -150,7 +159,7 @@ export const moveItemToAnotherOrder = async (productId: string, orderId: string)
   }
 }
 
-export const changeOrderStatus = async (orderId: string, newStatus: OrderStatusType) => {
+export const changeOrderStatus = async (orderId: number, newStatus: string) => {
   try {
     await prisma.order.update({
       where: {id: orderId},

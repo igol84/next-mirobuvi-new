@@ -7,9 +7,9 @@ export type UserWithOrders = Prisma.UserGetPayload<{
 }>
 export type User = Prisma.UserGetPayload<{}>
 
-export const getUser = async (userId: string): Promise<User | null> => {
+export const getUser = async (userId: number): Promise<User | null> => {
   try {
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: {id: userId}
     })
     if (!user) return null
@@ -19,7 +19,7 @@ export const getUser = async (userId: string): Promise<User | null> => {
   }
 }
 
-export const getUserWithOrders = async (userId: string): Promise<UserWithOrders | null> => {
+export const getUserWithOrders = async (userId: number): Promise<UserWithOrders | null> => {
   try {
     const user = await prisma.user.findUnique({
       where: {id: userId},
@@ -32,19 +32,21 @@ export const getUserWithOrders = async (userId: string): Promise<UserWithOrders 
   }
 }
 
-export const pushFavoriteProduct = async (userId: string, productUrl: string): Promise<null | string[]> => {
+export const pushFavoriteProduct = async (userId: number, productUrl: string): Promise<null | string[]> => {
   try {
     const user = await prisma.user.findUnique({
       where: {id: userId},
       include: {orders: {include: {orderItems: true}, orderBy: {createdAt: 'desc'}}}
     })
     if (!user) return null
-    const userFavoriteProducts = new Set(user.favoriteProducts)
+    const userFavoriteProducts = user.favoriteProducts !== ''
+      ? new Set(user.favoriteProducts.split('|'))
+      : new Set([])
     userFavoriteProducts.add(productUrl)
     await prisma.user.update({
       where: {id: userId},
       data: {
-        favoriteProducts: Array.from(userFavoriteProducts)
+        favoriteProducts: Array.from(userFavoriteProducts).join('|')
       }
     })
     return Array.from(userFavoriteProducts)
@@ -53,19 +55,20 @@ export const pushFavoriteProduct = async (userId: string, productUrl: string): P
   }
 }
 
-export const putFavoriteProduct = async (userId: string, productUrl: string): Promise<null | string[]> => {
+export const putFavoriteProduct = async (userId: number, productUrl: string): Promise<null | string[]> => {
   try {
     const user = await prisma.user.findUnique({
       where: {id: userId},
       include: {orders: {include: {orderItems: true}, orderBy: {createdAt: 'desc'}}}
     })
     if (!user) return null
-    const userFavoriteProducts = new Set(user.favoriteProducts)
+    const userFavoriteProducts = new Set(user.favoriteProducts.split('|'))
     userFavoriteProducts.delete(productUrl)
+
     await prisma.user.update({
       where: {id: userId},
       data: {
-        favoriteProducts: Array.from(userFavoriteProducts)
+        favoriteProducts: Array.from(userFavoriteProducts).join('|')
       }
     })
     return Array.from(userFavoriteProducts)

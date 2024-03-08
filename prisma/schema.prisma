@@ -3,64 +3,57 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
 model Cart {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int        @id @default(autoincrement())
   items     CartItem[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  userId    String?    @db.ObjectId
+  userId    Int?
   user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("carts")
 }
 
 model CartItem {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int    @id @default(autoincrement())
   productId String
   size      Float?
   quantity  Int
-  cartId    String @db.ObjectId
+  cartId    Int
   cart      Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-
-  @@map("cartitems")
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
+  id                Int     @id @default(autoincrement())
+  userId            Int
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.String
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@map("accounts")
 }
 
 model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           Int      @id @default(autoincrement())
   sessionToken String   @unique
-  userId       String   @db.ObjectId
+  userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
 }
 
 model User {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  id               Int       @id @default(autoincrement())
   name             String?
   email            String?   @unique
   emailVerified    DateTime?
@@ -69,32 +62,22 @@ model User {
   sessions         Session[]
   carts            Cart[]
   orders           Order[]
-  favoriteProducts String[]  @default([])
-
-  @@map("users")
+  favoriteProducts String    @default("")
 }
 
 model VerificationToken {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         Int      @id @default(autoincrement())
   identifier String
   token      String   @unique
   expires    DateTime
 
   @@unique([identifier, token])
-  @@map("verificationtokens")
-}
-
-enum OrderStatus {
-  New
-  InProgress
-  Done
-  NotDone
 }
 
 model Order {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  orderNumber Int
-  userId      String?     @db.ObjectId
+  id          Int         @id @default(autoincrement())
+  orderNumber Int         @unique
+  userId      Int?
   createdAt   DateTime    @default(now())
   firstName   String
   lastName    String
@@ -103,14 +86,12 @@ model Order {
   delivery    String
   user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderItems  OrderItem[]
-  status      OrderStatus @default(New)
-
-  @@map("orders")
+  status      String
 }
 
 model OrderItem {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  orderId       String @db.ObjectId
+  id            Int    @id @default(autoincrement())
+  orderId       Int
   productId     String
   productNameEn String
   productNameUa String
@@ -118,6 +99,4 @@ model OrderItem {
   quantity      Int
   price         Float
   order         Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-
-  @@map("orderitems")
 }

@@ -45,9 +45,10 @@ async function Page({params: {productUrl, lang}}: Props) {
   const userId = session?.user.id
   const favoriteProducts = []
   if (userId) {
-    const user = await getUser(userId)
+    const user = await getUser(Number(userId))
     if (user) {
-      favoriteProducts.push(...user.favoriteProducts)
+      const favoriteProductsFromUser = user.favoriteProducts.split('|')
+      favoriteProducts.push(...favoriteProductsFromUser)
     }
   }
   const isProductFavorite = favoriteProducts.includes(productUrl)

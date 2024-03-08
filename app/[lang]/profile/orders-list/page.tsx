@@ -25,7 +25,8 @@ export async function generateMetadata({ params: {lang} }: Props) {
 const OrdersListPage = async ({params: {lang}}: Props) => {
   const session = await getServerSession(authOptions)
   if (session) {
-    const orders = await getUserOrders(session.user.id)
+    const orders = await getUserOrders(Number(session.user.id))
+    
     if (!orders || orders.length === 0) {
       const dict = await getDictionary(lang)
       return <div>{dict.orderList.ordersNotFound}</div>
