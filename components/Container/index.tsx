@@ -49,10 +49,10 @@ const Container = ({children, brands, cartProducts, user, tagsUrl}: Props) => {
               brandsItems={brandsItems} tagsUrl={tagsUrl}/>
       <Flex direction='column' flex={1} backgroundColor='bodyColor' p={[1, 4, 8, 16]} roundedBottom={6}>
         <Flex as='main' flex={1} direction='column'>
-
+          {children}
         </Flex>
       </Flex>
-
+      <Footer isAuthorized={!!user}/>
       <DrawerMenu brandsItems={brandsItems} isOpen={isMenuOpen} onClose={onMenuClose} tagsUrl={tagsUrl}/>
     </Flex>
   );

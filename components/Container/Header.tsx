@@ -43,17 +43,33 @@ const Header = ({onMenuOpen, onMenuClose, cartProducts, brandsItems, tagsUrl}: P
             <IconButton onClick={onMenuOpen} fontSize={[28, 36, 48, 56]} display={{base: "inherit", lg: "none"}}
                         icon={<HiMenu/>} aria-label={d("toggleMenu")} isRound={true}
             />
-
+            <Box as={Link} href={`/${lang}`} className="_icon-logo" aria-label={d("homePage")}
+                 sx={{transition: 'all 0.3s ease 0s;'}} _hover={{textDecoration: 'none'}} fontSize={[28, 36, 48, 56]}
+            />
             <Flex justifyContent='center' alignItems='center' gap={[1, 2, 3, 4]}>
+              <Flex as={'a'} display={{base: 'none', lg: 'flex'}} fontSize={[15, 20, 25, 30]}
+                    href="tel:+380933375372">
+                (093)33-75-372
+              </Flex>
 
+              <IconButton as={'a'} className="link _icon-viber" aria-label={d("viberIcon")} isRound={true}
+                          href="viber://add?number=380933375372" minW={[1, 2]} fontSize={[20, 25, 30, 35]}
+                          display={{base: "none", sm: "inherit"}}/>
               <IconButton icon={<ThemeIcon/>} aria-label={d("themeIcon")} fontSize={[20, 25, 30, 35]} isRound={true}
                           onClick={toggleColorMode} minW={[1, 2]}/>
               <LocaleSwitcher/>
-
+              <Box display={['none', 'block']}><FavoriteProductsIcon/></Box>
+              <ShoppingCartButton totalData={getCartProductsCount(cartProducts)} isOpen={isOpen} onToggle={onToggle}
+                                  onClose={onClose}>
+                <Cart cartProducts={cartProducts}/>
+              </ShoppingCartButton>
               <UserMenuButton/>
             </Flex>
           </Flex>
-
+          <Flex as='nav' px={2} display={{base: "none", lg: "inherit"}} backgroundColor='bodyColor'
+                boxShadow={'base'}>
+            <Navbar tagsUrl={tagsUrl} brandsItems={brandsItems} isMobile={false} onClose={onMenuClose}/>
+          </Flex>
         </Flex>
       </Flex>
     </StickNav>
