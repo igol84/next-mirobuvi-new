@@ -77,16 +77,16 @@ model VerificationToken {
 model Order {
   id          Int         @id @default(autoincrement())
   orderNumber Int         @unique
-  userId      Int?
   createdAt   DateTime    @default(now())
   firstName   String
   lastName    String
   email       String?
   phone       String
   delivery    String
+  status      String
+  userId      Int?
   user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderItems  OrderItem[]
-  status      String
 }
 
 model OrderItem {
@@ -99,4 +99,54 @@ model OrderItem {
   quantity      Int
   price         Float
   order         Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Brand {
+  id           Int       @id @default(autoincrement())
+  active       Boolean
+  url          String
+  tags         String
+  name_en      String
+  name_ua      String
+  title_en     String
+  title_ua     String
+  meta_desc_en String
+  meta_desc_ua String
+  products     Product[]
+}
+
+model Product {
+  id             Int      @id @default(autoincrement())
+  active         Boolean
+  private        Boolean
+  url            String
+  is_available   Boolean?
+  tags           String
+  date           DateTime @default(now())
+  type           String
+  name_en        String
+  name_ua        String
+  title_en       String
+  title_ua       String
+  meta_desc_en   String
+  meta_desc_ua   String
+  price          Float
+  old_price      Float
+  prom_active    Boolean
+  prom_add_to_id Int
+  season         String
+  color          String
+  brand_id       Int
+  brand          Brand    @relation(fields: [brand_id], references: [id], onDelete: Restrict)
+  shoeses        Shoes[]
+}
+
+model Shoes {
+  id           Int     @id
+  is_available Boolean
+  size         Float
+  length       Float
+  price        Float?
+  product_id   Int
+  product      Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }

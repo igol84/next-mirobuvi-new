@@ -1,7 +1,7 @@
 'use server'
 import {SafeParseReturnType} from "zod";
 import {ErrorField, OrderFormSchema, ProductDetailsByUrl, Response, schema} from "./types";
-import {createOrder} from "@/lib/db/order";
+import {createOrder, OrderCreateInput, OrderItemCreateInput, OrderStatusType} from "@/lib/db/order";
 import {revalidatePath} from "next/cache";
 import {deleteCart, getCart} from "@/lib/db/cart";
 import {getProductData} from "@/app/api/fetchFunctions";
@@ -26,7 +26,37 @@ export const serverAction = async (orderFormData: OrderFormSchema): Promise<Resp
           {ua: productData.name_ua, en: productData.name, price: productData.price}
         )
     }
-    await createOrder(cart, orderFormData, productDetailsByUrl)
+    const orderItems: OrderItemCreateInput[] = []
+    for (const item of cart.items) {
+      const productNameEn = productDetailsByUrl.get(item.productId)?.en
+      const productNameUa = productDetailsByUrl.get(item.productId)?.ua
+      const price = productDetailsByUrl.get(item.productId)?.price
+      const orderItem: OrderItemCreateInput = {
+        productId: item.productId,
+        productNameEn: productNameEn ? productNameEn : '',
+        productNameUa: productNameUa ? productNameUa : '',
+        size: item.size,
+        quantity: item.quantity,
+        price: price ? price : 0,
+      }
+      orderItems.push(orderItem)
+
+    }
+    const status: OrderStatusType = "New"
+
+    const orderCreateInput: OrderCreateInput = {
+      firstName: orderFormData.firstName,
+      lastName: orderFormData.lastName,
+      delivery: orderFormData.delivery,
+      email: orderFormData.email,
+      phone: orderFormData.phone,
+      userId: cart.userId,
+      status,
+      orderItems: {
+        create: orderItems
+      }
+    }
+    await createOrder(orderCreateInput)
     await deleteCart(cart.id)
     revalidatePath("/[lang]/profile/orders-list")
     return {success: true}

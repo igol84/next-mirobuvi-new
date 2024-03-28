@@ -1,64 +1,45 @@
 import {Prisma} from "@prisma/client";
-import {OrderFormSchema, ProductDetailsByUrl} from "@/app/[lang]/make-order/types";
 import {prisma} from "@/lib/db/prisma";
-import {ShoppingCart} from "@/lib/db/cart";
-import {OrderEditFormSchema} from "@/app/[lang]/admin/orders/[orderId]/types";
 
 export type OrderWithItems = Prisma.OrderGetPayload<{
   include: { orderItems: true }
 }>
 
+export type OrderCreateInput = Omit<Prisma.OrderCreateInput, 'orderNumber'> & { userId: number | null }
+export type OrderSelect = Pick<
+  Prisma.OrderGetPayload<{}>, 'id' | 'firstName' | 'lastName' | 'email' | 'phone' | 'delivery'
+>
+export type OrderItemCreateInput = Omit<Prisma.OrderItemCreateInput, 'order'>
+
 export type OrderStatusType = "New" | "InProgress" | "Done" | "NotDone"
 type CreateOrderType = {
-  (cart: ShoppingCart, orderFormData: OrderFormSchema, productNamesByUrl: ProductDetailsByUrl): Promise<OrderWithItems>
+  (orderCreateInput: OrderCreateInput): Promise<OrderWithItems | null>
 }
 
-export const createOrder: CreateOrderType = async (cart, orderFormData, productDetailsByUrl) => {
-  const nextOrderNumber = await prisma.order.aggregate({
-    _max: {orderNumber: true}
-  }).then(data => data._max.orderNumber).then(number => number ? number + 1 : 1)
-
+export const createOrder: CreateOrderType = async (orderCreateInput: OrderCreateInput) => {
   await prisma.$transaction(async (tx) => {
-    const status: OrderStatusType = "New"
-    const newOrder = await tx.order.create({
+    const nextOrderNumber = await tx.order.aggregate({
+      _max: {orderNumber: true}
+    }).then(data => data._max.orderNumber).then(number => number ? number + 1 : 1)
+    return await tx.order.create({
       data: {
         orderNumber: nextOrderNumber,
-        firstName: orderFormData.firstName,
-        lastName: orderFormData.lastName,
-        delivery: orderFormData.delivery,
-        email: orderFormData.email,
-        phone: orderFormData.phone,
-        userId: cart.userId,
-        status
+        firstName: orderCreateInput.firstName,
+        lastName: orderCreateInput.lastName,
+        delivery: orderCreateInput.delivery,
+        email: orderCreateInput.email,
+        phone: orderCreateInput.phone,
+        userId: orderCreateInput.userId,
+        status: orderCreateInput.status,
+        orderItems: orderCreateInput.orderItems
       },
+      include: {orderItems: true}
     })
-    for (const item of cart.items) {
-      const productNameEn = productDetailsByUrl.get(item.productId)?.en
-      const productNameUa = productDetailsByUrl.get(item.productId)?.ua
-      const price = productDetailsByUrl.get(item.productId)?.price
-      await tx.orderItem.create({
-        data: {
-          orderId: newOrder.id,
-          productId: item.productId,
-          productNameEn: productNameEn ? productNameEn : '',
-          productNameUa: productNameUa ? productNameUa : '',
-          size: item.size,
-          quantity: item.quantity,
-          price: price ? price : 0
-        }
-      })
-    }
   })
-
-  return await prisma.order.findUnique({
-   where: {
-     id : nextOrderNumber
-   },
-    include: {orderItems: true}
-  }) as OrderWithItems
+  return null
 }
 
-export const editOrder = async (order: OrderEditFormSchema) => {
+export const editOrder = async (order: OrderSelect) => {
   await prisma.order.update({
     where: {id: order.id},
     data: {
