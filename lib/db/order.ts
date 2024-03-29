@@ -6,7 +6,7 @@ export type OrderWithItems = Prisma.OrderGetPayload<{
 }>
 
 export type OrderCreateInput = Omit<Prisma.OrderCreateInput, 'orderNumber'> & { userId: number | null }
-export type OrderSelect = Pick<
+export type OrderFormData = Pick<
   Prisma.OrderGetPayload<{}>, 'id' | 'firstName' | 'lastName' | 'email' | 'phone' | 'delivery'
 >
 export type OrderItemCreateInput = Omit<Prisma.OrderItemCreateInput, 'order'>
@@ -39,7 +39,7 @@ export const createOrder: CreateOrderType = async (orderCreateInput: OrderCreate
   return null
 }
 
-export const editOrder = async (order: OrderSelect) => {
+export const editOrder = async (order: OrderFormData) => {
   await prisma.order.update({
     where: {id: order.id},
     data: {

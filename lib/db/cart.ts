@@ -25,7 +25,7 @@ export async function getCart(): Promise<ShoppingCart | null> {
     const localCartId = cookies().get("localCartId")?.value;
     cart = localCartId
       ? await prisma.cart.findUnique({
-        where: {id: Number(localCartId)},
+        where: {id: localCartId},
         include: {items: true},
       })
       : null;
@@ -54,7 +54,7 @@ export async function createCart(): Promise<ShoppingCart> {
       data: {},
     });
 
-    cookies().set("localCartId", String(newCart.id));
+    cookies().set("localCartId", newCart.id);
   }
 
   return {
@@ -68,7 +68,7 @@ export async function margeAnonymousCartIntoUserCart(userId: string) {
   const localCartId = cookies().get("localCartId")?.value;
   const localCart = localCartId
     ? await prisma.cart.findUnique({
-      where: {id: Number(localCartId)},
+      where: {id: localCartId},
       include: {items: true},
     })
     : null;
@@ -83,7 +83,7 @@ export async function margeAnonymousCartIntoUserCart(userId: string) {
     if (userCart) {
       const mergedCartItems = margeCartItems(localCart.items, userCart.items);
       await tx.cartItem.deleteMany({
-        where: {cartId: Number(userCart.id)},
+        where: {cartId: userCart.id},
       });
       for (const item of mergedCartItems) {
         await tx.cartItem.create({
@@ -91,7 +91,7 @@ export async function margeAnonymousCartIntoUserCart(userId: string) {
             productId: item.productId,
             quantity: item.quantity,
             size: item.size,
-            cartId: Number(userCart.id)
+            cartId: userCart.id
           }
         })
       }
@@ -113,7 +113,7 @@ export async function margeAnonymousCartIntoUserCart(userId: string) {
       }
     }
     await tx.cart.delete({
-      where: {id: Number(localCart.id)},
+      where: {id: localCart.id},
     });
 
     cookies().set("localCartId", "");
@@ -134,7 +134,7 @@ function margeCartItems(...cartItems: CartItem[][]) {
   }, [] as CartItem[]);
 }
 
-export async function deleteCart(cartId: number) {
+export async function deleteCart(cartId: string) {
   await prisma.cart.delete({
     where: {id: cartId}
   })
