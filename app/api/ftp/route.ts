@@ -14,8 +14,7 @@ export async function POST(req: NextRequest) {
   await client.access({
     host: "ftp.mirobuvi.com.ua",
     user: "test@mirobuvi.com.ua",
-    password: "w@b{~W$uqthM",
-    secure: true
+    password: "w@b{~W$uqthM"
   })
   await client.ensureDir("brands")
   const filenames: string[] = []
