@@ -9,6 +9,10 @@ const envSchema = zod.object({
   URL: zod.string(),
   API_URL: zod.string(),
   ADMINS: zod.string(),
+  FTP_URL: zod.string(),
+  FTP_HOST: zod.string(),
+  FTP_USER: zod.string(),
+  FTP_PASS: zod.string(),
 });
 
 export const env = envSchema.parse(process.env)

@@ -1,9 +1,10 @@
 import React from 'react';
 import {BrandCardPropsWithFirst} from "@/components/Brands/types";
-import {getBrandsData} from "@/app/api/fetchFunctions";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import BrandPage from "@/app/[lang]/brands/BrandPage";
 import {getViewedProducts} from "@/lib/productsGetter";
+import {getBrands} from "@/lib/db/brand";
+import {env} from "@/lib/env";
 
 type Props = {
   params: {
@@ -23,10 +24,13 @@ export async function generateMetadata({params: {lang}}: { params: { lang: Lang 
 }
 
 const BrandsPage = async ({params: {lang}}: Props) => {
-  const brandsData = await getBrandsData()
-  const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => ({
-    brandId: brand.id, brandName: brand.name, url: brand.url, isFirst: index < 6
-  }))
+  const brandsData = await getBrands()
+  const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
+    const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpg`
+    return {
+      brandId: brand.id, brandName: brand[`name_${lang}`], url: brand.url, isFirst: index < 6, imgUrl
+    }
+  })
   const viewedProducts = await getViewedProducts(lang)
   return (
     <BrandPage brands={brands} viewedProducts={viewedProducts}/>

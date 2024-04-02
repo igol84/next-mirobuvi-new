@@ -3,6 +3,7 @@ export type BrandProps = {
   brandName: string
   url: string
   desc: string
+  imgUrl: string
 }
 
 export type BrandCardProps = Omit<BrandProps, 'desc'>

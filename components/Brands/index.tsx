@@ -13,9 +13,10 @@ const Brands = ({brands}: Props) => {
   return (
     <Wrap align='center' justify={{base: 'center', lg: 'flex-start'}} spacing={[4, 4, 4, 2, 4]}>
       {brands.map(brand => (
-        <WrapItem key={brand.brandId}>
+        <WrapItem key={brand.url}>
           <article>
-            <BrandCard isFirst={brand.isFirst} brandId={brand.brandId} brandName={brand.brandName} url={brand.url}/>
+            <BrandCard isFirst={brand.isFirst} brandId={brand.brandId} brandName={brand.brandName} url={brand.url}
+                       imgUrl={brand.imgUrl}/>
           </article>
         </WrapItem>
       ))}

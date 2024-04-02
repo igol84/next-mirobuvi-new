@@ -6,7 +6,7 @@ import ChakraNextImage from "@/components/base/ChakraNextImage";
 import {LangContext} from "@/locale/LangProvider";
 import {BrandCardPropsWithFirst} from "@/components/Brands/types";
 
-const BrandCard = ({brandId, brandName, url, isFirst}: BrandCardPropsWithFirst) => {
+const BrandCard = ({brandName, url, isFirst, imgUrl}: BrandCardPropsWithFirst) => {
   const lang = useContext(LangContext)
   return (
     <Flex flexDirection='column' alignItems='center' gap={4}>
@@ -15,7 +15,7 @@ const BrandCard = ({brandId, brandName, url, isFirst}: BrandCardPropsWithFirst) 
           <ChakraNextImage priority={isFirst}
             shadow='base' borderRadius={[30, 15]} as={NextImage}
             width={249} height={249} alt={`photo ${brandName}`}
-            src={`https://mirobuvi.com.ua/ftp_brands/${brandId}.jpg`}
+            src={imgUrl}
           />
         </Box>
         <Center>{brandName}</Center>
