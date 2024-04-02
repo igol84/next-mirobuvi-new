@@ -15,7 +15,6 @@ import {userConvertFromDB} from "@/lib/store/user";
 import {convertToTagUrlFromDB, TagUrl} from "@/app/[lang]/[urlTag]/types";
 import {TagUrlSchema} from "@/schemas/data";
 import _ from "lodash";
-import {SpeedInsights} from "@vercel/speed-insights/next"
 
 export const dynamic = 'force-dynamic'
 
@@ -85,7 +84,6 @@ export default async function RootLayout(
         {children}
       </Container>
     </Providers>
-    <SpeedInsights/>
     </body>
     </html>
   )
