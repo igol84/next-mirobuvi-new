@@ -42,7 +42,7 @@ const Navbar = ({brandsItems, isMobile, tagsUrl, onClose}: Props) => {
       <Flex display={{base: "inherit", sm: "none"}} justifyContent='center' alignItems='center' onClick={onClose}>
         <FavoriteProductsIcon/>
       </Flex>
-      <IconButton as={'a'} className="link _icon-viber" aria-label={d("themeIcon")} isRound={true}
+      <IconButton as={'a'}  className="link _icon-viber" aria-label={d("themeIcon")} isRound={true} variant='outline'
                   href="viber://add?number=380933375372" display={{base: "inherit", sm: "none"}}/>
     </Flex>
   );

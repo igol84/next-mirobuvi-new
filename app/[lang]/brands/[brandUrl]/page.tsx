@@ -51,7 +51,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   if (!productsData) redirect(`/`)
   const brand: BrandProps = {
     brandId: brandData.id, brandName: brandData.name, url: brandData.url,
-    desc: lang === 'en' ? brandData.desc : brandData.desc_ua
+    desc: lang === 'en' ? brandData.desc : brandData.desc_ua, imgUrl: ''
   }
   const breadCrumbs = await getBreadCrumb(lang, brand.brandName, brand.url)
   let products: ProductType[] = productsData.map(product => createProduct(product, lang))

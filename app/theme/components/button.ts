@@ -32,6 +32,27 @@ const Button = defineStyleConfig({
   },
   // Two variants: outline and solid
   variants: {
+    simple: {
+      fontWeight: 'bold',
+      borderRadius: 'base',
+      textTransform: 'lowercase',
+      bg: 'primary.200',
+      color: 'teal.900',
+      _hover: {
+        bg: 'primary.300',
+        color: 'teal.900',
+        textDecoration: 'none',
+      },
+      _dark: {
+        textTransform: 'uppercase',
+        bg: 'primary.700',
+        color: 'white',
+        _hover: {
+          bg: 'primary.500',
+          color: 'white',
+        },
+      }
+    },
     outline: {
       fontWeight: 'bold',
       textTransform: 'lowercase',
@@ -49,7 +70,6 @@ const Button = defineStyleConfig({
           bg: 'primary.900',
           color: 'primary.100',
         },
-
       }
     },
     solid: {
@@ -162,7 +182,7 @@ const Button = defineStyleConfig({
   // The default size and variant values
   defaultProps: {
     size: 'md',
-    variant: 'outline',
+    variant: 'simple',
   }
 })
 

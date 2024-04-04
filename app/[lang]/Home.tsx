@@ -17,7 +17,7 @@ const Home = ({brands}: Props) => {
           <Carousel/>
         </Box>
       </Flex>
-      <Brands brands={brands}/>
+      <Brands brands={brands} isAdmin={false}/>
     </>
   );
 };

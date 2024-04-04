@@ -43,7 +43,7 @@ export default function ShoppingCartButton({children, totalData, isOpen, onToggl
       <PopoverTrigger aria-label='Cart'>
         <Box position='relative' onClick={onToggle}>
           <IconButton isRound={true} aria-label='Cart' fontSize={[20, 25, 30, 35]} icon={<PiShoppingCart/>}
-                      minW={[1, 2]}/>
+                      minW={[1, 2]} variant='outline'/>
           {!isEmpty && (
             <Box position='absolute' textAlign='center' justifyContent='center' h={5} w={6} borderRadius={25} right={0}
                  top={0} backgroundColor={'green.400'} fontWeight='bold' _hover={{cursor: 'pointer'}}

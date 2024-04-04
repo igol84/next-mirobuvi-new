@@ -17,7 +17,7 @@ const ButtonTrash = ({productId, size}: Props) => {
   }
   return (
     <IconButton isLoading={isPending} onClick={onClick} aria-label='Trash' size='sm'
-                icon={<BsFillTrashFill/>}/>
+                icon={<BsFillTrashFill/>} variant='outline'/>
   );
 };
 

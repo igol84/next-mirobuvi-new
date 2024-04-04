@@ -52,10 +52,10 @@ const Header = ({onMenuOpen, onMenuClose, cartProducts, brandsItems, tagsUrl}: P
                 (093)33-75-372
               </Flex>
 
-              <IconButton as={'a'} className="link _icon-viber" aria-label={d("viberIcon")} isRound={true}
+              <IconButton variant='outline' as={'a'} className="link _icon-viber" aria-label={d("viberIcon")} isRound={true}
                           href="viber://add?number=380933375372" minW={[1, 2]} fontSize={[20, 25, 30, 35]}
                           display={{base: "none", sm: "inherit"}}/>
-              <IconButton icon={<ThemeIcon/>} aria-label={d("themeIcon")} fontSize={[20, 25, 30, 35]} isRound={true}
+              <IconButton variant='outline' icon={<ThemeIcon/>} aria-label={d("themeIcon")} fontSize={[20, 25, 30, 35]} isRound={true}
                           onClick={toggleColorMode} minW={[1, 2]}/>
               <LocaleSwitcher/>
               <Box display={['none', 'block']}><FavoriteProductsIcon/></Box>

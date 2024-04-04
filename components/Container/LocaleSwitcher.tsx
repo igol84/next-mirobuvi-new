@@ -19,7 +19,7 @@ export default function LocaleSwitcher() {
   const locale = lang === 'en' ? 'ua' : 'en'
   return (
     <Button as={Link} px={1} href={redirectedPathName(locale)} fontSize={[15, 20, 25, 30]} minW={[1, 2]}
-            sx={{fontWeight: '2px'}}
+            sx={{fontWeight: '2px'}} variant='outline'
     >
       {locale}
     </Button>
