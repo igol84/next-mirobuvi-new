@@ -1,9 +1,9 @@
-import {intervalToDuration, parse} from "date-fns";
+import {parse} from "date-fns";
 
 export const DAYS_IS_NEW = 30
 
-export const waitSecond = async () => {
-  await new Promise(resolve => setTimeout(resolve, 1000))
+export const waitSecond = async (sec: number = 1) => {
+  await new Promise(resolve => setTimeout(resolve, sec*1000))
 }
 
 export const formatStringToData = (data: string) => parse(data, 'yyyy-MM-dd', new Date())

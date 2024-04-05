@@ -53,6 +53,27 @@ const Button = defineStyleConfig({
         },
       }
     },
+    green: {
+      fontWeight: 'bold',
+      borderRadius: 'base',
+      textTransform: 'lowercase',
+      bg: 'green.200',
+      color: 'teal.900',
+      _hover: {
+        bg: 'green.300',
+        color: 'teal.900',
+        textDecoration: 'none',
+      },
+      _dark: {
+        textTransform: 'uppercase',
+        bg: 'green.700',
+        color: 'white',
+        _hover: {
+          bg: 'green.500',
+          color: 'white',
+        },
+      }
+    },
     outline: {
       fontWeight: 'bold',
       textTransform: 'lowercase',

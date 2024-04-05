@@ -1,8 +1,9 @@
 'use client'
-import React from 'react';
-import {Box, Button, Wrap, WrapItem} from "@chakra-ui/react";
-import BrandCard from "@/components/Brands/BrandCard";
-import {BrandCardPropsWithFirst} from "@/components/Brands/types";
+import React from 'react'
+import {Wrap, WrapItem} from "@chakra-ui/react"
+import BrandCard from "@/components/Brands/BrandCard"
+import {BrandCardPropsWithFirst} from "@/components/Brands/types"
+import AddNewBrand from "@/components/Brands/admin/AddNewBrand"
 
 
 type Props = {
@@ -11,13 +12,10 @@ type Props = {
 }
 
 const Brands = ({brands, isAdmin}: Props) => {
+
   return (
     <>
-      {isAdmin && (
-        <Box>
-          <Button>Add</Button>
-        </Box>
-      )}
+      {isAdmin && <AddNewBrand/>}
       <Wrap align='center' justify={{base: 'center', lg: 'flex-start'}} spacing={[4, 4, 4, 2, 4]}>
         {brands.map(brand => (
           <WrapItem key={brand.url}>
@@ -29,7 +27,7 @@ const Brands = ({brands, isAdmin}: Props) => {
         ))}
       </Wrap>
     </>
-  );
-};
+  )
+}
 
-export default Brands;
+export default Brands
