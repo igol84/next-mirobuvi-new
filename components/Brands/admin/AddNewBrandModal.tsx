@@ -69,8 +69,12 @@ const AddNewBrandModal = ({isOpen, onClose}: Props) => {
                 </Flex>
 
                 <Flex alignItems="center" gap={2}>
-                  <FormLabel width={50}>Text</FormLabel>
-                  <Textarea name='text' placeholder='Text'/>
+                  <FormLabel width={50}>Text Ua</FormLabel>
+                  <Textarea name='textUa' placeholder='Text'/>
+                </Flex>
+                <Flex alignItems="center" gap={2}>
+                  <FormLabel width={50}>Text En</FormLabel>
+                  <Textarea name='textEn' placeholder='Text'/>
                 </Flex>
                 <Flex alignItems="center" gap={2}>
                   <Checkbox name='active' isChecked={true}>Active</Checkbox>

@@ -112,6 +112,8 @@ model Brand {
   title_ua     String
   meta_desc_en String
   meta_desc_ua String
+  text_ua      String
+  text_en      String
   products     Product[]
 }
 
@@ -130,6 +132,8 @@ model Product {
   title_ua       String
   meta_desc_en   String
   meta_desc_ua   String
+  text_ua        String
+  text_en        String
   price          Float
   old_price      Float
   prom_active    Boolean
