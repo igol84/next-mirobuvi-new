@@ -39,15 +39,16 @@ export const schema = z.object({
 
 export type OrderEditFormSchema = z.infer<typeof schema>
 
+export type ErrorEditField = {
+  field: keyof OrderEditFormSchema,
+  message: string
+}
+
 export type Response = {
   success: boolean,
   errors?: ErrorEditField[],
   serverErrors?: string,
 }
 
-export type ErrorEditField = {
-  field: keyof OrderEditFormSchema,
-  message: string
-}
 
 

@@ -78,6 +78,19 @@
     "title": "Список брендів інтернет магазин взуття Mirobuvi.com.ua",
     "description": "Список брендів інтернет магазин взуття Mirobuvi.com.ua в якому ви знайдете такі відомі бренди, що виробляють спортивне та класичне взуття"
   },
+  "brandsAdmin": {
+    "nameUa": "Назва Ua",
+    "nameEn": "Назва En",
+    "titleUa": "Title Ua",
+    "titleEn": "Title En",
+    "metaDescUa": "Meta Description Ua",
+    "metaDescEn": "Meta Description En",
+    "tags": "Тегі",
+    "url": "Url",
+    "textUa": "Текст Ua",
+    "textEn": "Текст En",
+    "gt2": "повинно бути принаймні 2 символи"
+  },
   "product": {
     "buy": "Купити",
     "notAvailable": "Немає в наявності",

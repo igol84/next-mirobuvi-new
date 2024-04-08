@@ -11,10 +11,10 @@ export const schema = z.object({
   url: z.string().trim().min(2, 'gt2'),
   textUa: z.string().trim(),
   textEn: z.string().trim(),
-  active: z.string().trim(),
+  active: z.boolean()
 })
 
-export type OrderFormSchema = z.infer<typeof schema>
+export type BrandFormSchema = z.infer<typeof schema>
 
 export type Response = {
   success: boolean,
@@ -23,6 +23,21 @@ export type Response = {
 }
 
 export type ErrorField = {
-  field: keyof OrderFormSchema,
+  field: keyof BrandFormSchema,
   message: string
+}
+
+
+export const defaultValues: BrandFormSchema = {
+  nameUa: "",
+  nameEn: "",
+  titleUa: "",
+  titleEn: "",
+  tags: "",
+  metaDescEn: "",
+  metaDescUa: "",
+  url: "",
+  textUa: "",
+  textEn: "",
+  active: true
 }

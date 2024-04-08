@@ -1,25 +1,35 @@
 'use server'
-
-import {waitSecond} from "@/utility/functions";
+import {SafeParseReturnType} from "zod";
+import {revalidatePath} from "next/cache";
+import {BrandFormSchema, ErrorField, Response, schema} from "@/components/Brands/admin/types";
 import {createBrand, CreateBrandType} from "@/lib/db/brand";
 
-export const serverActionCreateNeBrand = async (formData: FormData) => {
-  await waitSecond(2)
-  console.log(formData)
 
-  const title_ua = formData.get('titleUa') as string
-  const title_en = formData.get('titleEn') as string
-  const name_en = formData.get('nameEn') as string
-  const name_ua = formData.get('nameUa') as string
-  const meta_desc_en = formData.get('metaDescEn') as string
-  const meta_desc_ua = formData.get('metaDescUa') as string
-  const text_en = formData.get('textEn') as string
-  const text_ua = formData.get('textUa') as string
-  const url = formData.get('url') as string
-  const tags = formData.get('tags') as string
-  const active = true
+export const serverActionCreateNeBrand = async (brandFormData: BrandFormSchema): Promise<Response> => {
+  const result: SafeParseReturnType<BrandFormSchema, BrandFormSchema> = schema.safeParse(brandFormData)
+
+  const zodErrors: ErrorField[] = []
+  if (!result.success) {
+    result.error.issues.forEach(issue => {
+      zodErrors.push({field: String(issue.path[0]) as keyof BrandFormSchema, message: issue.message})
+    })
+    return {success: false, errors: zodErrors}
+  }
+
   const newBrandData: CreateBrandType = {
-    title_ua , url, active, tags, title_en, name_en, name_ua, meta_desc_en, meta_desc_ua, text_ua, text_en
+    name_ua: brandFormData.nameUa,
+    name_en: brandFormData.nameEn,
+    title_ua: brandFormData.titleUa,
+    title_en: brandFormData.titleEn,
+    meta_desc_ua: brandFormData.metaDescUa,
+    meta_desc_en: brandFormData.metaDescEn,
+    text_ua: brandFormData.textUa,
+    text_en: brandFormData.textEn,
+    url: brandFormData.url,
+    tags: brandFormData.tags,
+    active: brandFormData.active
   }
   await createBrand(newBrandData)
+  revalidatePath("/[lang]/brands")
+  return {success: true}
 }
