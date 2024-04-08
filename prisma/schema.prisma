@@ -114,7 +114,6 @@ model Brand {
   meta_desc_ua String
   text_ua      String
   text_en      String
-  test         String
   products     Product[]
 }
 
