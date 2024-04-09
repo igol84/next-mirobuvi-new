@@ -11,10 +11,13 @@ export const schema = z.object({
   url: z.string().trim().min(2, 'gt2'),
   textUa: z.string().trim(),
   textEn: z.string().trim(),
-  active: z.boolean()
+  active: z.boolean(),
+  fileImg: z.any()
 })
 
 export type BrandFormSchema = z.infer<typeof schema>
+
+export type NameBrandFormField = keyof BrandFormSchema
 
 export type Response = {
   success: boolean,
@@ -39,5 +42,6 @@ export const defaultValues: BrandFormSchema = {
   url: "",
   textUa: "",
   textEn: "",
-  active: true
+  active: true,
+  fileImg: []
 }

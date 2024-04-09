@@ -1,5 +1,6 @@
 import {Client} from "basic-ftp"
 import {Readable} from "stream";
+import mime from 'mime';
 
 export const getFTPClient = async (host: string, user: string, password: string): Promise<Client> => {
   const client = new Client()
@@ -16,24 +17,9 @@ export const uploadFile = async (client: Client, pathDir: string, file: File, fi
     await client.ensureDir(pathDir)
     const buffer = Buffer.from(await file.arrayBuffer());
     const stream = Readable.from(buffer);
-    await client.uploadFrom(stream, fileName)
-    await client.clearWorkingDir()
+    await client.uploadFrom(stream, `${fileName}.${mime.getExtension(file.type)}`)
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
-export type Files = { file: File, fileName: string }[]
-export const uploadFiles = async (client: Client, pathDir: string, files: Files) => {
-  try {
-    await client.ensureDir(pathDir)
-    for (const {file, fileName} of files) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const stream = Readable.from(buffer);
-      await client.uploadFrom(stream, fileName)
-    }
-    await client.clearWorkingDir()
-  } catch (err) {
-    console.log(err)
-  }
-}

@@ -14,7 +14,7 @@ type Props = {
 const Page = async ({params: {lang}}: Props) => {
   const brandsData = await getBrands()
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
-    const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpg`
+    const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpeg`
     return {
       brandId: brand.id, brandName: brand[`name_${lang}`], url: brand.url, isFirst: index < 6, imgUrl
     }

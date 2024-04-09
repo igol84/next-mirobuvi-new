@@ -89,8 +89,9 @@
     "textEn": "Text En",
     "tags": "Tags",
     "url": "Url",
+    "file": "File",
     "gt2": "must be at least 2 characters",
-    "description": "List of brands online shoe store Mirobuvi.com.ua where you will find such well-known brands producing sports and classic shoes"
+    "file1": "Must be file"
   },
   "product": {
     "buy": "Buy",
