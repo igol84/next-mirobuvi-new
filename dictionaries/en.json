@@ -91,7 +91,9 @@
     "url": "Url",
     "file": "File",
     "gt2": "must be at least 2 characters",
-    "file1": "Must be file"
+    "file1": "Must be file",
+    "addBrand": "Add new brand",
+    "editBrand": "Edit brand"
   },
   "product": {
     "buy": "Buy",

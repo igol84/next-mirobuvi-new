@@ -19,7 +19,7 @@ export function dateDiffInDays(start: Date, end: Date) {
 }
 
 export const convertTextForUrl = (text: string) => {
-  return slugify(text)
+  return slugify(text, {lower: true})
 }
 
 export const validateFiles = (value: FileList) => {
