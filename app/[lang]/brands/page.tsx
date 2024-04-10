@@ -5,8 +5,7 @@ import BrandPage from "@/app/[lang]/brands/BrandPage";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {getBrands} from "@/lib/db/brand";
 import {env} from "@/lib/env";
-import {getServerSession} from "next-auth";
-import {authOptions} from "@/configs/auth";
+import {checkForAdmin} from "@/utility/auth";
 
 type Props = {
   params: {
@@ -26,9 +25,7 @@ export async function generateMetadata({params: {lang}}: { params: { lang: Lang 
 }
 
 const BrandsPage = async ({params: {lang}}: Props) => {
-  const session = await getServerSession(authOptions)
-  const admins = JSON.parse(env.ADMINS) as string[]
-  const isAdmin = admins.includes(String(session?.user.email))
+  const isAdmin = await checkForAdmin()
   const brandsData = await getBrands()
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpeg`

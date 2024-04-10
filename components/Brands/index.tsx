@@ -1,9 +1,11 @@
 'use client'
 import React from 'react'
-import {Wrap, WrapItem} from "@chakra-ui/react"
+import {Box, IconButton, Wrap, WrapItem} from "@chakra-ui/react"
 import BrandCard from "@/components/Brands/BrandCard"
 import {BrandCardPropsWithFirst} from "@/components/Brands/types"
-import AddNewBrand from "@/components/Brands/admin/AddNewBrand"
+import {AddIcon} from "@chakra-ui/icons";
+import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useRouter} from 'next/navigation'
 
 
 type Props = {
@@ -12,10 +14,19 @@ type Props = {
 }
 
 const Brands = ({brands, isAdmin}: Props) => {
-
+  const d = useDictionaryTranslate("brandsAdmin")
+  const dict = {'addBrand': d('addBrand')}
+  const router = useRouter()
+  const onAddClick = () => {
+    router.push('/brands/add')
+  }
   return (
     <>
-      {isAdmin && <AddNewBrand/>}
+      {isAdmin && (
+        <Box pb={2}>
+          <IconButton aria-label={dict.addBrand} onClick={onAddClick} icon={<AddIcon/>}/>
+        </Box>
+      )}
       <Wrap align='center' justify={{base: 'center', lg: 'flex-start'}} spacing={[4, 4, 4, 2, 4]}>
         {brands.map(brand => (
           <WrapItem key={brand.url}>

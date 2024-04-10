@@ -1,9 +1,9 @@
 import {useDisclosure} from "@chakra-ui/react";
 
-export const useAddNewBrand = () => {
+export const useModalFormBrand = () => {
   const disclosure = useDisclosure()
-  const onClickAddBrand = disclosure.onOpen
-  const isModalAddBrandOpen = disclosure.isOpen
-  const onModalAddBrandClose = disclosure.onClose
-  return {onClickAddBrand, isModalAddBrandOpen, onModalAddBrandClose}
+  const isModalBrandFormOpen = disclosure.isOpen
+  const openModalBrandForm = disclosure.onOpen
+  const closeModalBrandForm = disclosure.onClose
+  return {isModalBrandFormOpen, openModalBrandForm, closeModalBrandForm}
 }

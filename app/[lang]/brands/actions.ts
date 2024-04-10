@@ -8,7 +8,7 @@ import {getFTPClient, uploadFile} from "@/lib/ftp";
 import {env} from "@/lib/env";
 
 
-export const serverActionCreateNeBrand = async (brandFormData: FormData): Promise<Response> => {
+export const serverActionCreateNewBrand = async (brandFormData: FormData): Promise<Response> => {
 
   const brandData: BrandFormSchema = {
     nameUa: brandFormData.get("nameUa") as string,
@@ -21,7 +21,7 @@ export const serverActionCreateNeBrand = async (brandFormData: FormData): Promis
     url: brandFormData.get("url") as string,
     textUa: brandFormData.get("textUa") as string,
     textEn: brandFormData.get("textEn") as string,
-    active: brandFormData.get("active") === 'true',
+    active: brandFormData.get("active") === 'on',
     fileImg: brandFormData.get("fileImg") as File,
   }
 

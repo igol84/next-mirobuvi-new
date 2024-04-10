@@ -7,8 +7,9 @@ import {LangContext} from "@/locale/LangProvider";
 import {BrandCardPropsWithFirstAdmin} from "@/components/Brands/types";
 import {EditIcon} from "@chakra-ui/icons";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {waitSecond} from "@/utility/functions";
 
-const BrandCard = ({brandName, url, isFirst, imgUrl, isAdmin}: BrandCardPropsWithFirstAdmin) => {
+const BrandCard = ({brandId, brandName, url, isFirst, imgUrl, isAdmin}: BrandCardPropsWithFirstAdmin) => {
   const lang = useContext(LangContext)
   const d = useDictionaryTranslate("brandsAdmin")
   const dict = {
@@ -17,14 +18,18 @@ const BrandCard = ({brandName, url, isFirst, imgUrl, isAdmin}: BrandCardPropsWit
   const [hovered, setHovered] = useState(false)
   const onMouseEnter = () => setHovered(true)
   const onMouseLeave = () => setHovered(false)
+
+  const onClickEdit = async () => {
+    await waitSecond(1)
+    console.log(`edit ${brandId}`)
+  }
+
   return (
     <Flex flexDirection='column' alignItems='center' gap={4} position='relative' onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}>
       {isAdmin && (
         <Box position='absolute' top={2} right={2} hidden={!hovered}>
-          <IconButton aria-label={dict.editBrand} icon={<EditIcon/>} onClick={() => {
-            console.log('edit')
-          }}/>
+          <IconButton aria-label={dict.editBrand} icon={<EditIcon/>} onClick={onClickEdit}/>
         </Box>
       )}
       <Link as={NextLink} href={`/${lang}/brands/${url}`} _hover={{color: 'hoverLinkTextColor'}}>

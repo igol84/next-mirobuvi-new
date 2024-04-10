@@ -34,7 +34,9 @@ export default function UserMenuButton() {
       <PopoverTrigger>
         {user
           ? <Avatar name={user.name || ''} src={user.image || undefined} size={'sm'} sx={{cursor: 'pointer'}}/>
-          : <IconButton icon={<BiUser/>} aria-label={'user'} fontSize={[20, 25, 30, 35]} isRound={true} minW={[1, 2]}/>
+          :
+          <IconButton variant='outline' icon={<BiUser/>} aria-label={'user'} fontSize={[20, 25, 30, 35]} isRound={true}
+                      minW={[1, 2]}/>
         }
       </PopoverTrigger>
       <PopoverContent w='auto'>
