@@ -2,7 +2,7 @@
 import {SafeParseReturnType} from "zod";
 import {revalidatePath} from "next/cache";
 import {BrandFormSchema, ErrorField, Response, schema} from "@/components/Brands/admin/types";
-import {BrandDBType, createBrand, CreateBrandType, editeBrand, getBrand, getBrandUrls} from "@/lib/db/brand";
+import {createBrand, CreateBrandType, editeBrand, getBrand, getBrandUrls, UpdateBrandType} from "@/lib/db/brand";
 import {convertTextForUrl} from "@/utility/functions";
 import {getFTPClient, renameFile, uploadFile} from "@/lib/ftp";
 import {env} from "@/lib/env";
@@ -80,7 +80,7 @@ const createNewBrand = async (brandData: BrandFormSchema) => {
 const editBrand = async (brandFormData: BrandFormSchema) => {
 
   const oldBrandData = await getBrand(brandFormData.id as number)
-  const brandData: BrandDBType = {
+  const brandData: UpdateBrandType = {
     id: brandFormData.id as number,
     name_ua: brandFormData.nameUa,
     name_en: brandFormData.nameEn,

@@ -3,6 +3,7 @@ import {Prisma} from "@prisma/client";
 import {prisma} from "@/lib/db/prisma";
 
 export type BrandDBType = Prisma.BrandGetPayload<{}>
+export type UpdateBrandType = Prisma.BrandUncheckedCreateInput
 export type CreateBrandType = Prisma.BrandCreateInput
 
 export const getBrands = cache(async (): Promise<BrandDBType[]> => {
@@ -25,7 +26,7 @@ export const createBrand = async (data: CreateBrandType): Promise<BrandDBType> =
     data
   })
 }
-export const editeBrand = async (data: BrandDBType): Promise<BrandDBType> => {
+export const editeBrand = async (data: UpdateBrandType): Promise<BrandDBType> => {
   return await prisma.brand.update({
     where: {id: data.id},
     data: data
