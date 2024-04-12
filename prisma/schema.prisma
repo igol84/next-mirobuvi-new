@@ -115,6 +115,7 @@ model Brand {
   text_ua      String
   text_en      String
   products     Product[]
+  updatedAt    DateTime? @updatedAt
 }
 
 model Product {

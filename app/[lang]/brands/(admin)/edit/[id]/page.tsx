@@ -10,7 +10,6 @@ type Props = {
   }
 }
 
-
 const EditBrandPage = async ({params: {id}}: Props) => {
   const isAdmin = await checkForAdmin()
   if (!isAdmin) redirect('/')
