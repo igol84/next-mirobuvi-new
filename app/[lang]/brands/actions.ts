@@ -2,15 +2,17 @@
 import {SafeParseReturnType} from "zod";
 import {revalidatePath} from "next/cache";
 import {BrandFormSchema, ErrorField, Response, schema} from "@/components/Brands/admin/types";
-import {createBrand, CreateBrandType} from "@/lib/db/brand";
+import {BrandDBType, createBrand, CreateBrandType, editeBrand, getBrand, getBrandUrls} from "@/lib/db/brand";
 import {convertTextForUrl} from "@/utility/functions";
-import {getFTPClient, uploadFile} from "@/lib/ftp";
+import {getFTPClient, renameFile, uploadFile} from "@/lib/ftp";
 import {env} from "@/lib/env";
 
 
-export const serverActionCreateNewBrand = async (brandFormData: FormData): Promise<Response> => {
-
+export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Promise<Response> => {
+  const id: number | null = !!brandFormData.get("id") ? Number(brandFormData.get("id")) : null;
+  const isEditing = !!id
   const brandData: BrandFormSchema = {
+    id,
     nameUa: brandFormData.get("nameUa") as string,
     nameEn: brandFormData.get("nameEn") as string,
     titleUa: brandFormData.get("titleUa") as string,
@@ -24,7 +26,6 @@ export const serverActionCreateNewBrand = async (brandFormData: FormData): Promi
     active: brandFormData.get("active") === 'on',
     fileImg: brandFormData.get("fileImg") as File,
   }
-
   const result: SafeParseReturnType<BrandFormSchema, BrandFormSchema> = schema.safeParse(brandData)
   const zodErrors: ErrorField[] = []
   if (!result.success) {
@@ -34,31 +35,90 @@ export const serverActionCreateNewBrand = async (brandFormData: FormData): Promi
     return {success: false, errors: zodErrors}
   }
 
+  if (isEditing)
+    return await editBrand(result.data)
+  return await createNewBrand(result.data)
+
+}
+
+const createNewBrand = async (brandData: BrandFormSchema) => {
+  const urlsList = await getBrandUrls()
+  const urlIsConsist = urlsList.includes(brandData.url)
+  if (urlIsConsist) {
+    const response: Response = {success: false, errors: [{field: 'url', message: 'consist'}]}
+    return response
+  }
   const newBrandData: CreateBrandType = {
-    name_ua: result.data.nameUa,
-    name_en: result.data.nameEn,
-    title_ua: result.data.titleUa,
-    title_en: result.data.titleEn,
-    meta_desc_ua: result.data.metaDescUa,
-    meta_desc_en: result.data.metaDescEn,
-    text_ua: result.data.textUa,
-    text_en: result.data.textEn,
-    url: convertTextForUrl(result.data.url),
-    tags: result.data.tags,
-    active: result.data.active
+    name_ua: brandData.nameUa,
+    name_en: brandData.nameEn,
+    title_ua: brandData.titleUa,
+    title_en: brandData.titleEn,
+    meta_desc_ua: brandData.metaDescUa,
+    meta_desc_en: brandData.metaDescEn,
+    text_ua: brandData.textUa,
+    text_en: brandData.textEn,
+    url: convertTextForUrl(brandData.url),
+    tags: brandData.tags,
+    active: brandData.active
   }
   const newBrand = await createBrand(newBrandData)
-  if(!newBrand){
+  if (!newBrand) {
     return {success: false, serverErrors: 'DB Error'};
   }
 
   try {
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
-    await uploadFile(ftpClient, "brands", result.data.fileImg as File, newBrandData.url)
+    await uploadFile(ftpClient, "brands", brandData.fileImg as File, newBrandData.url)
     ftpClient.close()
   } catch {
     return {success: false, serverErrors: 'FTP Error'};
   }
   revalidatePath("/[lang]/brands")
+  return {success: true}
+}
+
+const editBrand = async (brandFormData: BrandFormSchema) => {
+
+  const oldBrandData = await getBrand(brandFormData.id as number)
+  const brandData: BrandDBType = {
+    id: brandFormData.id as number,
+    name_ua: brandFormData.nameUa,
+    name_en: brandFormData.nameEn,
+    title_ua: brandFormData.titleUa,
+    title_en: brandFormData.titleEn,
+    meta_desc_ua: brandFormData.metaDescUa,
+    meta_desc_en: brandFormData.metaDescEn,
+    text_ua: brandFormData.textUa,
+    text_en: brandFormData.textEn,
+    url: convertTextForUrl(brandFormData.url),
+    tags: brandFormData.tags,
+    active: brandFormData.active
+  }
+  const allUrlsList = await getBrandUrls()
+  const urlsList = allUrlsList.filter(url => url !== oldBrandData?.url)
+  const urlIsConsist = urlsList.includes(brandData.url)
+  if (urlIsConsist) {
+    const response: Response = {success: false, errors: [{field: 'url', message: 'consist'}]}
+    return response
+  }
+  const brand = await editeBrand(brandData)
+  if (!brand) {
+    return {success: false, serverErrors: 'DB Error'};
+  }
+  const oldImgName = oldBrandData?.url as string
+  const imgName = brand?.url as string
+  try {
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    const fileName = `${oldImgName}.jpeg`
+    const newFileName = `${imgName}.jpeg`
+    await renameFile(ftpClient, "brands", fileName, newFileName)
+    const file = brandFormData.fileImg as File
+    if (file.size)
+      await uploadFile(ftpClient, "brands", brandFormData.fileImg as File, imgName)
+    ftpClient.close()
+  } catch {
+    return {success: false, serverErrors: 'FTP Error'};
+  }
+  revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }

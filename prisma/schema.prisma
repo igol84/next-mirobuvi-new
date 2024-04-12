@@ -104,7 +104,7 @@ model OrderItem {
 model Brand {
   id           Int       @id @default(autoincrement())
   active       Boolean
-  url          String
+  url          String    @unique
   tags         String
   name_en      String
   name_ua      String
@@ -121,7 +121,7 @@ model Product {
   id             Int      @id @default(autoincrement())
   active         Boolean
   private        Boolean
-  url            String
+  url            String   @unique
   is_available   Boolean?
   tags           String
   date           DateTime @default(now())

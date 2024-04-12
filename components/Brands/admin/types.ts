@@ -1,6 +1,7 @@
 import {z} from "zod";
 
 export const schema = z.object({
+  id: z.number().nullable(),
   nameUa: z.string().trim().min(2, 'gt2'),
   nameEn: z.string().trim().min(2, 'gt2'),
   titleUa: z.string().trim(),
@@ -17,8 +18,6 @@ export const schema = z.object({
 
 export type BrandFormSchema = z.infer<typeof schema>
 
-export type NameBrandFormField = keyof BrandFormSchema
-
 export type Response = {
   success: boolean,
   errors?: ErrorField[],
@@ -32,6 +31,7 @@ export type ErrorField = {
 
 
 export const defaultValues: BrandFormSchema = {
+  id: null,
   nameUa: "",
   nameEn: "",
   titleUa: "",

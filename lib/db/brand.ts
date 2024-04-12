@@ -15,8 +15,19 @@ export const getBrand = cache(async (brandId: number): Promise<BrandDBType | nul
   })
 })
 
+export const getBrandUrls = cache(async (): Promise<string[]> => {
+  const brands = await prisma.brand.findMany()
+  return brands.map(brand => brand.url)
+})
+
 export const createBrand = async (data: CreateBrandType): Promise<BrandDBType> => {
   return await prisma.brand.create({
     data
+  })
+}
+export const editeBrand = async (data: BrandDBType): Promise<BrandDBType> => {
+  return await prisma.brand.update({
+    where: {id: data.id},
+    data: data
   })
 }
