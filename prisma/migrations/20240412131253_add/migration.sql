@@ -1,2 +1,1 @@
--- AlterTable
-ALTER TABLE "Brand" ADD COLUMN "updatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP;
+-- This is an empty migration.
