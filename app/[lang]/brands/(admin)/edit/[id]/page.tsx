@@ -5,6 +5,12 @@ import BrandForm from "@/components/Brands/admin/BrandForm";
 import {BrandFormSchema} from "@/components/Brands/admin/types";
 import {getFTPClient, isFileExist} from "@/lib/ftp";
 import {env} from "@/lib/env";
+import {getBrandsData} from "@/app/api/fetchFunctions";
+
+export async function generateStaticParams() {
+  const brandsData = await getBrandsData()
+  return brandsData.map(brand => ({id: String(brand.id)}))
+}
 
 type Props = {
   params: {

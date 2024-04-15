@@ -8,3 +8,9 @@ export const checkForAdmin = async () => {
   const admins = JSON.parse(env.ADMINS) as string[]
   return admins.includes(String(session?.user.email))
 }
+
+
+export const checkForAuth = async () => {
+  const session = await getServerSession(authOptions)
+  return !!session
+}

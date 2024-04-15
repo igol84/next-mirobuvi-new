@@ -10,6 +10,12 @@ export const getBrands = cache(async (): Promise<BrandDBType[]> => {
   return await prisma.brand.findMany()
 })
 
+export const getBrandByUrl = cache(async (url: string): Promise<BrandDBType | null> => {
+  return await prisma.brand.findUnique({
+    where: {url: url}
+  })
+})
+
 export const getBrand = cache(async (brandId: number): Promise<BrandDBType | null> => {
   return await prisma.brand.findUnique({
     where: {id: brandId}

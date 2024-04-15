@@ -5,7 +5,7 @@ import BrandPage from "@/app/[lang]/brands/BrandPage";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {getBrands} from "@/lib/db/brand";
 import {env} from "@/lib/env";
-import {checkForAdmin} from "@/utility/auth";
+import {checkForAdmin, checkForAuth} from "@/utility/auth";
 
 type Props = {
   params: {
@@ -26,7 +26,10 @@ export async function generateMetadata({params: {lang}}: { params: { lang: Lang 
 
 const BrandsPage = async ({params: {lang}}: Props) => {
   const isAdmin = await checkForAdmin()
-  const brandsData = await getBrands()
+  const isAuth = await checkForAuth()
+  let brandsData = await getBrands()
+  if (!isAuth)
+    brandsData = brandsData.filter(brand => brand.active)
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpeg?key=${brand.updatedAt}`
     return {

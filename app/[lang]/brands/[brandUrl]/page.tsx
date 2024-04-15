@@ -1,6 +1,6 @@
 import React from 'react';
 import '@/app/theme/style.scss'
-import {getBrandData, getBrandsData, getProductsDataByBrandId} from "@/app/api/fetchFunctions";
+import {getProductsDataByBrandId} from "@/app/api/fetchFunctions";
 import {Lang} from "@/dictionaries/get-dictionary";
 import {BrandProps} from "@/components/Brands/types";
 import {ProductType} from "@/components/Products/types";
@@ -14,6 +14,9 @@ import {getFilterProducts} from "@/lib/store/filters/serverFunctions/serverFunct
 import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import ProductsList from "@/components/Products/productsList";
+import {getBrandByUrl, getBrands} from "@/lib/db/brand";
+import {env} from "@/lib/env";
+import {checkForAdmin, checkForAuth} from "@/utility/auth";
 
 type Props = {
   params: {
@@ -27,31 +30,38 @@ type Props = {
 }
 
 export async function generateMetadata({params: {brandUrl, lang}}: Props) {
-  const brandData = await getBrandData(brandUrl)
+  const brandData = await getBrandByUrl(brandUrl)
   if (!brandData) redirect('/')
-  const title = lang === 'en' ? brandData.title : brandData.title_ua
+  const imgUrl = `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}`
+  const title = lang === 'en' ? brandData.title_en : brandData.title_ua
+  const description = lang === 'en' ? brandData.meta_desc_en : brandData.meta_desc_ua
   return {
     title,
+    description,
     openGraph: {
-      images: [`https://mirobuvi.com.ua/ftp_brands/${brandData.id}.jpg`],
+      images: [imgUrl],
     },
   }
 }
 
 export async function generateStaticParams() {
-  const brandsData = await getBrandsData()
+  const brandsData = await getBrands()
   return brandsData.map((brand) => ({brandUrl: brand.url}))
 }
 
 const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   const {page = '1', sortingBy = 'byOrder', ...filtersValues} = searchParams
-  const brandData = await getBrandData(brandUrl)
+  const isAdmin = await checkForAdmin()
+  const isAuth = await checkForAuth()
+  const brandData = await getBrandByUrl(brandUrl)
   if (!brandData) redirect(`/`)
+  if (!isAuth && !brandData.active) redirect(`/`)
   const productsData = await getProductsDataByBrandId(brandData.id)
   if (!productsData) redirect(`/`)
+  const desc = lang === 'en' ? brandData.text_en : brandData.text_ua
+  const brandName = lang === 'en' ? brandData.name_en : brandData.name_en
   const brand: BrandProps = {
-    brandId: brandData.id, brandName: brandData.name, url: brandData.url,
-    desc: lang === 'en' ? brandData.desc : brandData.desc_ua, imgUrl: ''
+    brandId: brandData.id, brandName, url: brandData.url, desc, imgUrl: ''
   }
   const breadCrumbs = await getBreadCrumb(lang, brand.brandName, brand.url)
   let products: ProductType[] = productsData.map(product => createProduct(product, lang))
@@ -63,7 +73,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   return (
     <FiltersLayout desc={brand.desc} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts} sortingBy={sortingBy}
                    filterMenuType={filterProducts.filterMenuType}>
-      <ProductsList products={productsSlice} brandData={brand} paginationBar={paginationBar}/>
+      <ProductsList products={productsSlice} brandData={brand} paginationBar={paginationBar} isAdmin={isAdmin}/>
     </FiltersLayout>
   )
 }
