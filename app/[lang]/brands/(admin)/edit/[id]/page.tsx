@@ -7,6 +7,9 @@ import {getFTPClient, isFileExist} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {getBrandsData} from "@/app/api/fetchFunctions";
 
+import {Lang} from "@/dictionaries/get-dictionary";
+import {getBreadCrumb} from "@/app/[lang]/brands/(admin)/edit/[id]/serverFunctions";
+
 export async function generateStaticParams() {
   const brandsData = await getBrandsData()
   return brandsData.map(brand => ({id: String(brand.id)}))
@@ -14,11 +17,12 @@ export async function generateStaticParams() {
 
 type Props = {
   params: {
+    lang: Lang
     id: string
   }
 }
 
-const EditBrandPage = async ({params: {id}}: Props) => {
+const EditBrandPage = async ({params: {lang, id}}: Props) => {
   const isAdmin = await checkForAdmin()
   if (!isAdmin) redirect('/')
   const brandId = Number(id)
@@ -45,10 +49,11 @@ const EditBrandPage = async ({params: {id}}: Props) => {
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   const imgExist = await isFileExist(ftpClient, "brands", `${brandData.url}.jpeg`)
   const imgUrl = imgExist ? `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}` : null
-
+  const brandName = lang==='en' ? brandData.name_en : brandData.name_ua
+  const breadCrumbs = await getBreadCrumb(lang, brandName, brandData.url)
 
   return (
-    <BrandForm defaultValues={defaultValues} urlList={urlList} imgUrl={imgUrl}/>
+    <BrandForm defaultValues={defaultValues} urlList={urlList} imgUrl={imgUrl} breadCrumbs={breadCrumbs}/>
   )
 }
 

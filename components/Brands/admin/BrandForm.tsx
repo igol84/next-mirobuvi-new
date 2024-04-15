@@ -21,15 +21,17 @@ import {useDict} from "@/components/Brands/admin/hooks";
 import NextImage from "next/image";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
 import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
+import BreadCrumb, {BreadCrumbData} from "@/components/base/BreadCrumb";
 
 
 type Props = {
   defaultValues: BrandFormSchema,
-  urlList: string[]
-  imgUrl?: string | null
+  urlList: string[],
+  imgUrl?: string | null,
+  breadCrumbs: BreadCrumbData[]
 }
 
-const BrandForm = ({defaultValues, urlList, imgUrl}: Props) => {
+const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
   const isEditing = !!defaultValues.id
   const {dict, d} = useDict()
   const router = useRouter()
@@ -82,6 +84,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl}: Props) => {
     : () => undefined
   return (
     <Flex direction="column" gap={2} justify="space-between">
+      <BreadCrumb breadCrumbs={breadCrumbs}/>
       <Heading as='h1'>{headingText}</Heading>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <input type="hidden" {...register('id')}/>
