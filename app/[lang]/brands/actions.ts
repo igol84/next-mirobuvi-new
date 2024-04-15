@@ -2,9 +2,17 @@
 import {SafeParseReturnType} from "zod";
 import {revalidatePath} from "next/cache";
 import {BrandFormSchema, ErrorField, Response, schema} from "@/components/Brands/admin/types";
-import {createBrand, CreateBrandType, editeBrand, getBrand, getBrandUrls, UpdateBrandType} from "@/lib/db/brand";
+import {
+  createBrand,
+  CreateBrandType,
+  deleteBrand,
+  editeBrand,
+  getBrand,
+  getBrandUrls,
+  UpdateBrandType
+} from "@/lib/db/brand";
 import {convertTextForUrl} from "@/utility/functions";
-import {getFTPClient, renameFile, uploadFile} from "@/lib/ftp";
+import {deleteFile, getFTPClient, renameFile, uploadFile} from "@/lib/ftp";
 import {env} from "@/lib/env";
 
 
@@ -121,4 +129,24 @@ const editBrand = async (brandFormData: BrandFormSchema) => {
   }
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
+}
+
+export const serverActionDeleteBrand = async (brandId: number): Promise<Response> => {
+  try {
+    const brandData = await getBrand(brandId)
+    if (!brandData) {
+      return {success: false, serverErrors: 'DB Brand dont find'};
+    }
+    await deleteBrand(brandId)
+
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    const fileName = `${brandData.url}.jpeg`
+    await deleteFile(ftpClient, "brands", fileName)
+  } catch {
+    return {success: false, serverErrors: 'server Error'};
+  }
+  revalidatePath("/[lang]/brands", 'page')
+  return {success: true}
+
+
 }

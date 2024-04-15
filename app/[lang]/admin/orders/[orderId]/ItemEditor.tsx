@@ -17,7 +17,7 @@ import NextImage from "next/image";
 import {LangContext} from "@/locale/LangProvider";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {serverActionDeleteItem, serverActionEditItemQuantity} from "@/app/[lang]/admin/orders/[orderId]/actions";
-import AlertDeleteDialog from "@/app/[lang]/admin/orders/[orderId]/AlertDeleteDialog";
+import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 
 interface Props {
   orderItem: IOrderItem

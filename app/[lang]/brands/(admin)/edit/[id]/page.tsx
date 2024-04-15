@@ -3,6 +3,8 @@ import {redirect} from "next/navigation";
 import {getBrand, getBrandUrls} from "@/lib/db/brand";
 import BrandForm from "@/components/Brands/admin/BrandForm";
 import {BrandFormSchema} from "@/components/Brands/admin/types";
+import {getFTPClient, isFileExist} from "@/lib/ftp";
+import {env} from "@/lib/env";
 
 type Props = {
   params: {
@@ -16,8 +18,8 @@ const EditBrandPage = async ({params: {id}}: Props) => {
   const brandId = Number(id)
   const brandData = await getBrand(brandId)
   if (!brandData) redirect('/')
-  const allUrlsList = await getBrandUrls()
-  const urlsList = allUrlsList.filter(url => url !== brandData.url)
+  const allUrlList = await getBrandUrls()
+  const urlList = allUrlList.filter(url => url !== brandData.url)
   const defaultValues: BrandFormSchema = {
     id: brandId,
     nameUa: brandData.name_ua,
@@ -34,8 +36,13 @@ const EditBrandPage = async ({params: {id}}: Props) => {
     fileImg: []
   }
 
+  const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+  const imgExist = await isFileExist(ftpClient, "brands", `${brandData.url}.jpeg`)
+  const imgUrl = imgExist ? `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}` : null
+
+
   return (
-    <BrandForm defaultValues={defaultValues} urlsList={urlsList}/>
+    <BrandForm defaultValues={defaultValues} urlList={urlList} imgUrl={imgUrl}/>
   )
 }
 

@@ -21,7 +21,7 @@ import {IOrder, OrderEditFormSchema, schema} from "./types";
 import {serverActionDeleteOrder, serverActionEditOrder} from "./actions";
 import {useRouter} from "next/navigation";
 import {AiOutlineRollback, AiTwotoneSave} from "react-icons/ai";
-import AlertDeleteDialog from "@/app/[lang]/admin/orders/[orderId]/AlertDeleteDialog";
+import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 import ProductsEditor from "@/app/[lang]/admin/orders/[orderId]/OrderItemsEditor";
 
 

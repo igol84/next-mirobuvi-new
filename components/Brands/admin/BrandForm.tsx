@@ -1,23 +1,37 @@
 'use client'
-import {Button, Checkbox, Flex, FormControl, FormErrorMessage, Heading, Input, Text, Textarea} from "@chakra-ui/react";
-import React from "react";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Heading,
+  Input,
+  Text,
+  Textarea
+} from "@chakra-ui/react";
+import React, {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {BrandFormSchema, schema} from "@/components/Brands/admin/types";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
-import {serverActionCreateOrEditBrand} from "@/app/[lang]/brands/actions";
+import {serverActionCreateOrEditBrand, serverActionDeleteBrand} from "@/app/[lang]/brands/actions";
 import {useRouter} from "next/navigation";
+import {useDict} from "@/components/Brands/admin/hooks";
+import NextImage from "next/image";
+import ChakraNextImage from "@/components/base/ChakraNextImage";
+import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 
 
 type Props = {
   defaultValues: BrandFormSchema,
-  urlsList: string[]
+  urlList: string[]
+  imgUrl?: string | null
 }
 
-const BrandForm = ({defaultValues, urlsList}: Props) => {
+const BrandForm = ({defaultValues, urlList, imgUrl}: Props) => {
   const isEditing = !!defaultValues.id
-  const d = useDictionaryTranslate("brandsAdmin")
-  const dg = useDictionaryTranslate("global")
+  const {dict, d} = useDict()
   const router = useRouter()
   const {
     register, handleSubmit, setError,
@@ -27,7 +41,7 @@ const BrandForm = ({defaultValues, urlsList}: Props) => {
     resolver: zodResolver(schema)
   })
   const onFormSubmit: SubmitHandler<BrandFormSchema> = async (data, event) => {
-    const urlIsConsist = urlsList.includes(data.url)
+    const urlIsConsist = urlList.includes(data.url)
     if (urlIsConsist) {
       setError('url', {
         type: 'server',
@@ -52,21 +66,20 @@ const BrandForm = ({defaultValues, urlsList}: Props) => {
         router.back()
       }
     }
+  }
 
-  }
-  const dict = {
-    'nameUa': d('nameUa'),
-    'nameEn': d('nameEn'),
-    'file': d('file'),
-    'url': d('url'),
-    'gt2': d('gt2'),
-    'file1': d('file1'),
-    'addBrand': d('addBrand'),
-    'editBrand': d('editBrand'),
-    'cancel': dg('cancel'),
-    'save': dg('save'),
-  }
   const headingText = isEditing ? dict.editBrand : dict.addBrand
+  const [idDeleting, setIsDeleting] = useState<boolean>(false)
+  const isLoading = isSubmitting || idDeleting
+  const onDelete = isEditing
+    ? async () => {
+      setIsDeleting(true)
+      const brandId = defaultValues.id as number
+      await serverActionDeleteBrand(brandId)
+      setIsDeleting(false)
+      router.back()
+    }
+    : () => undefined
   return (
     <Flex direction="column" gap={2} justify="space-between">
       <Heading as='h1'>{headingText}</Heading>
@@ -168,6 +181,12 @@ const BrandForm = ({defaultValues, urlsList}: Props) => {
           <FormControl isInvalid={!!errors.fileImg}>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{dict.file}</Text>
+              {!!imgUrl && <ChakraNextImage
+                as={NextImage} src={imgUrl} shadow='base' borderRadius={[30, 15]}
+                width={49} height={49} alt={`photo`}
+              />
+              }
+
               <input {...register('fileImg')} type='file' required={!isEditing}/>
               {errors.fileImg && (
                 <FormErrorMessage>{dict.file1}</FormErrorMessage>
@@ -176,9 +195,17 @@ const BrandForm = ({defaultValues, urlsList}: Props) => {
           </FormControl>
 
         </Flex>
-        <Flex pt={4}>
-          <Button mr={3} variant='green' type='submit' isLoading={isSubmitting}>{dict.save}</Button>
-          <Button onClick={router.back}>{dict.cancel}</Button>
+        <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between'>
+          <Flex pt={4}>
+            <Button mr={3} variant='green' type='submit' isLoading={isLoading}>{dict.save}</Button>
+            <Button onClick={router.back}>{dict.cancel}</Button>
+          </Flex>
+          <Box>
+            {isEditing && (
+              <AlertDeleteDialog onDelete={onDelete} bodyText='' headerText={dict.del} variant='big'
+                                 isLoading={isLoading}/>
+            )}
+          </Box>
         </Flex>
       </form>
     </Flex>

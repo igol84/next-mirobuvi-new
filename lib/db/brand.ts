@@ -32,3 +32,8 @@ export const editeBrand = async (data: UpdateBrandType): Promise<BrandDBType> =>
     data: data
   })
 }
+export const deleteBrand = async (brandId: number) => {
+  await prisma.brand.delete({
+    where: {id: brandId}
+  })
+}

@@ -43,5 +43,5 @@ export const defaultValues: BrandFormSchema = {
   textUa: "",
   textEn: "",
   active: true,
-  fileImg: []
+  fileImg: null
 }

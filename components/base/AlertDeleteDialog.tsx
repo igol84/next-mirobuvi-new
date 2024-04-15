@@ -14,20 +14,21 @@ import {AiFillDelete} from "react-icons/ai";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 
 interface Props {
-  variant?: 'sm' | 'big'
-  headerText: string
-  bodyText: string
-  onDelete: () => void
+  variant?: 'sm' | 'big',
+  headerText: string,
+  bodyText: string,
+  onDelete: () => void,
+  isLoading?: boolean
 }
 
-const AlertDeleteDialog = ({onDelete, headerText, bodyText, variant = 'sm'}: Props) => {
+const AlertDeleteDialog = ({onDelete, headerText, bodyText, variant = 'sm', isLoading}: Props) => {
   const {isOpen, onOpen, onClose} = useDisclosure()
   const onClickDelete = () => {
     onClose()
     onDelete()
   }
   const cancelRef = React.useRef(null)
-  const d = useDictionaryTranslate("orderForm")
+  const d = useDictionaryTranslate("global")
   return (
     <>
       {variant === 'sm'
@@ -57,12 +58,12 @@ const AlertDeleteDialog = ({onDelete, headerText, bodyText, variant = 'sm'}: Pro
               {bodyText}
             </AlertDialogBody>
 
-            <AlertDialogFooter>
+            <AlertDialogFooter gap={2}>
+              <Button variant='red' onClick={onClickDelete} isLoading={isLoading}>
+                {d('delete')}
+              </Button>
               <Button ref={cancelRef} onClick={onClose}>
                 {d('cancel')}
-              </Button>
-              <Button colorScheme='red' onClick={onClickDelete} ml={3}>
-                {d('delete')}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

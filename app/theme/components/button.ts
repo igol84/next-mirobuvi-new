@@ -74,6 +74,27 @@ const Button = defineStyleConfig({
         },
       }
     },
+    red: {
+      fontWeight: 'bold',
+      borderRadius: 'base',
+      textTransform: 'lowercase',
+      bg: 'red.200',
+      color: 'red.900',
+      _hover: {
+        bg: 'red.300',
+        color: 'red.900',
+        textDecoration: 'none',
+      },
+      _dark: {
+        textTransform: 'uppercase',
+        bg: 'red.700',
+        color: 'white',
+        _hover: {
+          bg: 'red.500',
+          color: 'white',
+        },
+      }
+    },
     outline: {
       fontWeight: 'bold',
       textTransform: 'lowercase',

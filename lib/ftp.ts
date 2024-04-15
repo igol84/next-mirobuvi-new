@@ -28,7 +28,7 @@ export const isFileExist = async (client: Client, pathDir: string, fileName: str
   return !!listImg.find(file => file.name === fileName);
 }
 
-export const renameFile = async (client: Client, pathDir: string, fileName: string, newFileName: string, ) => {
+export const renameFile = async (client: Client, pathDir: string, fileName: string, newFileName: string) => {
   if (fileName !== newFileName)
     try {
       if (await isFileExist(client, pathDir, fileName))
@@ -36,5 +36,14 @@ export const renameFile = async (client: Client, pathDir: string, fileName: stri
     } catch (err) {
       console.error(err)
     }
+}
+
+export const deleteFile = async (client: Client, pathDir: string, fileName: string) => {
+  try {
+    if (await isFileExist(client, pathDir, fileName))
+      await client.remove(`/${pathDir}/${fileName}`)
+  } catch (err) {
+    console.error(err)
+  }
 }
 
