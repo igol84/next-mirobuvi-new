@@ -119,13 +119,13 @@ model Brand {
 }
 
 model Product {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   active         Boolean
   private        Boolean
-  url            String   @unique
+  url            String    @unique
   is_available   Boolean?
   tags           String
-  date           DateTime @default(now())
+  date           DateTime  @default(now())
   type           String
   name_en        String
   name_ua        String
@@ -141,8 +141,9 @@ model Product {
   prom_add_to_id Int
   season         String
   color          String
+  imgUpdatedAt   DateTime? @default(now())
   brand_id       Int
-  brand          Brand    @relation(fields: [brand_id], references: [id], onDelete: Restrict)
+  brand          Brand     @relation(fields: [brand_id], references: [id], onDelete: Restrict)
   shoeses        Shoes[]
 }
 
