@@ -16,9 +16,7 @@ type Props = {
 const AddNewBrandPage = async ({params: {lang}}: Props) => {
   const isAdmin = await checkForAdmin()
   const urlsList = await getBrandUrls()
-  if (!isAdmin) {
-    redirect('/')
-  }
+  if (!isAdmin)  redirect('/')
   const breadCrumbs = await getBreadCrumb(lang)
     return (
     <BrandForm defaultValues={defaultValues} urlList={urlsList} breadCrumbs={breadCrumbs}/>

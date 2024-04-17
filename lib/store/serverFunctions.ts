@@ -29,7 +29,7 @@ export const getPageData: GetPageData = async (items, currentPage, withoutOnePro
 }
 
 export const sortingProducts = (products: ProductType[], sortingBy: SortingType): ProductType[] => {
-  const isInStock = (product: ProductType): boolean => product.qty > 0
+  const isInStock = (product: ProductType): boolean => !!product.name
   switch (sortingBy) {
     case "byOrder": {
       return _.orderBy(products, [isInStock, 'date'], ['desc', 'desc'])

@@ -3,6 +3,7 @@ import {Prisma} from "@prisma/client";
 import {prisma} from "@/lib/db/prisma";
 
 export type BrandDBType = Prisma.BrandGetPayload<{}>
+export type BrandDBWithProductsType = Prisma.BrandGetPayload<{ include: { products: { include: { shoeses: true } } } }>
 export type UpdateBrandType = Prisma.BrandUncheckedCreateInput
 export type CreateBrandType = Prisma.BrandCreateInput
 
@@ -15,6 +16,14 @@ export const getBrandByUrl = cache(async (url: string): Promise<BrandDBType | nu
     where: {url: url}
   })
 })
+
+export const getBrandWithProductsByUrl = cache(async (url: string): Promise<BrandDBWithProductsType | null> => {
+  return await prisma.brand.findUnique({
+    where: {url: url},
+    include: {products: {include: {shoeses: true}}},
+  })
+})
+
 
 export const getBrand = cache(async (brandId: number): Promise<BrandDBType | null> => {
   return await prisma.brand.findUnique({

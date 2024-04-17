@@ -18,7 +18,7 @@ const Footer = ({isAuthorized}: Props) => {
       <Flex p={[1, 4, 8]} justifyContent='end' alignSelf='end'>
         <Flex direction='column' alignItems='center'>
           <Box className="_icon-logo"/>
-          2009-2023
+          2009-2024
         </Flex>
       </Flex>
     </Flex>

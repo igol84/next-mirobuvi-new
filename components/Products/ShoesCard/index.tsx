@@ -15,18 +15,18 @@ type Props = {
 const ShoesCard = ({product}: Props) => {
   const d = useDictionaryTranslate("product")
   const textNotAvailable = d('notAvailable')
-  const {name, product_key, price, price_prefix, sizes, url} = product
+  const {name, price, price_prefix, sizes, url} = product
   const lang = useContext(LangContext)
   let UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
-  const filter = product.qty > 0 ? undefined : 'auto'
-  const brightness = product.qty > 0 ? undefined : '40%'
+  const filter = product.isNew ? undefined : 'auto'
+  const brightness = product.isNew ? undefined : '40%'
   return (
     <Flex flexDirection='column' gap={4} w={249}>
       <Link as={NextLink} href={`/${lang}/products/${url}`} _hover={{color: 'hoverLinkTextColor'}}>
         <ChakraNextImage
           borderRadius={[30, 15]} as={NextImage} width={249} height={249} alt={name} filter={filter}
           brightness={brightness}
-          src={`https://mirobuvi.com.ua/ftp_products/${product_key}/02.jpg`}
+          src={`https://mirobuvi.com.ua/ftp_products/02.jpg`}
         />
         <Center><Text>{name}</Text></Center>
         <Center alignItems='baseline' color='price'>
@@ -36,7 +36,7 @@ const ShoesCard = ({product}: Props) => {
           <Text fontSize={16}>{price_prefix}</Text>
         </Center>
         <Center>
-          {product.qty > 0 ? <Sizes sizes={sizes}/> : <Text color='red.400'>{textNotAvailable}</Text>}
+          {product.isNew ? <Sizes sizes={sizes}/> : <Text color='red.400'>{textNotAvailable}</Text>}
         </Center>
       </Link>
     </Flex>

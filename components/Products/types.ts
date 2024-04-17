@@ -4,7 +4,6 @@ export type PageType = 'catalog' | 'viewed'
 export interface ProductBase {
   type: ProductTypeType
   id: number
-  product_key: string
   url: string
   name: string
   price: number
@@ -12,7 +11,6 @@ export interface ProductBase {
   page: PageType
   date: Date
   isNew: boolean
-  qty: number
   tags: string
 }
 

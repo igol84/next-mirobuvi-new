@@ -157,7 +157,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
               <Text>{dict.url}</Text>
               <Input {...register('url')} placeholder={dict.url}/>
               {errors.url && (
-                <FormErrorMessage>{dict.url} {d(errors.url.message!)}</FormErrorMessage>
+                <FormErrorMessage>{dict.url} {dict[errors.url.message! as 'consist']}</FormErrorMessage>
               )}
             </Flex>
           </FormControl>
@@ -177,7 +177,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
           </FormControl>
 
           <Flex alignItems="center" gap={2}>
-            <Checkbox {...register('active')}>Active</Checkbox>
+            <Checkbox {...register('active')}>{d('active')}</Checkbox>
           </Flex>
 
 
@@ -187,9 +187,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
               {!!imgUrl && <ChakraNextImage
                 as={NextImage} src={imgUrl} shadow='base' borderRadius={[30, 15]}
                 width={49} height={49} alt={`photo`}
-              />
-              }
-
+              />}
               <input {...register('fileImg')} type='file' required={!isEditing}/>
               {errors.fileImg && (
                 <FormErrorMessage>{dict.file1}</FormErrorMessage>

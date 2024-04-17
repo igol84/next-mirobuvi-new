@@ -1,6 +1,6 @@
 'use client'
-import React from 'react';
-import {Box, Center, Flex, Heading, IconButton, Text, Wrap, WrapItem} from "@chakra-ui/react";
+import React, {useContext} from 'react';
+import {Box, Center, Flex, Heading, IconButton, Link, Text, Wrap, WrapItem} from "@chakra-ui/react";
 import Product from "@/components/Products/Product";
 import {ProductType} from "@/components/Products/types";
 import PaginationBar, {PaginationBarProps} from "@/components/base/PaginationBar";
@@ -9,6 +9,8 @@ import {BrandProps} from "@/components/Brands/types";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
 import NextImage from "next/image";
 import {AddIcon} from "@chakra-ui/icons";
+import NextLink from "next/link";
+import {LangContext} from "@/locale/LangProvider";
 
 interface Props {
   products: ProductType[],
@@ -19,11 +21,15 @@ interface Props {
 
 const ProductsList = ({products, brandData, paginationBar, isAdmin}: Props) => {
   const d = useDictionaryTranslate("home")
+  const lang = useContext(LangContext)
+  const brandUrl = brandData?.url
   return (
     <>
-      {isAdmin && (
+      {isAdmin && brandUrl!==undefined &&(
         <Box pb={2}>
+          <Link as={NextLink} href={`/${lang}/brands/${brandUrl}/add`} _hover={{color: 'hoverLinkTextColor'}}>
           <IconButton aria-label={'addBrand'} onClick={() => undefined} icon={<AddIcon/>}/>
+          </Link>
         </Box>
       )}
       {products.length === 0

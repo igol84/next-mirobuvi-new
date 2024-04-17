@@ -1,21 +1,16 @@
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 
 export const useDict = () => {
-  const d = useDictionaryTranslate("brandsAdmin")
+  const d = useDictionaryTranslate("productAdmin")
   const dg = useDictionaryTranslate("global")
   const dict = {
     'nameUa': d('nameUa'),
     'nameEn': d('nameEn'),
-    'file': d('file'),
-    'url': d('url'),
     'gt2': d('gt2'),
     'consist': d('consist'),
-    'file1': d('file1'),
-    'addBrand': d('addBrand'),
-    'editBrand': d('editBrand'),
+    'url': d('url'),
     'cancel': dg('cancel'),
     'save': dg('save'),
-    'del': dg('delete'),
   }
   return {dict, d}
 }

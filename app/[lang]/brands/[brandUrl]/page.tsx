@@ -1,12 +1,10 @@
 import React from 'react';
 import '@/app/theme/style.scss'
-import {getProductsDataByBrandId} from "@/app/api/fetchFunctions";
 import {Lang} from "@/dictionaries/get-dictionary";
 import {BrandProps} from "@/components/Brands/types";
-import {ProductType} from "@/components/Products/types";
 import {redirect} from "next/navigation";
 import {getViewedProducts} from "@/lib/productsGetter";
-import {createProduct} from "@/lib/productCardData";
+
 import {SortingType} from "@/components/base/SortingSelect/types";
 import {getPageData, sortingProducts} from "@/lib/store/serverFunctions";
 import {FiltersValues} from "@/lib/store/filters/serverFunctions/types";
@@ -14,9 +12,10 @@ import {getFilterProducts} from "@/lib/store/filters/serverFunctions/serverFunct
 import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import ProductsList from "@/components/Products/productsList";
-import {getBrandByUrl, getBrands} from "@/lib/db/brand";
+import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/brand";
 import {env} from "@/lib/env";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import {createProduct} from "@/app/[lang]/brands/[brandUrl]/functions";
 
 type Props = {
   params: {
@@ -53,18 +52,17 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   const {page = '1', sortingBy = 'byOrder', ...filtersValues} = searchParams
   const isAdmin = await checkForAdmin()
   const isAuth = await checkForAuth()
-  const brandData = await getBrandByUrl(brandUrl)
+  const brandData = await getBrandWithProductsByUrl(brandUrl)
   if (!brandData) redirect(`/`)
   if (!isAuth && !brandData.active) redirect(`/`)
-  const productsData = await getProductsDataByBrandId(brandData.id)
-  if (!productsData) redirect(`/`)
+  const productsData = brandData.products
   const desc = lang === 'en' ? brandData.text_en : brandData.text_ua
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_en
   const brand: BrandProps = {
     brandId: brandData.id, brandName, url: brandData.url, desc, imgUrl: ''
   }
   const breadCrumbs = await getBreadCrumb(lang, brand.brandName, brand.url)
-  let products: ProductType[] = productsData.map(product => createProduct(product, lang))
+  let products = productsData.map(product => createProduct(product, lang))
   const filterProducts = getFilterProducts(products, filtersValues)
   products = filterProducts.products
   products = sortingProducts(products, sortingBy)
