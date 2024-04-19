@@ -29,7 +29,7 @@ import {
 } from "@chakra-ui/react";
 import {useDict} from "@/components/product/admin/hooks";
 import {useRouter} from "next/navigation";
-import {serverActionCreateProduct} from "@/app/[lang]/brands/[brandUrl]/actions";
+import {serverActionCreateOrEditProduct} from "@/app/[lang]/brands/[brandUrl]/actions";
 import {convertTextForUrl} from "@/utility/functions";
 
 
@@ -39,6 +39,7 @@ interface ProductFormProps {
 }
 
 const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
+  const isEditing = !!defaultValues.id
   const {dict, d} = useDict()
   const router = useRouter()
   const {
@@ -57,7 +58,7 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
       })
     } else {
       const formData = new FormData(event?.target)
-      const response = await serverActionCreateProduct(formData)
+      const response = await serverActionCreateOrEditProduct(formData)
       if (response.errors) {
         response.errors.forEach(error => {
           setError(error.field, {
@@ -205,7 +206,7 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
           <Checkbox {...register('promActive')}>{d('promActive')}</Checkbox>
           <Flex direction='row' alignItems='center' gap={2}>
             <Text>{d('promAddToId')}</Text>
-            <NumberInput name={register('promAddToId').name} step={10}
+            <NumberInput name={register('promAddToId').name}
                          defaultValue={defaultValues.promAddToId} min={0}>
               <NumberInputField/>
               <NumberInputStepper>
@@ -238,7 +239,7 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
         <FormControl isInvalid={!!errors.filesImg}>
           <Flex direction='row' alignItems='center' gap={2}>
             <Text>{dict.file}</Text>
-            <input {...register('filesImg')} type='file' required={!isSubmitting} multiple accept='image/jpeg'/>
+            <input {...register('filesImg')} type='file' required={!isEditing}  multiple accept='image/jpeg'/>
             {errors.filesImg && (
               <FormErrorMessage>{dict.file1}</FormErrorMessage>
             )}

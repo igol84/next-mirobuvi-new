@@ -1,6 +1,6 @@
-import {Lang} from "@/dictionaries/get-dictionary";
+import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import ProductForm from "@/components/product/admin/ProductForm";
-import {VStack} from "@chakra-ui/react";
+import {Heading, VStack} from "@chakra-ui/react";
 import BreadCrumb from "@/components/base/BreadCrumb";
 import React from "react";
 import {getBrandByUrl} from "@/lib/db/brand";
@@ -19,18 +19,20 @@ type Props = {
 
 
 const AddNewBrandPage = async ({params: {lang, brandUrl}}: Props) => {
+  const dict = await getDictionary(lang)
   const isAdmin = await checkForAdmin()
   if (!isAdmin)  redirect('/')
   const brandData = await getBrandByUrl(brandUrl)
   if (!brandData) redirect(`/`)
-  const breadCrumb = await getBreadCrumb(lang, brandData.url, brandUrl)
+  const breadCrumb = await getBreadCrumb(lang, brandData.name_en, brandUrl)
   const allProductUrls = await getProductUrls()
-  const urlList = allProductUrls.filter(url => url !== brandData.url)
   const defaultValuesWithBrandId: DefaultValues = {...defaultValues, brandId: brandData.id}
+
   return (
     <VStack align='left' spacing={4}>
+      <Heading as='h1'>{dict.productAdmin.addProduct}</Heading>
       <BreadCrumb breadCrumbs={breadCrumb}/>
-      <ProductForm defaultValues={defaultValuesWithBrandId} urlList={urlList}/>
+      <ProductForm defaultValues={defaultValuesWithBrandId} urlList={allProductUrls}/>
     </VStack>
   )
 }

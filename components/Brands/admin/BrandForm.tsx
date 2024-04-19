@@ -53,8 +53,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
       })
     } else {
       const formData = new FormData(event?.target)
-      const action = isEditing ? serverActionCreateOrEditBrand : serverActionCreateOrEditBrand
-      const response = await action(formData)
+      const response = await serverActionCreateOrEditBrand(formData)
       if (response.errors) {
         response.errors.forEach(error => {
           setError(error.field, {

@@ -50,7 +50,7 @@ const ProductsList = ({products, brandData, paginationBar, isAdmin}: Props) => {
                 return (
                   <WrapItem key={product.id}>
                     <article>
-                      <Product product={product}/>
+                      <Product product={product} isAdmin={isAdmin}/>
                     </article>
                   </WrapItem>
                 )

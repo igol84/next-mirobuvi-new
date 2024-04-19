@@ -136,7 +136,8 @@
     "green": "Green",
     "blue": "Blue",
     "purple": "Purple",
-    "orange": "Orange"
+    "orange": "Orange",
+    "editProduct": "Edit product"
   },
   "product": {
     "buy": "Buy",

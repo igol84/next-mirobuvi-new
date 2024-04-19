@@ -17,12 +17,16 @@ import {env} from "@/lib/env";
 
 
 export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Promise<Response> => {
-  const id: number | null = !!brandFormData.get("id") ? Number(brandFormData.get("id")) : null;
-  const urlsList = await getBrandUrls()
+  const id: number | null = !!brandFormData.get("id") ? Number(brandFormData.get("id")) : null
+  const isEditing = !!id
+  let urlsList = await getBrandUrls()
   const url = convertTextForUrl(brandFormData.get("url") as string)
+  if(isEditing){
+    const oldPBrandData = await getBrand(id)
+    urlsList = urlsList.filter(url => url !== oldPBrandData?.url)
+  }
   const urlIsConsist = urlsList.includes(url)
   if (urlIsConsist) return {success: false, errors: [{field: 'url', message: 'consist'}]}
-  const isEditing = !!id
   const brandData: BrandFormSchema = {
     id,
     nameUa: brandFormData.get("nameUa") as string,
@@ -84,7 +88,6 @@ const createNewBrand = async (brandData: BrandFormSchema) => {
 }
 
 const editBrand = async (brandFormData: BrandFormSchema) => {
-
   const oldBrandData = await getBrand(brandFormData.id as number)
   const brandData: UpdateBrandType = {
     id: brandFormData.id as number,

@@ -2,15 +2,28 @@
 
 import {ErrorField, ProductFormSchema, Response, schema} from "@/components/product/admin/types";
 import {SafeParseReturnType} from "zod";
-import {createProduct, CreateProductType, getProductUrls} from "@/lib/db/product";
+import {
+  createProduct,
+  CreateProductType,
+  getProduct,
+  getProductUrls,
+  updateProduct,
+  UpdateProductType
+} from "@/lib/db/product";
 import {revalidatePath} from "next/cache";
 import {getFTPClient, uploadFiles} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
 
-export const serverActionCreateProduct = async (formData: FormData): Promise<Response> => {
-  const id: number | null = !!formData.get("id") ? Number(formData.get("id")) : null;
-  const allProductUrls = await getProductUrls()
+
+export const serverActionCreateOrEditProduct = async (formData: FormData): Promise<Response> => {
+  const id: number | null = !!formData.get("id") ? Number(formData.get("id")) : null
+  const isEditing = !!id
+  let allProductUrls = await getProductUrls()
+  if(isEditing){
+    const oldProductData = await getProduct(id)
+    allProductUrls = allProductUrls.filter(url => url !== oldProductData?.url)
+  }
   const url = convertTextForUrl(formData.get("url") as string)
   const urlIsConsist = allProductUrls.includes(url)
   if (urlIsConsist) return {success: false, errors: [{field: 'url', message: 'consist'}]}
@@ -48,7 +61,13 @@ export const serverActionCreateProduct = async (formData: FormData): Promise<Res
     return {success: false, errors: zodErrors}
   }
   const productData = result.data
+  if(isEditing)
+    return editProduct(productData)
+  return addNewProduct(productData)
 
+}
+
+const addNewProduct = async (productData: ProductFormSchema): Promise<Response>=> {
   const product: CreateProductType = {
     active: productData.active,
     private: productData.private,
@@ -81,6 +100,36 @@ export const serverActionCreateProduct = async (formData: FormData): Promise<Res
   } catch {
     return {success: false, serverErrors: 'FTP Error'};
   }
+  revalidatePath("/[lang]/brands", 'page')
+  return {success: true}
+}
+
+const editProduct = async (productData: ProductFormSchema): Promise<Response>=> {
+  const product: UpdateProductType  = {
+    id: productData.id as number,
+    active: productData.active,
+    private: productData.private,
+    url: productData.url,
+    is_available: productData.isAvailable,
+    tags: productData.tags,
+    type: productData.type,
+    name_en: productData.nameEn,
+    name_ua: productData.nameUa,
+    title_en: productData.titleEn,
+    title_ua: productData.titleUa,
+    meta_desc_en: productData.metaDescEn,
+    meta_desc_ua: productData.metaDescUa,
+    text_en: productData.textEn,
+    text_ua: productData.textUa,
+    price: productData.price,
+    old_price: productData.oldPrice ?? productData.price,
+    prom_active: productData.promActive,
+    prom_add_to_id: productData.promAddToId,
+    season: productData.season,
+    color: productData.color,
+    brand_id: productData.brandId,
+  }
+  await updateProduct(product)
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }
