@@ -41,7 +41,7 @@ const ProductsList = ({products, brandData, paginationBar, isAdmin}: Props) => {
                 <WrapItem flexDirection="column" p={[1, 1, 1, 0, 1]}>
                   <ChakraNextImage
                     as={NextImage} borderRadius={[30, 15]} width={249} height={249} alt={`brand ${brandData.brandName}`}
-                    src={`https://mirobuvi.com.ua/ftp_brands/${brandData.brandId}.jpg`} priority={true}
+                    src={brandData.imgUrl} priority={true}
                   />
                   <Center width={249}><Text fontSize='2rem' fontWeight='bold'>{brandData.brandName}</Text></Center>
                 </WrapItem>

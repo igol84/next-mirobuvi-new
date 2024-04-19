@@ -24,7 +24,7 @@ const ProductCard = ({product}: Props) => {
         <ChakraNextImage
           alt={name} borderRadius={[30, 15]} as={NextImage} width={0} height={0} sizes="100vw" filter={filter}
           brightness={brightness} style={{width: '100%', height: 'auto'}}
-          src={`https://mirobuvi.com.ua/ftp_products/02.jpg`}
+          src={product.imageUrl}
         />
         <Center><Text>{name}</Text></Center>
         <Center alignItems='baseline' color='price'>
@@ -34,7 +34,7 @@ const ProductCard = ({product}: Props) => {
           <Text fontSize={16}>{price_prefix}</Text>
         </Center>
         <Center>
-          {/*{product.isNew === 0 && <Text color='red.400'>{textNotAvailable}</Text>}*/}
+          {!product.isAvailable && <Text color='red.400'>{textNotAvailable}</Text>}
         </Center>
       </Link>
     </Flex>

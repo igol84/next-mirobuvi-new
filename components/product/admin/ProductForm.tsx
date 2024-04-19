@@ -30,6 +30,8 @@ import {
 import {useDict} from "@/components/product/admin/hooks";
 import {useRouter} from "next/navigation";
 import {serverActionCreateProduct} from "@/app/[lang]/brands/[brandUrl]/actions";
+import {convertTextForUrl} from "@/utility/functions";
+
 
 interface ProductFormProps {
   defaultValues: ProductFormSchema | DefaultValues
@@ -47,7 +49,7 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
     resolver: zodResolver(schema)
   })
   const onFormSubmit: SubmitHandler<ProductFormSchema> = async (data, event) => {
-    const urlIsConsist = urlList.includes(data.url)
+    const urlIsConsist = urlList.includes(convertTextForUrl(data.url))
     if (urlIsConsist) {
       setError('url', {
         type: 'server',
@@ -232,6 +234,16 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
             <option key={productType} value={productType}>{d(productType)}</option>
           ))}
         </Select>
+
+        <FormControl isInvalid={!!errors.filesImg}>
+          <Flex direction='row' alignItems='center' gap={2}>
+            <Text>{dict.file}</Text>
+            <input {...register('filesImg')} type='file' required={!isSubmitting} multiple accept='image/jpeg'/>
+            {errors.filesImg && (
+              <FormErrorMessage>{dict.file1}</FormErrorMessage>
+            )}
+          </Flex>
+        </FormControl>
 
         <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between' pt={30}>
           <Flex pt={4}>

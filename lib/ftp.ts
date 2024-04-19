@@ -14,10 +14,28 @@ export const getFTPClient = async (host: string, user: string, password: string)
 }
 export const uploadFile = async (client: Client, pathDir: string, file: File, fileName: string) => {
   try {
-    console.log(fileName)
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const stream = Readable.from(buffer);
-    await client.uploadFrom(stream, `/${pathDir}/${fileName}.${mime.getExtension(file.type)}`)
+    const buffer = Buffer.from(await file.arrayBuffer())
+    const stream = Readable.from(buffer)
+    await client.cd('/')
+    await client.ensureDir(pathDir)
+    await client.uploadFrom(stream, `${fileName}.${mime.getExtension(file.type)}`)
+    await client.cd('/')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const uploadFiles = async (client: Client, pathDir: string, filesList: File[]) => {
+  try {
+    await client.ensureDir(pathDir)
+    let i = 1;
+    for (const file of filesList) {
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const stream = Readable.from(buffer)
+      await client.uploadFrom(stream, `${i}.${mime.getExtension(file.type)}`)
+      i++
+    }
+    await client.cd('/')
   } catch (err) {
     console.error(err)
   }

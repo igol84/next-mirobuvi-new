@@ -18,6 +18,10 @@ import {env} from "@/lib/env";
 
 export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Promise<Response> => {
   const id: number | null = !!brandFormData.get("id") ? Number(brandFormData.get("id")) : null;
+  const urlsList = await getBrandUrls()
+  const url = convertTextForUrl(brandFormData.get("url") as string)
+  const urlIsConsist = urlsList.includes(url)
+  if (urlIsConsist) return {success: false, errors: [{field: 'url', message: 'consist'}]}
   const isEditing = !!id
   const brandData: BrandFormSchema = {
     id,
@@ -28,7 +32,7 @@ export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Pr
     tags: brandFormData.get("tags") as string,
     metaDescEn: brandFormData.get("metaDescEn") as string,
     metaDescUa: brandFormData.get("metaDescUa") as string,
-    url: brandFormData.get("url") as string,
+    url,
     textUa: brandFormData.get("textUa") as string,
     textEn: brandFormData.get("textEn") as string,
     active: brandFormData.get("active") === 'on',
@@ -50,12 +54,6 @@ export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Pr
 }
 
 const createNewBrand = async (brandData: BrandFormSchema) => {
-  const urlsList = await getBrandUrls()
-  const urlIsConsist = urlsList.includes(brandData.url)
-  if (urlIsConsist) {
-    const response: Response = {success: false, errors: [{field: 'url', message: 'consist'}]}
-    return response
-  }
   const newBrandData: CreateBrandType = {
     name_ua: brandData.nameUa,
     name_en: brandData.nameEn,
@@ -65,7 +63,7 @@ const createNewBrand = async (brandData: BrandFormSchema) => {
     meta_desc_en: brandData.metaDescEn,
     text_ua: brandData.textUa,
     text_en: brandData.textEn,
-    url: convertTextForUrl(brandData.url),
+    url: brandData.url,
     tags: brandData.tags,
     active: brandData.active
   }
@@ -98,7 +96,7 @@ const editBrand = async (brandFormData: BrandFormSchema) => {
     meta_desc_en: brandFormData.metaDescEn,
     text_ua: brandFormData.textUa,
     text_en: brandFormData.textEn,
-    url: convertTextForUrl(brandFormData.url),
+    url: brandFormData.url,
     tags: brandFormData.tags,
     active: brandFormData.active
   }

@@ -22,6 +22,7 @@ import NextImage from "next/image";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
 import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 import BreadCrumb, {BreadCrumbData} from "@/components/base/BreadCrumb";
+import {convertTextForUrl} from "@/utility/functions";
 
 
 type Props = {
@@ -43,7 +44,8 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
     resolver: zodResolver(schema)
   })
   const onFormSubmit: SubmitHandler<BrandFormSchema> = async (data, event) => {
-    const urlIsConsist = urlList.includes(data.url)
+
+    const urlIsConsist = urlList.includes(convertTextForUrl(data.url))
     if (urlIsConsist) {
       setError('url', {
         type: 'server',
@@ -188,7 +190,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
                 as={NextImage} src={imgUrl} shadow='base' borderRadius={[30, 15]}
                 width={49} height={49} alt={`photo`}
               />}
-              <input {...register('fileImg')} type='file' required={!isEditing}/>
+              <input {...register('fileImg')} type='file' required={!isEditing}  accept='image/jpeg'/>
               {errors.fileImg && (
                 <FormErrorMessage>{dict.file1}</FormErrorMessage>
               )}

@@ -26,7 +26,7 @@ const ShoesCard = ({product}: Props) => {
         <ChakraNextImage
           borderRadius={[30, 15]} as={NextImage} width={249} height={249} alt={name} filter={filter}
           brightness={brightness}
-          src={`https://mirobuvi.com.ua/ftp_products/02.jpg`}
+          src={product.imageUrl}
         />
         <Center><Text>{name}</Text></Center>
         <Center alignItems='baseline' color='price'>

@@ -3,7 +3,7 @@ import '@/app/theme/style.scss'
 import {Lang} from "@/dictionaries/get-dictionary";
 import {redirect} from "next/navigation";
 import {convertToTagUrlFromDB, ParentTagForBreadCrumb, TagUrl} from "@/app/[lang]/[urlTag]/types";
-import {getProducts, getTagsUrlData, getTagUrlData} from "@/app/api/fetchFunctions";
+import {getTagsUrlData, getTagUrlData} from "@/app/api/fetchFunctions";
 import ProductsList from "@/components/Products/productsList";
 import {getFilterProducts,} from "@/lib/store/filters/serverFunctions/serverFunctions";
 import {getViewedProducts} from "@/lib/productsGetter";
@@ -21,6 +21,7 @@ import {
 } from "@/app/[lang]/[urlTag]/serverFunctions";
 import {FiltersValues} from "@/lib/store/filters/serverFunctions/types";
 import FiltersLayout from "@/components/Products/FiltersLayout";
+import {getProducts} from "@/lib/db/product";
 
 type Props = {
   params: {

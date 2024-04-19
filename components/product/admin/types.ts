@@ -25,6 +25,7 @@ export const schema = z.object({
   promAddToId: z.number(),
   season: z.enum(seasons),
   color: z.enum(colors),
+  filesImg: z.any(),
   type: z.enum(productTypes),
   brandId: z.number(),
 })
@@ -43,22 +44,24 @@ export type ErrorField = {
 }
 
 
-export const defaultValues: Omit<ProductFormSchema, 'season' | 'color'> = {
+export const defaultValues: Omit<ProductFormSchema, 'filesImg'> = {
   id: null,
-  nameUa: "",
-  nameEn: "",
-  titleUa: "",
-  titleEn: "",
+  nameUa: "sd",
+  nameEn: "sd",
+  titleUa: "sd",
+  titleEn: "sd",
   tags: "",
   metaDescEn: "",
   metaDescUa: "",
-  url: "",
+  url: "nike95",
   textUa: "",
   textEn: "",
   active: true,
   isAvailable: true,
   private: false,
   type: "product",
+  season: "autumn",
+  color: "red",
   price: 100,
   oldPrice: null,
   promActive: false,

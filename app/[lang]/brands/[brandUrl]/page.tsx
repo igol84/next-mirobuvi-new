@@ -58,10 +58,12 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   const productsData = brandData.products
   const desc = lang === 'en' ? brandData.text_en : brandData.text_ua
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_en
+  const imgUrl = `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}`
   const brand: BrandProps = {
-    brandId: brandData.id, brandName, url: brandData.url, desc, imgUrl: ''
+    brandId: brandData.id, brandName, url: brandData.url, desc, imgUrl
   }
   const breadCrumbs = await getBreadCrumb(lang, brand.brandName, brand.url)
+
   let products = productsData.map(product => createProduct(product, lang))
   const filterProducts = getFilterProducts(products, filtersValues)
   products = filterProducts.products

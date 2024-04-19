@@ -4,9 +4,16 @@ import {ErrorField, ProductFormSchema, Response, schema} from "@/components/prod
 import {SafeParseReturnType} from "zod";
 import {createProduct, CreateProductType, getProductUrls} from "@/lib/db/product";
 import {revalidatePath} from "next/cache";
+import {getFTPClient, uploadFiles} from "@/lib/ftp";
+import {env} from "@/lib/env";
+import {convertTextForUrl} from "@/utility/functions";
 
 export const serverActionCreateProduct = async (formData: FormData): Promise<Response> => {
   const id: number | null = !!formData.get("id") ? Number(formData.get("id")) : null;
+  const allProductUrls = await getProductUrls()
+  const url = convertTextForUrl(formData.get("url") as string)
+  const urlIsConsist = allProductUrls.includes(url)
+  if (urlIsConsist) return {success: false, errors: [{field: 'url', message: 'consist'}]}
   const productFormData: ProductFormSchema = {
     id,
     nameUa: formData.get("nameUa") as string,
@@ -16,7 +23,7 @@ export const serverActionCreateProduct = async (formData: FormData): Promise<Res
     tags: formData.get("tags") as string,
     metaDescEn: formData.get("metaDescEn") as string,
     metaDescUa: formData.get("metaDescUa") as string,
-    url: formData.get("url") as string,
+    url,
     textUa: formData.get("textUa") as string,
     textEn: formData.get("textEn") as string,
     active: formData.get("active") === 'on',
@@ -29,6 +36,7 @@ export const serverActionCreateProduct = async (formData: FormData): Promise<Res
     brandId: Number(formData.get("brandId")),
     season: formData.get("season") as string,
     color: formData.get("color") as string,
+    filesImg: formData.getAll("filesImg") as File[],
     type: formData.get("type") as string,
   }
   const result: SafeParseReturnType<ProductFormSchema, ProductFormSchema> = schema.safeParse(productFormData)
@@ -40,11 +48,6 @@ export const serverActionCreateProduct = async (formData: FormData): Promise<Res
     return {success: false, errors: zodErrors}
   }
   const productData = result.data
-  const urlsList = await getProductUrls()
-  const urlIsConsist = urlsList.includes(productData.url)
-  if (urlIsConsist) {
-    return {success: false, errors: [{field: 'url', message: 'consist'}]}
-  }
 
   const product: CreateProductType = {
     active: productData.active,
@@ -70,6 +73,14 @@ export const serverActionCreateProduct = async (formData: FormData): Promise<Res
     brand_id: productData.brandId,
   }
   await createProduct(product)
+  try {
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    const files = productData.filesImg as File[]
+    await uploadFiles(ftpClient, `products/${product.url}`, files)
+    ftpClient.close()
+  } catch {
+    return {success: false, serverErrors: 'FTP Error'};
+  }
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }

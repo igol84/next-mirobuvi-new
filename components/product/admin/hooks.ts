@@ -9,6 +9,8 @@ export const useDict = () => {
     'gt2': d('gt2'),
     'consist': d('consist'),
     'url': d('url'),
+    'file': d('file'),
+    'file1': d('file1'),
     'cancel': dg('cancel'),
     'save': dg('save'),
   }

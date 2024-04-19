@@ -31,7 +31,7 @@ const BrandsPage = async ({params: {lang}}: Props) => {
   if (!isAuth)
     brandsData = brandsData.filter(brand => brand.active)
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
-    const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpeg?key=${brand.updatedAt}`
+    const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpeg?key=${brand.updatedAt?.getTime()}`
     return {
       brandId: brand.id, brandName: brand[`name_${lang}`], url: brand.url, isFirst: index < 6, imgUrl
     }

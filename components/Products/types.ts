@@ -4,6 +4,7 @@ export type PageType = 'catalog' | 'viewed'
 export interface ProductBase {
   type: ProductTypeType
   id: number
+  isAvailable: boolean
   url: string
   name: string
   price: number
@@ -12,6 +13,7 @@ export interface ProductBase {
   date: Date
   isNew: boolean
   tags: string
+  imageUrl: string
 }
 
 export interface SimpleProductProps extends ProductBase {

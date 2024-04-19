@@ -5,11 +5,11 @@ import {authOptions} from "@/configs/auth";
 import {redirect} from "next/navigation";
 import {getUser, putFavoriteProduct} from "@/lib/db/user";
 import FavoriteProductsPage from "@/app/[lang]/profile/favorite-products/FavoriteProductsPage";
-import {getProductData} from "@/app/api/fetchFunctions";
 import {createProduct} from "@/lib/productCardData";
 import {ProductType} from "@/components/Products/types";
 import NotFavoriteProducts from "@/app/[lang]/profile/favorite-products/NotFavoriteProducts";
 import UserNotFound from "@/components/base/UserNotFound";
+import {getProductByUrl} from "@/lib/db/product";
 
 export async function generateMetadata({params: {lang}}: { params: { lang: Lang } }) {
   const dict = await getDictionary(lang)
@@ -38,7 +38,7 @@ const Page = async ({params: {lang}}: Props) => {
     const favoriteProductUrls = user.favoriteProducts.split('|')
     const favoriteProducts: ProductType[] = []
     for (const favoriteProductUrl of favoriteProductUrls) {
-      const productFetchData = await getProductData(favoriteProductUrl)
+      const productFetchData = await getProductByUrl(favoriteProductUrl)
       if (productFetchData === undefined)
         return <div>Server error</div>
       if (productFetchData === null) {
