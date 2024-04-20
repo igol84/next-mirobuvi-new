@@ -11,7 +11,7 @@ import {
   UpdateProductType
 } from "@/lib/db/product";
 import {revalidatePath} from "next/cache";
-import {getFTPClient, uploadFiles} from "@/lib/ftp";
+import {addFiles, getFTPClient, uploadFiles} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
 
@@ -130,6 +130,17 @@ const editProduct = async (productData: ProductFormSchema): Promise<Response>=> 
     brand_id: productData.brandId,
   }
   await updateProduct(product)
+  try {
+    const files = productData.filesImg as File[]
+    const isFilesExist = files.length>=1 && files[0].size > 0
+    if(isFilesExist) {
+      const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+      await addFiles(ftpClient, `products/${product.url}`, files)
+      ftpClient.close()
+    }
+  } catch {
+    return {success: false, serverErrors: 'FTP Error'};
+  }
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }

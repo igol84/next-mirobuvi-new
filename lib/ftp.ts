@@ -1,6 +1,5 @@
 import {Client} from "basic-ftp"
 import {Readable} from "stream";
-import mime from 'mime';
 
 export const getFTPClient = async (host: string, user: string, password: string): Promise<Client> => {
   const client = new Client()
@@ -16,9 +15,8 @@ export const uploadFile = async (client: Client, pathDir: string, file: File, fi
   try {
     const buffer = Buffer.from(await file.arrayBuffer())
     const stream = Readable.from(buffer)
-    await client.cd('/')
     await client.ensureDir(pathDir)
-    await client.uploadFrom(stream, `${fileName}.${mime.getExtension(file.type)}`)
+    await client.uploadFrom(stream, `${fileName}.jpeg`)
     await client.cd('/')
   } catch (err) {
     console.error(err)
@@ -32,7 +30,26 @@ export const uploadFiles = async (client: Client, pathDir: string, filesList: Fi
     for (const file of filesList) {
       const buffer = Buffer.from(await file.arrayBuffer())
       const stream = Readable.from(buffer)
-      await client.uploadFrom(stream, `${i}.${mime.getExtension(file.type)}`)
+      await client.uploadFrom(stream, `${i}.jpeg`)
+      i++
+    }
+    await client.cd('/')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const addFiles = async (client: Client, pathDir: string, filesList: File[]) => {
+  try {
+    await client.ensureDir(pathDir)
+    const listServerFiles = await client.list()
+    const lastIndexName = listServerFiles.map(file => Number(file.name.split('.')[0])).sort().reverse()[0]
+    let i = listServerFiles.length ? lastIndexName + 1 : 1
+
+    for (const file of filesList) {
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const stream = Readable.from(buffer)
+      await client.uploadFrom(stream, `${i}.jpeg`)
       i++
     }
     await client.cd('/')
