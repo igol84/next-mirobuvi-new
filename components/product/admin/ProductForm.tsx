@@ -29,16 +29,19 @@ import {
 } from "@chakra-ui/react";
 import {useDict} from "@/components/product/admin/hooks";
 import {useRouter} from "next/navigation";
-import {serverActionCreateOrEditProduct} from "@/app/[lang]/brands/[brandUrl]/actions";
+import {serverActionRenameImages, serverActionCreateOrEditProduct} from "@/app/[lang]/brands/[brandUrl]/actions";
 import {convertTextForUrl} from "@/utility/functions";
+import ProductImages from "@/components/product/admin/ProductImages";
+import {Image} from "@/components/product/admin/ProductImage";
 
 
 interface ProductFormProps {
-  defaultValues: ProductFormSchema | DefaultValues
+  defaultValues: ProductFormSchema | DefaultValues,
   urlList: string[],
+  urlImages?: Image[]
 }
 
-const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
+const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps) => {
   const isEditing = !!defaultValues.id
   const {dict, d} = useDict()
   const router = useRouter()
@@ -74,6 +77,9 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
         router.back()
       }
     }
+  }
+  const headerRenameImages = async (names: string[]): Promise<Image[]> => {
+    return await serverActionRenameImages(defaultValues.id as number, defaultValues.url, names)
   }
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -235,11 +241,13 @@ const ProductForm = ({defaultValues, urlList}: ProductFormProps) => {
             <option key={productType} value={productType}>{d(productType)}</option>
           ))}
         </Select>
-
+        <Flex direction='row' alignItems='center' gap={2}>
+          <ProductImages images={urlImages} headerRenameImages={headerRenameImages}/>
+        </Flex>
         <FormControl isInvalid={!!errors.filesImg}>
           <Flex direction='row' alignItems='center' gap={2}>
             <Text>{dict.file}</Text>
-            <input {...register('filesImg')} type='file' required={!isEditing}  multiple accept='image/jpeg'/>
+            <input {...register('filesImg')} type='file' required={!isEditing} multiple accept='image/jpeg'/>
             {errors.filesImg && (
               <FormErrorMessage>{dict.file1}</FormErrorMessage>
             )}

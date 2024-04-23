@@ -11,6 +11,18 @@ export const getFTPClient = async (host: string, user: string, password: string)
   })
   return client
 }
+
+export const getAllImages = async (client: Client, pathDir: string): Promise<string[]> => {
+  try {
+    const catalog = await client.list(pathDir)
+    return catalog.map(file => file.name).sort()
+  } catch (err) {
+    console.error(err)
+    return []
+  }
+}
+
+
 export const uploadFile = async (client: Client, pathDir: string, file: File, fileName: string) => {
   try {
     const buffer = Buffer.from(await file.arrayBuffer())
@@ -18,6 +30,19 @@ export const uploadFile = async (client: Client, pathDir: string, file: File, fi
     await client.ensureDir(pathDir)
     await client.uploadFrom(stream, `${fileName}.jpeg`)
     await client.cd('/')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const renameFolder = async (client: Client, pathDir: string, name: string, newName: string) => {
+  try {
+    const catalog = await client.list(pathDir)
+    const localNames = catalog.map(file => file.name)
+    const fileExist = localNames.includes(name)
+    if (fileExist) {
+      await client.rename(`${pathDir}/${name}`, `${pathDir}/${newName}`)
+    }
   } catch (err) {
     console.error(err)
   }
@@ -80,5 +105,27 @@ export const deleteFile = async (client: Client, pathDir: string, fileName: stri
   } catch (err) {
     console.error(err)
   }
+}
+
+export const renameImages = async (client: Client, pathDir: string, names: string[]) => {
+  let index = 1
+  for (const name of names) {
+    const localSuffix = String(index)
+    const suffix = name.split(".")[0]
+    if (suffix !== localSuffix) {
+      await client.rename(`${pathDir}/${suffix}.jpeg`, `${pathDir}/${localSuffix}.j`)
+    }
+    index++
+  }
+  index = 1
+  for (const name of names) {
+    const localSuffix = String(index)
+    const suffix = name.split(".")[0]
+    if (suffix !== localSuffix) {
+      await client.rename(`${pathDir}/${suffix}.j`, `${pathDir}/${suffix}.jpeg`)
+    }
+    index++
+  }
+
 }
 

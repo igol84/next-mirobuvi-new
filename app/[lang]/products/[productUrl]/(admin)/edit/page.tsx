@@ -9,6 +9,9 @@ import ProductForm from "@/components/product/admin/ProductForm";
 import React from "react";
 import {getBreadCrumb} from "@/app/[lang]/products/[productUrl]/(admin)/edit/serverFunctions";
 import {getBrand} from "@/lib/db/brand";
+import {getAllImages, getFTPClient} from "@/lib/ftp";
+import {env} from "@/lib/env";
+import {Image} from "@/components/product/admin/ProductImage";
 
 type Props = {
   params: {
@@ -21,7 +24,7 @@ type Props = {
 const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   const dict = await getDictionary(lang)
   const isAdmin = await checkForAdmin()
-  if (!isAdmin)  redirect('/')
+  if (!isAdmin) redirect('/')
   const productData = await getProductByUrl(productUrl)
   if (!productData) redirect(`/`)
   const brandData = await getBrand(productData.brand_id)
@@ -31,6 +34,13 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   const breadCrumb = await getBreadCrumb(lang, brandName, brandData.url, productName, productUrl)
   const allProductUrls = await getProductUrls()
   const urlList = allProductUrls.filter(url => url !== productData.url)
+  const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+  const images = await getAllImages(ftpClient, `products/${productData.url}`)
+  const urlImages: Image[] = images.map(image =>({
+    name: image,
+    url: `${env.FTP_URL}/products/${productData.url}/${image}?key=${productData.imgUpdatedAt?.getTime()}`,
+  }))
+  ftpClient.close()
   const defaultValues: ProductFormSchema = {
     id: productData.id,
     nameEn: productData.name_en,
@@ -60,7 +70,7 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
     <VStack align='left' spacing={4}>
       <BreadCrumb breadCrumbs={breadCrumb}/>
       <Heading as='h1'>{dict.productAdmin.editProduct} {productName}</Heading>
-      <ProductForm defaultValues={defaultValues} urlList={urlList}/>
+      <ProductForm defaultValues={defaultValues} urlList={urlList} urlImages={urlImages}/>
     </VStack>
   )
 }

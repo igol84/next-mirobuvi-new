@@ -11,16 +11,17 @@ import {
   UpdateProductType
 } from "@/lib/db/product";
 import {revalidatePath} from "next/cache";
-import {addFiles, getFTPClient, uploadFiles} from "@/lib/ftp";
+import {addFiles, getFTPClient, renameFolder, renameImages, uploadFiles} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
+import {Image} from "@/components/product/admin/ProductImage";
 
 
 export const serverActionCreateOrEditProduct = async (formData: FormData): Promise<Response> => {
   const id: number | null = !!formData.get("id") ? Number(formData.get("id")) : null
   const isEditing = !!id
   let allProductUrls = await getProductUrls()
-  if(isEditing){
+  if (isEditing) {
     const oldProductData = await getProduct(id)
     allProductUrls = allProductUrls.filter(url => url !== oldProductData?.url)
   }
@@ -61,13 +62,13 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
     return {success: false, errors: zodErrors}
   }
   const productData = result.data
-  if(isEditing)
+  if (isEditing)
     return editProduct(productData)
   return addNewProduct(productData)
 
 }
 
-const addNewProduct = async (productData: ProductFormSchema): Promise<Response>=> {
+const addNewProduct = async (productData: ProductFormSchema): Promise<Response> => {
   const product: CreateProductType = {
     active: productData.active,
     private: productData.private,
@@ -104,8 +105,8 @@ const addNewProduct = async (productData: ProductFormSchema): Promise<Response>=
   return {success: true}
 }
 
-const editProduct = async (productData: ProductFormSchema): Promise<Response>=> {
-  const product: UpdateProductType  = {
+const editProduct = async (productData: ProductFormSchema): Promise<Response> => {
+  let product: UpdateProductType = {
     id: productData.id as number,
     active: productData.active,
     private: productData.private,
@@ -129,18 +130,47 @@ const editProduct = async (productData: ProductFormSchema): Promise<Response>=> 
     color: productData.color,
     brand_id: productData.brandId,
   }
-  await updateProduct(product)
+  let isFileEdited = false
+  const oldProduct = await getProduct(product.id as number)
+  const urlIsChanged = oldProduct?.url !== product.url
+
+  if (urlIsChanged) {
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    await renameFolder(ftpClient, 'products', oldProduct?.url as string, product.url as string)
+    ftpClient.close()
+  }
+
   try {
     const files = productData.filesImg as File[]
-    const isFilesExist = files.length>=1 && files[0].size > 0
-    if(isFilesExist) {
+    const isFilesExist = files.length >= 1 && files[0].size > 0
+    if (isFilesExist) {
       const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
       await addFiles(ftpClient, `products/${product.url}`, files)
       ftpClient.close()
+      isFileEdited = true
     }
   } catch {
     return {success: false, serverErrors: 'FTP Error'};
   }
+  if (isFileEdited) {
+    product = {...product, imgUpdatedAt: new Date()}
+  }
+  await updateProduct(product)
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
+}
+
+export const serverActionRenameImages = async (id: number, productName: string, names: string[]): Promise<Image[]> => {
+  const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+  await renameImages(ftpClient, `products/${productName}`, names)
+  ftpClient.close()
+  const updatedProduct = await updateProduct({id, imgUpdatedAt: new Date()})
+  const dateUpdate = updatedProduct.imgUpdatedAt?.getTime()
+  const response: Image[] = names.map((_, index) => {
+    const name = `${index + 1}.jpeg`
+    const url = `${env.FTP_URL}/products/${productName}/${name}?key=${dateUpdate}`
+    return {name, url}
+  })
+  revalidatePath("/[lang]/products/[productUrl]/edit", 'page')
+  return response
 }
