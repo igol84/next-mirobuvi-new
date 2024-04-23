@@ -15,13 +15,13 @@ import {useDictionaryTranslate} from "@/dictionaries/hooks";
 
 interface Props {
   variant?: 'sm' | 'big',
-  headerText: string,
-  bodyText: string,
+  headerText?: string,
+  bodyText?: string,
   onDelete: () => void,
   isLoading?: boolean
 }
 
-const AlertDeleteDialog = ({onDelete, headerText, bodyText, variant = 'sm', isLoading}: Props) => {
+const AlertDeleteDialog = ({onDelete, headerText = '', bodyText = '', variant = 'sm', isLoading}: Props) => {
   const {isOpen, onOpen, onClose} = useDisclosure()
   const onClickDelete = () => {
     onClose()

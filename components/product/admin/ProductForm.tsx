@@ -29,7 +29,11 @@ import {
 } from "@chakra-ui/react";
 import {useDict} from "@/components/product/admin/hooks";
 import {useRouter} from "next/navigation";
-import {serverActionRenameImages, serverActionCreateOrEditProduct} from "@/app/[lang]/brands/[brandUrl]/actions";
+import {
+  serverActionCreateOrEditProduct,
+  serverActionDeleteImage,
+  serverActionRenameImages
+} from "@/app/[lang]/brands/[brandUrl]/actions";
 import {convertTextForUrl} from "@/utility/functions";
 import ProductImages from "@/components/product/admin/ProductImages";
 import {Image} from "@/components/product/admin/ProductImage";
@@ -80,6 +84,9 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
   }
   const headerRenameImages = async (names: string[]): Promise<Image[]> => {
     return await serverActionRenameImages(defaultValues.id as number, defaultValues.url, names)
+  }
+  const headerDeleteImage = async (name: string, names: string[]): Promise<Image[] | null> => {
+    return await serverActionDeleteImage(defaultValues.id as number, defaultValues.url, name, names)
   }
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
@@ -242,7 +249,8 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
           ))}
         </Select>
         <Flex direction='row' alignItems='center' gap={2}>
-          <ProductImages images={urlImages} headerRenameImages={headerRenameImages}/>
+          <ProductImages images={urlImages} headerRenameImages={headerRenameImages}
+                         headerDeleteImage={headerDeleteImage}/>
         </Flex>
         <FormControl isInvalid={!!errors.filesImg}>
           <Flex direction='row' alignItems='center' gap={2}>

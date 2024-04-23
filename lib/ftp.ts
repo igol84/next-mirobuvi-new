@@ -126,6 +126,16 @@ export const renameImages = async (client: Client, pathDir: string, names: strin
     }
     index++
   }
-
 }
 
+export const deleteImage = async (client: Client, pathDir: string, delName: string, names: string[]) => {
+  await client.remove(`${pathDir}/${delName}`)
+  const newNames = names.filter(name => name !== delName).sort()
+  const numberDelName = Number(delName.split(".")[0])
+  for (const name of newNames) {
+    const numberName = Number(name.split(".")[0])
+    if (numberName > numberDelName) {
+      await client.rename(`${pathDir}/${name}`, `${pathDir}/${numberName - 1}.jpeg`)
+    }
+  }
+}

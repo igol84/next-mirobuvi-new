@@ -11,7 +11,7 @@ import {
   UpdateProductType
 } from "@/lib/db/product";
 import {revalidatePath} from "next/cache";
-import {addFiles, getFTPClient, renameFolder, renameImages, uploadFiles} from "@/lib/ftp";
+import {addFiles, deleteImage, getFTPClient, renameFolder, renameImages, uploadFiles} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
 import {Image} from "@/components/product/admin/ProductImage";
@@ -173,4 +173,34 @@ export const serverActionRenameImages = async (id: number, productName: string, 
   })
   revalidatePath("/[lang]/products/[productUrl]/edit", 'page')
   return response
+}
+
+type ServerActionDeleteImage = {
+  (
+    id: number,
+    prodUrl: string,
+    delName: string,
+    names: string[]
+  ): Promise<Image[] | null>
+}
+
+export const serverActionDeleteImage: ServerActionDeleteImage = async (id, prodUrl, delName, names) => {
+  try {
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    await deleteImage(ftpClient, `products/${prodUrl}`, delName, names)
+    ftpClient.close()
+    const updatedProduct = await updateProduct({id, imgUpdatedAt: new Date()})
+    const dateUpdate = updatedProduct.imgUpdatedAt?.getTime()
+    const newNames = names.filter(name => name !== delName).sort()
+    const response: Image[] = newNames.map((_, index) => {
+      const name = `${index + 1}.jpeg`
+      const url = `${env.FTP_URL}/products/${prodUrl}/${name}?key=${dateUpdate}`
+      return {name, url}
+    })
+    revalidatePath("/[lang]/products/[productUrl]/edit", 'page')
+    return response
+  } catch (err) {
+    console.error(err)
+    return null
+  }
 }
