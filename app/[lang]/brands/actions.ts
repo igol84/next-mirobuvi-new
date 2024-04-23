@@ -144,7 +144,7 @@ export const serverActionDeleteBrand = async (brandId: number): Promise<Response
     const fileName = `${brandData.url}.jpeg`
     await deleteFile(ftpClient, "brands", fileName)
   } catch {
-    return {success: false, serverErrors: 'server Error'};
+    return {success: false, serverErrors: 'server Error'}
   }
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}

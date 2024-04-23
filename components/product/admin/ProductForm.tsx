@@ -10,8 +10,9 @@ import {
 } from "@/components/product/admin/types";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import React from "react";
+import React, {useState} from "react";
 import {
+  Box,
   Button,
   Checkbox,
   Flex,
@@ -31,12 +32,13 @@ import {useDict} from "@/components/product/admin/hooks";
 import {useRouter} from "next/navigation";
 import {
   serverActionCreateOrEditProduct,
-  serverActionDeleteImage,
+  serverActionDeleteImage, serverActionDeleteProduct,
   serverActionRenameImages
 } from "@/app/[lang]/brands/[brandUrl]/actions";
 import {convertTextForUrl} from "@/utility/functions";
 import ProductImages from "@/components/product/admin/ProductImages";
 import {Image} from "@/components/product/admin/ProductImage";
+import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 
 
 interface ProductFormProps {
@@ -82,12 +84,21 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
       }
     }
   }
+  const [idDeleting, setIsDeleting] = useState<boolean>(false)
+  const isLoading = isSubmitting || idDeleting
   const headerRenameImages = async (names: string[]): Promise<Image[]> => {
     return await serverActionRenameImages(defaultValues.id as number, defaultValues.url, names)
   }
   const headerDeleteImage = async (name: string, names: string[]): Promise<Image[] | null> => {
     return await serverActionDeleteImage(defaultValues.id as number, defaultValues.url, name, names)
   }
+  const onDelete = isEditing
+    ? async (): Promise<void> => {
+      setIsDeleting(true)
+      await serverActionDeleteProduct(defaultValues.id as number)
+      setIsDeleting(false)
+      router.back()
+    } : () => undefined
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <input type="hidden" {...register('id')}/>
@@ -264,9 +275,15 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
 
         <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between' pt={30}>
           <Flex pt={4}>
-            <Button mr={3} variant='green' type='submit' isLoading={isSubmitting}>{dict.save}</Button>
+            <Button mr={3} variant='green' type='submit' isLoading={isLoading}>{dict.save}</Button>
             <Button onClick={router.back}>{dict.cancel}</Button>
           </Flex>
+          <Box>
+            {isEditing && (
+              <AlertDeleteDialog onDelete={onDelete} bodyText='' headerText={dict.del} variant='big'
+                                 isLoading={isLoading}/>
+            )}
+          </Box>
         </Flex>
 
       </Flex>

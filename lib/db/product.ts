@@ -42,3 +42,9 @@ export const updateProduct = async (data: UpdateProductType): Promise<Product> =
     data: data
   })
 }
+
+export const deleteProduct = async (productId: number): Promise<void> => {
+  await prisma.product.delete({
+    where: {id: productId}
+  })
+}

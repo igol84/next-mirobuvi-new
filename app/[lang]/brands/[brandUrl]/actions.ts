@@ -4,7 +4,7 @@ import {ErrorField, ProductFormSchema, Response, schema} from "@/components/prod
 import {SafeParseReturnType} from "zod";
 import {
   createProduct,
-  CreateProductType,
+  CreateProductType, deleteProduct,
   getProduct,
   getProductUrls,
   updateProduct,
@@ -202,5 +202,25 @@ export const serverActionDeleteImage: ServerActionDeleteImage = async (id, prodU
   } catch (err) {
     console.error(err)
     return null
+  }
+}
+
+export const serverActionDeleteProduct = async (id: number): Promise<Response> => {
+  try {
+    const product = await getProduct(id)
+    if (!product) {
+      return {success: false, serverErrors: 'DB Product dont find'}
+    }
+    await deleteProduct(id)
+
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    await ftpClient.removeDir(`products/${product.url}`)
+    ftpClient.close()
+    revalidatePath("/[lang]/products", 'page')
+    revalidatePath("/[lang]/brands/[productUrl]", 'page')
+    return {success: true}
+  } catch (err) {
+    console.error(err)
+    return {success: false, serverErrors: 'server Error'}
   }
 }

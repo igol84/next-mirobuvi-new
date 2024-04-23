@@ -13,6 +13,7 @@ export const useDict = () => {
     'file1': d('file1'),
     'cancel': dg('cancel'),
     'save': dg('save'),
+    'del': dg('delete'),
   }
   return {dict, d}
 }
