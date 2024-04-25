@@ -75,7 +75,6 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
   if (isEditing)
     return editProduct(productData)
   return addNewProduct(productData)
-
 }
 
 const addNewProduct = async (productData: ProductFormSchema): Promise<Response> => {

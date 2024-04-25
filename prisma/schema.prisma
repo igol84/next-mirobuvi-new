@@ -148,7 +148,7 @@ model Product {
 }
 
 model Shoes {
-  id           Int     @id
+  id           Int     @id @default(autoincrement())
   is_available Boolean
   size         Float
   length       Float
