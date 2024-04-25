@@ -73,11 +73,11 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
   }
   const productData = result.data
   if (isEditing)
-    return editProduct(productData)
-  return addNewProduct(productData)
+    return editProduct(productData, addedShoes)
+  return addNewProduct(productData, addedShoes)
 }
 
-const addNewProduct = async (productData: ProductFormSchema): Promise<Response> => {
+const addNewProduct = async (productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
   const product: CreateProductType = {
     active: productData.active,
     private: productData.private,
@@ -101,7 +101,7 @@ const addNewProduct = async (productData: ProductFormSchema): Promise<Response> 
     color: productData.color,
     brand_id: productData.brandId,
   }
-  await createProduct(product)
+  await createProduct(product, shoes)
   try {
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
     const files = productData.filesImg as File[]
@@ -114,7 +114,7 @@ const addNewProduct = async (productData: ProductFormSchema): Promise<Response> 
   return {success: true}
 }
 
-const editProduct = async (productData: ProductFormSchema): Promise<Response> => {
+const editProduct = async (productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
   let product: UpdateProductType = {
     id: productData.id as number,
     active: productData.active,
@@ -167,7 +167,7 @@ const editProduct = async (productData: ProductFormSchema): Promise<Response> =>
     product = {...product, imgUpdatedAt: new Date()}
   }
 
-  await updateProduct(product)
+  await updateProduct(product, shoes)
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }

@@ -13,6 +13,7 @@ import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {Image} from "@/components/product/admin/ProductImage";
 import {SizeType} from "@/components/product/admin/shoes/types";
+import _ from "lodash";
 
 type Props = {
   params: {
@@ -37,7 +38,7 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   const urlList = allProductUrls.filter(url => url !== productData.url)
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   const images = await getAllImages(ftpClient, `products/${productData.url}`)
-  const urlImages: Image[] = images.map(image =>({
+  const urlImages: Image[] = images.map(image => ({
     name: image,
     url: `${env.FTP_URL}/products/${productData.url}/${image}?key=${productData.imgUpdatedAt?.getTime()}`,
   }))
@@ -45,6 +46,7 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   const shoeses: SizeType[] = productData.shoeses.map((shoe) => (
     {size: shoe.size, isAvailable: shoe.is_available, length: shoe.length}
   ))
+  const sortedShoes = _.sortBy(shoeses, 'size')
   const defaultValues: ProductFormSchema = {
     id: productData.id,
     nameEn: productData.name_en,
@@ -74,7 +76,7 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
     <VStack align='left' spacing={4}>
       <BreadCrumb breadCrumbs={breadCrumb}/>
       <Heading as='h1'>{dict.productAdmin.editProduct} {productName}</Heading>
-      <ProductForm defaultValues={defaultValues} shoeses={shoeses} urlList={urlList} urlImages={urlImages}/>
+      <ProductForm defaultValues={defaultValues} shoeses={sortedShoes} urlList={urlList} urlImages={urlImages}/>
     </VStack>
   )
 }

@@ -87,7 +87,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
         console.log(response.serverErrors)
       }
       if (response.success) {
-        // router.back()
+        router.back()
       }
     }
   }
