@@ -36,7 +36,7 @@ const Size = ({size, onChangeSize, onDeleteSize}: Props) => {
   return (
     <VStack>
       <AlertDeleteDialog onDelete={onDelete}/>
-      <NumberInput value={size.size} onChange={onSizeChang} min={0} width={88} step={1}>
+      <NumberInput value={size.size} onChange={onSizeChang} min={0} width={88} step={0.5}>
         <NumberInputField/>
         <NumberInputStepper>
           <NumberIncrementStepper/>
