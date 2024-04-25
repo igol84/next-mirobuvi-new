@@ -1,8 +1,10 @@
 import {z} from "zod";
 
 export const productTypes: [string, ...string[]] = ['product', 'shoes']
-export const seasons: [string, ...string[]] = ['winter', 'autumn', 'summer']
-export const colors: [string, ...string[]] = ['white', 'black', 'red', 'yellow', 'green', 'blue', 'purple', 'orange']
+export const seasons: [string, ...string[]] = ['none', 'winter', 'autumn', 'summer']
+export const colors: [string, ...string[]] = [
+  'none', 'white', 'black', 'red', 'yellow', 'green', 'blue', 'purple', 'orange'
+]
 
 export const schema = z.object({
   id: z.number().nullable(),
@@ -46,25 +48,25 @@ export type ErrorField = {
 
 export const defaultValues: Omit<ProductFormSchema, 'filesImg'> = {
   id: null,
-  nameUa: "sd",
-  nameEn: "sd",
-  titleUa: "sd",
-  titleEn: "sd",
+  nameUa: "",
+  nameEn: "",
+  titleUa: "",
+  titleEn: "",
   tags: "",
   metaDescEn: "",
   metaDescUa: "",
-  url: "nike95",
+  url: "",
   textUa: "",
   textEn: "",
   active: true,
   isAvailable: true,
   private: false,
-  type: "product",
-  season: "autumn",
-  color: "red",
+  type: "shoes",
+  season: "none",
+  color: "none",
   price: 100,
   oldPrice: null,
-  promActive: false,
+  promActive: true,
   promAddToId: 0,
   brandId: 0
 }

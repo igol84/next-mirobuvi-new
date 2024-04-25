@@ -4,7 +4,8 @@ import {ErrorField, ProductFormSchema, Response, schema} from "@/components/prod
 import {SafeParseReturnType} from "zod";
 import {
   createProduct,
-  CreateProductType, deleteProduct,
+  CreateProductType,
+  deleteProduct,
   getProduct,
   getProductUrls,
   updateProduct,
@@ -15,6 +16,7 @@ import {addFiles, deleteImage, getFTPClient, renameFolder, renameImages, uploadF
 import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
 import {Image} from "@/components/product/admin/ProductImage";
+import {SizeType} from "@/components/product/admin/shoes/types";
 
 
 export const serverActionCreateOrEditProduct = async (formData: FormData): Promise<Response> => {
@@ -53,6 +55,14 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
     filesImg: formData.getAll("filesImg") as File[],
     type: formData.get("type") as string,
   }
+  let shoes = JSON.parse(String(formData.get("shoes"))) as SizeType[]
+  const addedShoes: SizeType[] = []
+  for (const shoe of shoes) {
+    if (!addedShoes.map(shoes => shoes.size).includes(shoe.size) && shoe.size > 0 && shoe.length > 0) {
+      addedShoes.push(shoe)
+    }
+  }
+
   const result: SafeParseReturnType<ProductFormSchema, ProductFormSchema> = schema.safeParse(productFormData)
   const zodErrors: ErrorField[] = []
   if (!result.success) {
@@ -140,21 +150,24 @@ const editProduct = async (productData: ProductFormSchema): Promise<Response> =>
     ftpClient.close()
   }
 
-  try {
-    const files = productData.filesImg as File[]
-    const isFilesExist = files.length >= 1 && files[0].size > 0
-    if (isFilesExist) {
+
+  const files = productData.filesImg as File[]
+  const isFilesExist = files.length >= 1 && files[0].size > 0
+  if (isFilesExist) {
+    try {
       const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
       await addFiles(ftpClient, `products/${product.url}`, files)
       ftpClient.close()
       isFileEdited = true
+    } catch {
+      return {success: false, serverErrors: 'FTP Error'};
     }
-  } catch {
-    return {success: false, serverErrors: 'FTP Error'};
   }
+
   if (isFileEdited) {
     product = {...product, imgUpdatedAt: new Date()}
   }
+
   await updateProduct(product)
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}

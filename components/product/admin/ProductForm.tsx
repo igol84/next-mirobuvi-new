@@ -32,25 +32,31 @@ import {useDict} from "@/components/product/admin/hooks";
 import {useRouter} from "next/navigation";
 import {
   serverActionCreateOrEditProduct,
-  serverActionDeleteImage, serverActionDeleteProduct,
+  serverActionDeleteImage,
+  serverActionDeleteProduct,
   serverActionRenameImages
 } from "@/app/[lang]/brands/[brandUrl]/actions";
 import {convertTextForUrl} from "@/utility/functions";
 import ProductImages from "@/components/product/admin/ProductImages";
 import {Image} from "@/components/product/admin/ProductImage";
 import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
+import Sizes from "@/components/product/admin/shoes/Sizes";
+import {SizeType} from "@/components/product/admin/shoes/types";
 
 
 interface ProductFormProps {
   defaultValues: ProductFormSchema | DefaultValues,
   urlList: string[],
   urlImages?: Image[]
+  shoeses: SizeType[]
 }
 
-const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps) => {
-  const isEditing = !!defaultValues.id
+const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductFormProps) => {
+  const [selectedType, setSelectedType] = useState(defaultValues.type)
+  const [shoes, setShoes] = useState(shoeses)
   const {dict, d} = useDict()
   const router = useRouter()
+  const isEditing = !!defaultValues.id
   const {
     register, handleSubmit, setError,
     formState: {errors, isSubmitting},
@@ -67,6 +73,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
       })
     } else {
       const formData = new FormData(event?.target)
+      formData.append("shoes", JSON.stringify(shoes))
       const response = await serverActionCreateOrEditProduct(formData)
       if (response.errors) {
         response.errors.forEach(error => {
@@ -80,7 +87,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
         console.log(response.serverErrors)
       }
       if (response.success) {
-        router.back()
+        // router.back()
       }
     }
   }
@@ -99,6 +106,31 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
       setIsDeleting(false)
       router.back()
     } : () => undefined
+  const onAddSize = () => {
+    if(shoes.length>0){
+      const lastShoes = shoes[shoes.length - 1] as SizeType
+      const newShoes: SizeType = {
+        size: lastShoes.size + 1,
+        isAvailable: lastShoes.isAvailable,
+        length: lastShoes.length + 0.5
+      }
+      setShoes(shoeses => [...shoeses, newShoes])
+    } else {
+      setShoes([{size: 36, isAvailable: true, length: 23.5}])
+    }
+
+  }
+  const onChangeSize = (oldSize: SizeType, newSize: SizeType) => {
+    setShoes(shoeses => shoeses.map(size => {
+      if (size === oldSize)
+        return newSize
+      return size
+    }))
+  }
+
+  const onDeleteSize = (delSize: SizeType) => {
+    setShoes(shoeses => shoeses.filter(size => size !== delSize))
+  }
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <input type="hidden" {...register('id')}/>
@@ -240,25 +272,6 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
             </NumberInput>
           </Flex>
         </Flex>
-
-        <Flex alignItems="center" gap={2}>
-          <Select {...register('season')} placeholder={d('season')} isRequired maxW={200}>
-            {seasons.map(season => (
-              <option key={season} value={season}>{d(season)}</option>
-            ))}
-          </Select>
-          <Select {...register('color')} placeholder={d('color')} isRequired maxW={200}>
-            {colors.map(color => (
-              <option key={color} value={color}>{d(color)}</option>
-            ))}
-          </Select>
-        </Flex>
-
-        <Select {...register('type')} maxW={200}>
-          {productTypes.map(productType => (
-            <option key={productType} value={productType}>{d(productType)}</option>
-          ))}
-        </Select>
         <Flex direction='row' alignItems='center' gap={2}>
           <ProductImages images={urlImages} headerRenameImages={headerRenameImages}
                          headerDeleteImage={headerDeleteImage}/>
@@ -272,6 +285,29 @@ const ProductForm = ({defaultValues, urlList, urlImages = []}: ProductFormProps)
             )}
           </Flex>
         </FormControl>
+        <Select {...register('type')} maxW={200} onChange={(value) => setSelectedType(value.target.value)}>
+          {productTypes.map(productType => (
+            <option key={productType} value={productType}>{d(productType)}</option>
+          ))}
+        </Select>
+
+        <Flex direction='column' hidden={selectedType !== 'shoes'} gap={2}>
+          <Flex alignItems="center" gap={2}>
+            <Select {...register('season')} placeholder={d('season')} isRequired maxW={200}>
+              {seasons.map(season => (
+                <option key={season} value={season}>{d(season)}</option>
+              ))}
+            </Select>
+            <Select {...register('color')} placeholder={d('color')} isRequired maxW={200}>
+              {colors.map(color => (
+                <option key={color} value={color}>{d(color)}</option>
+              ))}
+            </Select>
+          </Flex>
+
+          <Sizes sizes={shoes} onAddSize={onAddSize} onChangeSize={onChangeSize} onDeleteSize={onDeleteSize}/>
+        </Flex>
+
 
         <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between' pt={30}>
           <Flex pt={4}>

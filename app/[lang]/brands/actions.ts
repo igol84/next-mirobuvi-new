@@ -8,7 +8,7 @@ import {
   deleteBrand,
   editeBrand,
   getBrand,
-  getBrandUrls,
+  getBrandUrls, getBrandWithProducts,
   UpdateBrandType
 } from "@/lib/db/brand";
 import {convertTextForUrl} from "@/utility/functions";
@@ -134,9 +134,12 @@ const editBrand = async (brandFormData: BrandFormSchema) => {
 
 export const serverActionDeleteBrand = async (brandId: number): Promise<Response> => {
   try {
-    const brandData = await getBrand(brandId)
+    const brandData = await getBrandWithProducts(brandId)
     if (!brandData) {
       return {success: false, serverErrors: 'DB Brand dont find'};
+    }
+    if(brandData.products.length === 0){
+      return {success: false, serverErrors: 'Products Exist'};
     }
     await deleteBrand(brandId)
 

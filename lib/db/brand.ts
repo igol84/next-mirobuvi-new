@@ -17,6 +17,12 @@ export const getBrand = cache(async (brandId: number): Promise<BrandDBType | nul
   })
 })
 
+export const getBrandWithProducts = cache(async (brandId: number): Promise<BrandDBWithProductsType | null> => {
+  return await prisma.brand.findUnique({
+    where: {id: brandId},
+    include: {products: {include: {shoeses: true}}},
+  })
+})
 
 export const getBrandByUrl = cache(async (url: string): Promise<BrandDBType | null> => {
   return await prisma.brand.findUnique({

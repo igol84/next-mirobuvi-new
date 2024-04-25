@@ -12,6 +12,7 @@ import {getBrand} from "@/lib/db/brand";
 import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {Image} from "@/components/product/admin/ProductImage";
+import {SizeType} from "@/components/product/admin/shoes/types";
 
 type Props = {
   params: {
@@ -41,6 +42,9 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
     url: `${env.FTP_URL}/products/${productData.url}/${image}?key=${productData.imgUpdatedAt?.getTime()}`,
   }))
   ftpClient.close()
+  const shoeses: SizeType[] = productData.shoeses.map((shoe) => (
+    {size: shoe.size, isAvailable: shoe.is_available, length: shoe.length}
+  ))
   const defaultValues: ProductFormSchema = {
     id: productData.id,
     nameEn: productData.name_en,
@@ -64,13 +68,13 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
     color: productData.color,
     filesImg: [],
     type: productData.type,
-    brandId: productData.brand_id,
+    brandId: productData.brand_id
   }
   return (
     <VStack align='left' spacing={4}>
       <BreadCrumb breadCrumbs={breadCrumb}/>
       <Heading as='h1'>{dict.productAdmin.editProduct} {productName}</Heading>
-      <ProductForm defaultValues={defaultValues} urlList={urlList} urlImages={urlImages}/>
+      <ProductForm defaultValues={defaultValues} shoeses={shoeses} urlList={urlList} urlImages={urlImages}/>
     </VStack>
   )
 }

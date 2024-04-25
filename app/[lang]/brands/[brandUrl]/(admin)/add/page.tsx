@@ -9,6 +9,7 @@ import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/(admin)/add/serverFu
 import {DefaultValues, defaultValues} from "@/components/product/admin/types";
 import {getProductUrls} from "@/lib/db/product";
 import {checkForAdmin} from "@/utility/auth";
+import {SizeType} from "@/components/product/admin/shoes/types";
 
 type Props = {
   params: {
@@ -27,12 +28,13 @@ const AddNewBrandPage = async ({params: {lang, brandUrl}}: Props) => {
   const breadCrumb = await getBreadCrumb(lang, brandData.name_en, brandUrl)
   const allProductUrls = await getProductUrls()
   const defaultValuesWithBrandId: DefaultValues = {...defaultValues, brandId: brandData.id}
+  const shoeses: SizeType = {size: 36, isAvailable: true, length: 23.5}
 
   return (
     <VStack align='left' spacing={4}>
       <Heading as='h1'>{dict.productAdmin.addProduct}</Heading>
       <BreadCrumb breadCrumbs={breadCrumb}/>
-      <ProductForm defaultValues={defaultValuesWithBrandId} urlList={allProductUrls}/>
+      <ProductForm defaultValues={defaultValuesWithBrandId} urlList={allProductUrls} shoeses={[shoeses]}/>
     </VStack>
   )
 }
