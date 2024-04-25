@@ -9,19 +9,19 @@ export type CreateProductType = Omit<Prisma.ProductCreateInput, 'brand'> & { bra
 export type UpdateProductType = Prisma.ProductUncheckedUpdateInput
 
 export const getProducts = cache(async (): Promise<ProductWithDetailsDBType[]> => {
-  return  await prisma.product.findMany({ include: { shoeses: true } })
+  return await prisma.product.findMany({include: {shoeses: true}})
 })
 
 export const getProduct = cache(async (productId: number): Promise<ProductDBType | null> => {
-  return  await prisma.product.findUnique({
+  return await prisma.product.findUnique({
     where: {id: productId},
   })
 })
 
-export const getProductByUrl = cache(async (url:string): Promise<ProductWithDetailsDBType | null> => {
-  return  await prisma.product.findUnique({
+export const getProductByUrl = cache(async (url: string): Promise<ProductWithDetailsDBType | null> => {
+  return await prisma.product.findUnique({
     where: {url: url},
-    include: { shoeses: true }
+    include: {shoeses: true}
   })
 })
 
