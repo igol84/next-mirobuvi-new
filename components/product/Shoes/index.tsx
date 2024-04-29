@@ -1,3 +1,4 @@
+'use client'
 import React, {useState} from 'react';
 import {Box, Flex, Text} from "@chakra-ui/react";
 import {ShoesType} from "@/components/product/types";
@@ -44,6 +45,7 @@ const Shoes = ({shoesData}: Props) => {
     } else
       setSizeDesc(textSelect)
   }
+  const inStock = shoesData.inStock && !!shoesData.sizes.filter(size => size.inStock).length
   return (
     <>
       <Text fontSize={36}>
@@ -58,9 +60,9 @@ const Shoes = ({shoesData}: Props) => {
             {shoesData.price_prefix}
           </Text>
         </Flex>
-        <Like productUrl={shoesData.product_key}/>
+        <Like productUrl={shoesData.url}/>
       </Flex>
-      {shoesData.qty > 0 ? (
+      {inStock ? (
         <>
           <Flex gap={2} alignItems='center' wrap='wrap' pb={4}>
             <Text>{textSizes}</Text>
@@ -78,7 +80,7 @@ const Shoes = ({shoesData}: Props) => {
           <Box color='secondary' h={8}>
             {sizeDesc}
           </Box>
-          <AddToCartButton productId={shoesData.product_key} size={selectedSize}/>
+          <AddToCartButton productId={shoesData.url} size={selectedSize}/>
         </>
       ) : <Text color='red.400'>{textNotAvailable}</Text>}
 

@@ -2,7 +2,8 @@ export type productType = 'product' | 'shoes'
 
 export interface ProductBase {
   type: productType
-  product_key: string
+  inStock: boolean
+  url: string
   name: string
   desc: string
   price: number
@@ -11,7 +12,6 @@ export interface ProductBase {
   userId: string | undefined
   isFavorite: boolean
   isNew: boolean
-  qty: number
 }
 
 export interface SimpleProductProps extends ProductBase {

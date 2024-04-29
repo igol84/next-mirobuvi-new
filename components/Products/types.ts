@@ -14,6 +14,8 @@ export interface ProductBase {
   isNew: boolean
   tags: string
   imageUrl: string
+  color: string
+  season: string
 }
 
 export interface SimpleProductProps extends ProductBase {

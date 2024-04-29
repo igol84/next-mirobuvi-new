@@ -10,7 +10,7 @@ export const getViewedProducts = async (lang: Lang) => {
   const viewedProductUrls: string[] = viewedProductsJSON ? JSON.parse(viewedProductsJSON) : []
   const viewedProducts: ProductType[] = []
   for (const viewedProductUrl of viewedProductUrls.reverse()) {
-    const productData = await getProductByUrl(viewedProductUrl)
+    const productData = await getProductByUrl(String(viewedProductUrl))
     if (productData)
       viewedProducts.push(createProduct(productData, lang, page))
   }

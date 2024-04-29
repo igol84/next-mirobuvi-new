@@ -37,3 +37,15 @@ export const filterProductsByTag = (products: ProductType[], tag: string): Produ
     return _.words(product.tags.toLowerCase()).includes(tag.toLowerCase())
   })
 }
+
+export const filterProductsByColor = (products: ProductType[], color: string): ProductType[] => {
+  return products.filter(product => {
+    return product.color.toLowerCase() === color.toLowerCase()
+  })
+}
+
+export const filterProductsBySeason = (products: ProductType[], season: string): ProductType[] => {
+  return products.filter(product => {
+    return product.season.toLowerCase() === season.toLowerCase()
+  })
+}

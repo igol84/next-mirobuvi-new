@@ -1,3 +1,4 @@
+'use client'
 import React, {CSSProperties, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import type {Swiper as TypeSwiper} from 'swiper';

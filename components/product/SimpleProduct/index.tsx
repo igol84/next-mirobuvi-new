@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import {Flex, Text} from "@chakra-ui/react";
 import {SimpleProductProps} from "@/components/product/types";
@@ -29,10 +30,10 @@ const SimpleProduct = ({productData}: Props) => {
             {productData.price_prefix}
           </Text>
         </Flex>
-        <Like productUrl={productData.product_key}/>
+        <Like productUrl={productData.url}/>
       </Flex>
-      {productData.qty > 0 ? (
-        <AddToCartButton productId={productData.product_key}/>
+      {productData.inStock ? (
+        <AddToCartButton productId={productData.url}/>
       ) : <Text color='red.400'>{textNotAvailable}</Text>}
 
     </>

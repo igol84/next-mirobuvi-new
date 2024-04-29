@@ -125,19 +125,7 @@
     "product": "Product",
     "shoes": "Shoes",
     "season": "Season",
-    "none": "Not specified",
-    "winter": "Winter",
-    "autumn": "Autumn",
-    "summer": "Summer",
     "color": "Color",
-    "white": "White",
-    "black": "Black",
-    "red": "Red",
-    "yellow": "Yellow",
-    "green": "Green",
-    "blue": "Blue",
-    "purple": "Purple",
-    "orange": "Orange",
     "editProduct": "Edit product"
   },
   "product": {
@@ -189,7 +177,7 @@
     "NotDone": "not done"
   },
   "viewedProducts": {
-    "beforeThatYouLooked": "До цього ви дивилися"
+    "beforeThatYouLooked": "Before that you looked"
   },
   "favorite": {
     "header": "Add items to your wish list",
@@ -227,6 +215,7 @@
     "women's": "Women's"
   },
   "filterColor": {
+    "none": "not specified",
     "black": "black",
     "white": "white",
     "blackWhite": "black-white",
@@ -238,6 +227,7 @@
     "brown": "brown"
   },
   "filterSeason": {
+    "none": "not specified",
     "summer": "summer",
     "autumn": "autumn",
     "winter": "winter"

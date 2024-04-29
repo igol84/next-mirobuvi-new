@@ -8,9 +8,10 @@ import getFilterGender from "@/lib/store/filters/serverFunctions/getFiterGender"
 import getFilterColor from "@/lib/store/filters/serverFunctions/getFiterColor";
 import getFilterSeason from "@/lib/store/filters/serverFunctions/getFiterSeason";
 import {
+  filterProductsByColor,
   filterProductsByMaxPrice,
   filterProductsByMinPrice,
-  filterProductsByProductType,
+  filterProductsByProductType, filterProductsBySeason,
   filterProductsBySize,
   filterProductsByTag
 } from "@/lib/store/filters/serverFunctions/filtering";
@@ -76,11 +77,11 @@ export const getFilterProducts: FilterProducts = (products, filtersValues) => {
   }
 
   if (isColor(color)) {
-    products = filterProductsByTag(products, color)
+    products = filterProductsByColor(products, color)
   }
 
   if (isSeason(season)) {
-    products = filterProductsByTag(products, season)
+    products = filterProductsBySeason(products, season)
   }
 
   if (minPriceValue)

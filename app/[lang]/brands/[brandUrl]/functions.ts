@@ -21,17 +21,22 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
   const imageUrl = `${env.FTP_URL}/products/${product.url}/1.jpeg?key=${product.imgUpdatedAt?.getTime()}`
   switch (product.type) {
     case "shoes": {
-      // const sizes: number[] = product.shoeses.map(shoes => shoes.size)
-      const sizes: number[] = [41, 42]
+      const sizes: number[] = []
+      product.shoeses.forEach(shoes => {
+        if(shoes.is_available)
+          sizes.push(shoes.size)
+      })
       return {
-        id: product.id, name, url: product.url, imageUrl, isAvailable: true,
-        price: product.price, price_prefix, type: 'shoes', sizes, page, date, isNew, tags: product.tags
+        id: product.id, name, url: product.url, imageUrl, isAvailable: true, color: product.color,
+        price: product.price, price_prefix, type: 'shoes', sizes, page, date, isNew, tags: product.tags,
+        season: product.season
       }
     }
     default: {
       return {
-        id: product.id, name, url: product.url, imageUrl, isAvailable: true,
-        price: product.price, price_prefix, type: 'product', page, date, isNew, tags: product.tags
+        id: product.id, name, url: product.url, imageUrl, isAvailable: true, color: product.color,
+        price: product.price, price_prefix, type: 'product', page, date, isNew, tags: product.tags,
+        season: product.season
       }
     }
 

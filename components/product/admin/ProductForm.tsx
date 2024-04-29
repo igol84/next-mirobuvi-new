@@ -54,7 +54,7 @@ interface ProductFormProps {
 const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductFormProps) => {
   const [selectedType, setSelectedType] = useState(defaultValues.type)
   const [shoes, setShoes] = useState(shoeses)
-  const {dict, d} = useDict()
+  const {dict, d, dc, ds} = useDict()
   const router = useRouter()
   const isEditing = !!defaultValues.id
   const {
@@ -295,12 +295,12 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           <Flex alignItems="center" gap={2}>
             <Select {...register('season')} placeholder={d('season')} isRequired maxW={200}>
               {seasons.map(season => (
-                <option key={season} value={season}>{d(season)}</option>
+                <option key={season} value={season}>{ds(season)}</option>
               ))}
             </Select>
             <Select {...register('color')} placeholder={d('color')} isRequired maxW={200}>
               {colors.map(color => (
-                <option key={color} value={color}>{d(color)}</option>
+                <option key={color} value={color}>{dc(color)}</option>
               ))}
             </Select>
           </Flex>

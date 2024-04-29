@@ -2,6 +2,8 @@ import {useDictionaryTranslate} from "@/dictionaries/hooks";
 
 export const useDict = () => {
   const d = useDictionaryTranslate("productAdmin")
+  const dc = useDictionaryTranslate("filterColor")
+  const ds = useDictionaryTranslate("filterSeason")
   const dg = useDictionaryTranslate("global")
   const dict = {
     'nameUa': d('nameUa'),
@@ -15,5 +17,5 @@ export const useDict = () => {
     'save': dg('save'),
     'del': dg('delete'),
   }
-  return {dict, d}
+  return {dict, d, dc, ds}
 }

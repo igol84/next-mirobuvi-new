@@ -16,6 +16,7 @@ import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/bran
 import {env} from "@/lib/env";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import {createProduct} from "@/app/[lang]/brands/[brandUrl]/functions";
+import {ProductWithDetailsDBType} from "@/lib/db/product";
 
 type Props = {
   params: {
@@ -55,7 +56,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   const brandData = await getBrandWithProductsByUrl(brandUrl)
   if (!brandData) redirect(`/`)
   if (!isAuth && !brandData.active) redirect(`/`)
-  const productsData = brandData.products
+  const productsData = brandData.products as ProductWithDetailsDBType[]
   const desc = lang === 'en' ? brandData.text_en : brandData.text_ua
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_en
   const imgUrl = `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}`

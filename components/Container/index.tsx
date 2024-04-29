@@ -2,7 +2,6 @@
 import React, {ReactNode, useEffect} from 'react';
 import {Flex, useDisclosure} from "@chakra-ui/react";
 import DrawerMenu from "@/components/Container/Navbar/NavbarDrawer";
-import {BrandSchema} from "@/schemas/data";
 import {Item} from "@/components/Container/Navbar/types";
 import {ProductCart} from "@/lib/cartFunctions";
 import Header from "@/components/Container/Header";
@@ -18,21 +17,19 @@ import {TagUrl} from "@/app/[lang]/[urlTag]/types";
 
 type Props = {
   children: ReactNode
-  brands: BrandSchema[]
+  brandsItems: Item[]
   cartProducts: ProductCart[]
   user: User | null
   tagsUrl: TagUrl[]
 }
 
-const Container = ({children, brands, cartProducts, user, tagsUrl}: Props) => {
+const Container = ({children, brandsItems, cartProducts, user, tagsUrl}: Props) => {
   const {
     isOpen: isMenuOpen,
     onOpen: onMenuOpen,
     onClose: onMenuClose,
   } = useDisclosure();
-  const brandsItems: Item[] = brands.map(brand => (
-    {title: brand.name, url: brand.url}
-  ))
+
 
   const setUser = useStore(
     state => state.setUser

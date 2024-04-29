@@ -1,17 +1,15 @@
 import {checkForAdmin} from "@/utility/auth";
 import {redirect} from "next/navigation";
-import {getBrand, getBrandUrls} from "@/lib/db/brand";
+import {getBrand, getBrands, getBrandUrls} from "@/lib/db/brand";
 import BrandForm from "@/components/Brands/admin/BrandForm";
 import {BrandFormSchema} from "@/components/Brands/admin/types";
 import {getFTPClient, isFileExist} from "@/lib/ftp";
 import {env} from "@/lib/env";
-import {getBrandsData} from "@/app/api/fetchFunctions";
-
 import {Lang} from "@/dictionaries/get-dictionary";
 import {getBreadCrumb} from "@/app/[lang]/brands/(admin)/edit/[id]/serverFunctions";
 
 export async function generateStaticParams() {
-  const brandsData = await getBrandsData()
+  const brandsData = await getBrands()
   return brandsData.map(brand => ({id: String(brand.id)}))
 }
 

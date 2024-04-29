@@ -1,6 +1,5 @@
 import {ProductType} from "@/components/Products/types";
 import {allSeasons, FilterSeason, FilterSeasonType, isSeason} from "@/app/[lang]/[urlTag]/types";
-import _ from "lodash";
 
 type GetFilterSeason = {
   (
@@ -15,7 +14,7 @@ const getFilterSeason: GetFilterSeason = (products, season) => {
 
   allSeasons.forEach(season => {
     const productsIncludeSeason = products.find(product => {
-      return _.words(product.tags.toLowerCase()).includes(season.toLowerCase())
+      return product.season.toLowerCase() === season.toLowerCase()
     })
     if (productsIncludeSeason)
       seasons.push(season)

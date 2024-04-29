@@ -38,11 +38,11 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   const urlList = allProductUrls.filter(url => url !== productData.url)
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   const images = await getAllImages(ftpClient, `products/${productData.url}`)
+  ftpClient.close()
   const urlImages: Image[] = images.map(image => ({
     name: image,
     url: `${env.FTP_URL}/products/${productData.url}/${image}?key=${productData.imgUpdatedAt?.getTime()}`,
   }))
-  ftpClient.close()
   const shoeses: SizeType[] = productData.shoeses.map((shoe) => (
     {size: shoe.size, isAvailable: shoe.is_available, length: shoe.length}
   ))

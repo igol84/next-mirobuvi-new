@@ -4,7 +4,7 @@ import {Providers} from "@/app/providers";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import './globals.scss'
 import Container from "@/components/Container";
-import {getBrandsData, getTagsUrlData} from "@/app/api/fetchFunctions";
+import {getTagsUrlData} from "@/app/api/fetchFunctions";
 import {getCart} from "@/lib/db/cart";
 import {getCartData, ProductCart} from "@/lib/cartFunctions";
 import {getServerSession} from "next-auth";
@@ -15,6 +15,8 @@ import {userConvertFromDB} from "@/lib/store/user";
 import {convertToTagUrlFromDB, TagUrl} from "@/app/[lang]/[urlTag]/types";
 import {TagUrlSchema} from "@/schemas/data";
 import _ from "lodash";
+import {getBrands} from "@/lib/db/brand";
+import {Item} from "@/components/Container/Navbar/types";
 
 export const dynamic = 'force-dynamic'
 
@@ -47,7 +49,8 @@ export default async function RootLayout(
     params: { lang: Lang }
   }) {
   const dict = await getDictionary(lang)
-  const brandsData = await getBrandsData()
+  const brandsData = await getBrands()
+  const brandsItems: Item[] = brandsData.map(brand => ({title: brand.name_en, url: brand.url}))
   const cart = await getCart();
   const session = await getServerSession(authOptions)
   const userEmail = String(session?.user?.email)
@@ -80,7 +83,7 @@ export default async function RootLayout(
     <html lang={lang} suppressHydrationWarning={true}>
     <body className={roboto.className} suppressHydrationWarning={true}>
     <Providers dict={dict} lang={lang} isAdmin={isAdmin}>
-      <Container brands={brandsData} cartProducts={cartProducts} user={user} tagsUrl={tagsUrl}>
+      <Container brandsItems={brandsItems} cartProducts={cartProducts} user={user} tagsUrl={tagsUrl}>
         {children}
       </Container>
     </Providers>

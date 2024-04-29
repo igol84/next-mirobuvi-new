@@ -1,10 +1,9 @@
 import {z} from "zod";
+import {allColors, allSeasons} from "@/app/[lang]/[urlTag]/types";
 
 export const productTypes: [string, ...string[]] = ['product', 'shoes']
-export const seasons: [string, ...string[]] = ['none', 'winter', 'autumn', 'summer']
-export const colors: [string, ...string[]] = [
-  'none', 'white', 'black', 'red', 'yellow', 'green', 'blue', 'purple', 'orange'
-]
+export const seasons: [string, ...string[]] = ['none', ...allSeasons]
+export const colors: [string, ...string[]] = ['none', ...allColors]
 
 export const schema = z.object({
   id: z.number().nullable(),

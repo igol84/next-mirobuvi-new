@@ -1,5 +1,5 @@
 import {Lang} from "@/dictionaries/get-dictionary";
-import {PageType, ProductType} from "@/components/Products/types";
+import {PageType, ProductType, ShoesType, SimpleProductProps} from "@/components/Products/types";
 import {dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {env} from "@/lib/env";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
@@ -21,17 +21,21 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
   const imageUrl = `${env.FTP_URL}/products/${product.url}/1.jpeg?key=${product.imgUpdatedAt?.getTime()}`
   switch (product.type) {
     case "shoes": {
-      const sizes: number[] = []
-      return {
-        id: product.id, name, url: product.url, isAvailable: true, imageUrl,
-        price: product.price, price_prefix, type: 'shoes', sizes, page, date, isNew, tags: product.tags
+      const sizes: number[] = product.shoeses.map(shoes => shoes.size)
+      const shoes: ShoesType = {
+        id: product.id, name, url: product.url, isAvailable: true, imageUrl, color: product.color,
+        season: product.season, price: product.price, price_prefix, page, date, isNew, tags: product.tags,
+        type: 'shoes', sizes
       }
+      return shoes
     }
     default: {
-      return {
-        id: product.id, name, url: product.url, isAvailable: true, imageUrl,
-        price: product.price, price_prefix, type: 'product', page, date, isNew, tags: product.tags
+      const simpleProduct: SimpleProductProps = {
+        id: product.id, name, url: product.url, isAvailable: true, imageUrl, color: product.color,
+        season: product.season, price: product.price, price_prefix, page, date, isNew, tags: product.tags,
+        type: 'product'
       }
+      return simpleProduct
     }
   }
 }

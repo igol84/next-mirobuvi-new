@@ -5,14 +5,14 @@ import {SizeType} from "@/components/product/admin/shoes/types";
 
 
 export type ProductDBType = Prisma.ProductGetPayload<{}>
-export type ProductWithDetailsDBType = Prisma.ProductGetPayload<{ include: { shoeses: true } }>
+export type ProductWithDetailsDBType = Prisma.ProductGetPayload<{ include: { shoeses: true, brand: true } }>
 export type CreateProductType = Omit<Prisma.ProductCreateInput, 'brand'> & { brand_id: number }
 export type UpdateProductType = Prisma.ProductUncheckedUpdateInput
 
 export type CreateShoesType = Prisma.ShoesCreateManyInput
 
 export const getProducts = cache(async (): Promise<ProductWithDetailsDBType[]> => {
-  return await prisma.product.findMany({include: {shoeses: true}})
+  return await prisma.product.findMany({include: {shoeses: true, brand: true}})
 })
 
 export const getProduct = cache(async (productId: number): Promise<ProductDBType | null> => {
@@ -24,7 +24,7 @@ export const getProduct = cache(async (productId: number): Promise<ProductDBType
 export const getProductByUrl = cache(async (url: string): Promise<ProductWithDetailsDBType | null> => {
   return await prisma.product.findUnique({
     where: {url: url},
-    include: {shoeses: true}
+    include: {shoeses: true, brand: true}
   })
 })
 

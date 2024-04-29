@@ -125,19 +125,7 @@
     "product": "Продукт",
     "shoes": "Взуття",
     "season": "Сезон",
-    "none": "Не вказано",
-    "winter": "Зима",
-    "autumn": "Осінь",
-    "summer": "Літо",
     "color": "Колір",
-    "white": "Білий",
-    "black": "Чорний",
-    "red": "Червоний",
-    "yellow": "Жовтий",
-    "green": "Зелений",
-    "blue": "Синій",
-    "purple": "Фіолетовий",
-    "orange": "Помаранчевий",
     "editProduct": "Редагувати товар"
   },
   "product": {
@@ -189,7 +177,7 @@
     "NotDone": "не доставлене"
   },
   "viewedProducts": {
-    "beforeThatYouLooked": "Before that you looked"
+    "beforeThatYouLooked": "До цього ви дивилися"
   },
   "favorite": {
     "header": "Додайте товари до списку бажань",
@@ -227,6 +215,7 @@
     "women's": "Жіночі"
   },
   "filterColor": {
+    "none": "не вказано",
     "black": "чорний",
     "white": "білий",
     "blackWhite": "чорно білий",
@@ -239,6 +228,7 @@
     "brown": "коричневий"
   },
   "filterSeason": {
+    "none": "не вказано",
     "summer": "літо",
     "autumn": "осінь",
     "winter": "зима"

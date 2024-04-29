@@ -1,6 +1,5 @@
 import {ProductType} from "@/components/Products/types";
 import {allColors, FilterColor, FilterColorType, isColor} from "@/app/[lang]/[urlTag]/types";
-import _ from "lodash";
 
 type GetFilterColor = {
   (
@@ -15,7 +14,7 @@ const getFilterColor: GetFilterColor = (products, color) => {
 
   allColors.forEach(color => {
     const productsIncludeColor = products.find(product => {
-      return _.words(product.tags.toLowerCase()).includes(color.toLowerCase())
+      return product.color.toLowerCase() === color.toLowerCase()
     })
     if (productsIncludeColor)
       colors.push(color)
