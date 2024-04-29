@@ -2,7 +2,7 @@ import {Lang} from "@/dictionaries/get-dictionary";
 import {PageType, ProductType} from "@/components/Products/types";
 import {dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
-import {env} from "@/lib/env";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 interface CreateProduct {
   (
@@ -18,7 +18,7 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
   const date = product.date
   const daysInterval = dateDiffInDays(product.date, new Date())
   const isNew = daysInterval < DAYS_IS_NEW
-  const imageUrl = `${env.FTP_URL}/products/${product.url}/1.jpeg?key=${product.imgUpdatedAt?.getTime()}`
+  const imageUrl = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime())
   switch (product.type) {
     case "shoes": {
       const sizes: number[] = []

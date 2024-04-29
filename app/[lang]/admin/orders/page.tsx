@@ -4,7 +4,7 @@ import {getOrders, getTotalOrderCount} from "@/lib/db/order";
 import {IOrder, IOrderItem} from "./types";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import {getProductByUrl} from "@/lib/db/product";
-import {env} from "@/lib/env";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 export async function generateMetadata({params: {lang}}: { params: { lang: Lang } }) {
   const dict = await getDictionary(lang)
@@ -35,7 +35,7 @@ const Page = async ({params: {lang}, searchParams: {page = "1"}}: Props) => {
     for (const item of order.orderItems) {
       const productData = await getProductByUrl(item.productId)
       if (productData) {
-        const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
+        const imgUrl = getProductImageUrl(productData.url, productData.imgUpdatedAt?.getTime())
         orderItems.push({
           id: item.id,
           productNameUa: item.productNameUa,

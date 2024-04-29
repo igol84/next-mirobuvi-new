@@ -4,7 +4,7 @@ import {getUserWithOrders} from "@/lib/db/user";
 import OrdersPage from "./OrdersPage";
 import {IOrder, IOrderItem, IUser} from "./types";
 import {getProductByUrl} from "@/lib/db/product";
-import {env} from "@/lib/env";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 
 interface Props {
@@ -31,7 +31,7 @@ const Page = async ({params: {lang, userId}}: Props) => {
     for (const item of order.orderItems) {
       const productData = await getProductByUrl(item.productId)
       if (productData) {
-        const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
+        const imgUrl = getProductImageUrl(productData.url, productData.imgUpdatedAt?.getTime())
         items.push({
           id: item.id,
           productNameUa: item.productNameUa,

@@ -4,7 +4,7 @@ import OrderForm from "@/app/[lang]/admin/orders/[orderId]/OrderForm";
 import {getOrder} from "@/lib/db/order";
 import {IOrder, IOrderItem} from "./types";
 import {getProductByUrl} from "@/lib/db/product";
-import {env} from "@/lib/env";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 type Props = {
   params: {
@@ -28,7 +28,7 @@ const Page = async ({params: {orderId}}: Props) => {
     for (const item of order.orderItems) {
       const productData = await getProductByUrl(item.productId)
       if (productData) {
-        const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
+        const imgUrl =  getProductImageUrl(productData.url, productData.imgUpdatedAt?.getTime())
         orderItems.push({
           productId: item.id,
           productNameUa: item.productNameUa,

@@ -14,6 +14,7 @@ import {getBreadCrumbData, productFabrice} from "@/app/[lang]/products/[productU
 import {env} from "@/lib/env";
 import {getProductByUrl, getProducts} from "@/lib/db/product";
 import {getAllImages, getFTPClient} from "@/lib/ftp";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 
 type Props = {
@@ -28,7 +29,7 @@ export async function generateMetadata({params: {productUrl, lang}}: Props) {
   if (!productData) redirect(`/`)
   const title = lang === 'en' ? productData.name_en : productData.name_ua
   const description = lang === 'en' ? productData.meta_desc_en : productData.meta_desc_ua
-  const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
+  const imgUrl = getProductImageUrl(productData.url, productData.imgUpdatedAt?.getTime())
   return {
     title,
     description,
@@ -60,7 +61,7 @@ async function Page({params: {productUrl, lang}}: Props) {
   const images = await getAllImages(ftpClient, `products/${productUrl}`)
   ftpClient.close()
   const urlImages = images.map(image => {
-    return `${env.FTP_URL}/products/${productDBData.url}/${image}?key=${productDBData.imgUpdatedAt?.getTime()}`
+    return getProductImageUrl(productDBData.url, productDBData.imgUpdatedAt?.getTime(), image)
   })
   const isProductFavorite = favoriteProducts.includes(productUrl)
   const productData: ProductType = productFabrice(lang, productDBData, urlImages, userId, isProductFavorite)

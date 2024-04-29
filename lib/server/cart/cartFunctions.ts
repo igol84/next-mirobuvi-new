@@ -2,7 +2,7 @@
 import {ShoppingCart} from "@/lib/db/cart";
 import {Lang} from "@/dictionaries/get-dictionary";
 import {getProductByUrl} from "@/lib/db/product";
-import {env} from "@/lib/env";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 export interface ProductCart {
   url: string
@@ -20,7 +20,7 @@ export const getCartData = async (cart: ShoppingCart, lang: Lang): Promise<Produ
     const product = await getProductByUrl(item.productId)
     if (product) {
       const name = lang==='en' ? product.name_en : product.name_ua
-      const img = `${env.FTP_URL}/products/${product.url}/1.jpeg?key=${product.imgUpdatedAt?.getTime()}`
+      const img = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime())
       const productCart: ProductCart = {
         url: product.url, name, type: product.type,
         price: product.price, size: item.size, quantity: item.quantity, img

@@ -12,13 +12,17 @@ interface CreateProduct {
   ): ProductType
 }
 
+export const getProductImageUrl = (productName: string, key: number = 0, imgName: string = '1.jpeg'): string => {
+  return `${env.FTP_URL}/products/${productName}/${imgName}?key=${key}`
+}
+
 export const createProduct: CreateProduct = (product, lang, page = 'catalog') => {
   const name = lang === 'en' ? product.name_en : product.name_ua
   const price_prefix = lang === 'en' ? '₴' : 'грн.'
   const date = product.date
   const daysInterval = dateDiffInDays(date, new Date())
   const isNew = daysInterval < DAYS_IS_NEW
-  const imageUrl = `${env.FTP_URL}/products/${product.url}/1.jpeg?key=${product.imgUpdatedAt?.getTime()}`
+  const imageUrl = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime())
   switch (product.type) {
     case "shoes": {
       const sizes: number[] = product.shoeses.map(shoes => shoes.size)

@@ -17,6 +17,7 @@ import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
 import {Image} from "@/components/product/admin/ProductImage";
 import {SizeType} from "@/components/product/admin/shoes/types";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 
 export const serverActionCreateOrEditProduct = async (formData: FormData): Promise<Response> => {
@@ -180,7 +181,7 @@ export const serverActionRenameImages = async (id: number, productName: string, 
   const dateUpdate = updatedProduct.imgUpdatedAt?.getTime()
   const response: Image[] = names.map((_, index) => {
     const name = `${index + 1}.jpeg`
-    const url = `${env.FTP_URL}/products/${productName}/${name}?key=${dateUpdate}`
+    const url = getProductImageUrl(productName, dateUpdate, name)
     return {name, url}
   })
   revalidatePath("/[lang]/products/[productUrl]/edit", 'page')
@@ -206,7 +207,7 @@ export const serverActionDeleteImage: ServerActionDeleteImage = async (id, prodU
     const newNames = names.filter(name => name !== delName).sort()
     const response: Image[] = newNames.map((_, index) => {
       const name = `${index + 1}.jpeg`
-      const url = `${env.FTP_URL}/products/${prodUrl}/${name}?key=${dateUpdate}`
+      const url = getProductImageUrl(prodUrl, dateUpdate, name)
       return {name, url}
     })
     revalidatePath("/[lang]/products/[productUrl]/edit", 'page')

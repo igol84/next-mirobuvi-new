@@ -14,6 +14,7 @@ import {env} from "@/lib/env";
 import {Image} from "@/components/product/admin/ProductImage";
 import {SizeType} from "@/components/product/admin/shoes/types";
 import _ from "lodash";
+import {getProductImageUrl} from "@/lib/productCardData";
 
 type Props = {
   params: {
@@ -41,7 +42,7 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   ftpClient.close()
   const urlImages: Image[] = images.map(image => ({
     name: image,
-    url: `${env.FTP_URL}/products/${productData.url}/${image}?key=${productData.imgUpdatedAt?.getTime()}`,
+    url: getProductImageUrl(productData.url, productData.imgUpdatedAt?.getTime(), image)
   }))
   const shoeses: SizeType[] = productData.shoeses.map((shoe) => (
     {size: shoe.size, isAvailable: shoe.is_available, length: shoe.length}
