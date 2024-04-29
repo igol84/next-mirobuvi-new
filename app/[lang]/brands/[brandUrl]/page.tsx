@@ -1,7 +1,7 @@
 import React from 'react';
 import '@/app/theme/style.scss'
 import {Lang} from "@/dictionaries/get-dictionary";
-import {BrandProps} from "@/components/Brands/types";
+import {BrandProps, getBrandsImageUrl} from "@/components/Brands/types";
 import {redirect} from "next/navigation";
 import {getViewedProducts} from "@/lib/productsGetter";
 
@@ -13,7 +13,6 @@ import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import ProductsList from "@/components/Products/productsList";
 import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/brand";
-import {env} from "@/lib/env";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import {createProduct} from "@/app/[lang]/brands/[brandUrl]/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
@@ -32,7 +31,7 @@ type Props = {
 export async function generateMetadata({params: {brandUrl, lang}}: Props) {
   const brandData = await getBrandByUrl(brandUrl)
   if (!brandData) redirect('/')
-  const imgUrl = `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}`
+  const imgUrl = getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime())
   const title = lang === 'en' ? brandData.title_en : brandData.title_ua
   const description = lang === 'en' ? brandData.meta_desc_en : brandData.meta_desc_ua
   return {
@@ -59,7 +58,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   const productsData = brandData.products as ProductWithDetailsDBType[]
   const desc = lang === 'en' ? brandData.text_en : brandData.text_ua
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_en
-  const imgUrl = `${env.FTP_URL}/brands/${brandData.url}.jpeg?key=${brandData.updatedAt}`
+  const imgUrl = getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime())
   const brand: BrandProps = {
     brandId: brandData.id, brandName, url: brandData.url, desc, imgUrl
   }

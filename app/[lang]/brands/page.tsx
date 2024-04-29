@@ -1,10 +1,9 @@
 import React from 'react';
-import {BrandCardPropsWithFirst} from "@/components/Brands/types";
+import {BrandCardPropsWithFirst, getBrandsImageUrl} from "@/components/Brands/types";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import BrandPage from "@/app/[lang]/brands/BrandPage";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {getBrands} from "@/lib/db/brand";
-import {env} from "@/lib/env";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 
 type Props = {
@@ -31,7 +30,7 @@ const BrandsPage = async ({params: {lang}}: Props) => {
   if (!isAuth)
     brandsData = brandsData.filter(brand => brand.active)
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
-    const imgUrl = `${env.FTP_URL}/brands/${brand.url}.jpeg?key=${brand.updatedAt?.getTime()}`
+    const imgUrl = getBrandsImageUrl(brand.url, brand.updatedAt?.getTime())
     return {
       brandId: brand.id, brandName: brand[`name_${lang}`], url: brand.url, isFirst: index < 6, imgUrl
     }
