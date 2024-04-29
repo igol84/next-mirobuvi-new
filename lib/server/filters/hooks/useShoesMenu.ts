@@ -1,9 +1,9 @@
 import {FilterMenuType} from "@/app/[lang]/[urlTag]/types";
-import useSizesType from "@/lib/store/filters/hooks/useSizesType";
+import useSizesType from "@/lib/server/filters/hooks/useSizesType";
 import {ShoesMenuType} from "@/components/Container/FilterMenu/ShoesMenu";
-import useFiltersGender from "@/lib/store/filters/hooks/useFiltersGander";
-import useFiltersColor from "@/lib/store/filters/hooks/useFiltersColor";
-import useFiltersSeason from "@/lib/store/filters/hooks/useFiltersSeason";
+import useFiltersGender from "@/lib/server/filters/hooks/useFiltersGander";
+import useFiltersColor from "@/lib/server/filters/hooks/useFiltersColor";
+import useFiltersSeason from "@/lib/server/filters/hooks/useFiltersSeason";
 
 type UseSizesType = {
   (

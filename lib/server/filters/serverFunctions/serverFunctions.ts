@@ -1,12 +1,12 @@
 import 'server-only'
 import {FilterMenuType, isColor, isGender, isProductType, isSeason} from "@/app/[lang]/[urlTag]/types";
 import {ProductType} from "@/components/Products/types";
-import getFilterMenuPrice from "@/lib/store/filters/serverFunctions/getFilterMenuPrice";
-import getFilterSizes from "@/lib/store/filters/serverFunctions/getFilterSizes";
-import getFilterProductType from "@/lib/store/filters/serverFunctions/getFilterProductType";
-import getFilterGender from "@/lib/store/filters/serverFunctions/getFiterGender";
-import getFilterColor from "@/lib/store/filters/serverFunctions/getFiterColor";
-import getFilterSeason from "@/lib/store/filters/serverFunctions/getFiterSeason";
+import getFilterMenuPrice from "@/lib/server/filters/serverFunctions/getFilterMenuPrice";
+import getFilterSizes from "@/lib/server/filters/serverFunctions/getFilterSizes";
+import getFilterProductType from "@/lib/server/filters/serverFunctions/getFilterProductType";
+import getFilterGender from "@/lib/server/filters/serverFunctions/getFiterGender";
+import getFilterColor from "@/lib/server/filters/serverFunctions/getFiterColor";
+import getFilterSeason from "@/lib/server/filters/serverFunctions/getFiterSeason";
 import {
   filterProductsByColor,
   filterProductsByMaxPrice,
@@ -14,8 +14,8 @@ import {
   filterProductsByProductType, filterProductsBySeason,
   filterProductsBySize,
   filterProductsByTag
-} from "@/lib/store/filters/serverFunctions/filtering";
-import {FiltersValues} from "@/lib/store/filters/serverFunctions/types";
+} from "@/lib/server/filters/serverFunctions/filtering";
+import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
 
 
 type GetFiltersType = {

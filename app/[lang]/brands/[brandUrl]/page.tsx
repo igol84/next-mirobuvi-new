@@ -6,9 +6,9 @@ import {redirect} from "next/navigation";
 import {getViewedProducts} from "@/lib/productsGetter";
 
 import {SortingType} from "@/components/base/SortingSelect/types";
-import {getPageData, sortingProducts} from "@/lib/store/serverFunctions";
-import {FiltersValues} from "@/lib/store/filters/serverFunctions/types";
-import {getFilterProducts} from "@/lib/store/filters/serverFunctions/serverFunctions";
+import {getPageData, sortingProducts} from "@/lib/server/serverFunctions";
+import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
+import {getFilterProducts} from "@/lib/server/filters/serverFunctions/serverFunctions";
 import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import ProductsList from "@/components/Products/productsList";

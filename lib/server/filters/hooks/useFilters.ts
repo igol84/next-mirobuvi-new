@@ -1,10 +1,10 @@
 import {PriceFilterType} from "@/components/Container/FilterMenu/PriceFilter";
 import {FilterMenuPriceType, FilterMenuType, FilterProductType} from "@/app/[lang]/[urlTag]/types";
 import {ProductTypeType} from "@/components/Container/FilterMenu/ProductType";
-import useFiltersProductType from "@/lib/store/filters/hooks/useFiltersProductType";
-import useFiltersPrice from "@/lib/store/filters/hooks/useFiltersPrice";
+import useFiltersProductType from "@/lib/server/filters/hooks/useFiltersProductType";
+import useFiltersPrice from "@/lib/server/filters/hooks/useFiltersPrice";
 import {ShoesMenuType} from "@/components/Container/FilterMenu/ShoesMenu";
-import useShoesMenu from "@/lib/store/filters/hooks/useShoesMenu";
+import useShoesMenu from "@/lib/server/filters/hooks/useShoesMenu";
 
 
 type UseFilters = {

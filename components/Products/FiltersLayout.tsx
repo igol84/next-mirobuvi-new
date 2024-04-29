@@ -11,8 +11,8 @@ import {FaFilter} from "react-icons/fa";
 import DrawerMenu from "@/components/Container/FilterMenu/DrawerMenu";
 import {FilterMenuType} from "@/app/[lang]/[urlTag]/types";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
-import useScroll from "@/lib/store/filters/hooks/useScroll";
-import useFilters from "@/lib/store/filters/hooks/useFilters";
+import useScroll from "@/lib/server/filters/hooks/useScroll";
+import useFilters from "@/lib/server/filters/hooks/useFilters";
 
 
 interface Props {

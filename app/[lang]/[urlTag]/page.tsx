@@ -5,11 +5,11 @@ import {redirect} from "next/navigation";
 import {convertToTagUrlFromDB, ParentTagForBreadCrumb, TagUrl} from "@/app/[lang]/[urlTag]/types";
 import {getTagsUrlData, getTagUrlData} from "@/app/api/fetchFunctions";
 import ProductsList from "@/components/Products/productsList";
-import {getFilterProducts,} from "@/lib/store/filters/serverFunctions/serverFunctions";
+import {getFilterProducts,} from "@/lib/server/filters/serverFunctions/serverFunctions";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {ProductType} from "@/components/Products/types";
 import {createProduct} from "@/lib/productCardData";
-import {getPageData, sortingProducts} from "@/lib/store/serverFunctions";
+import {getPageData, sortingProducts} from "@/lib/server/serverFunctions";
 import {SortingType} from "@/components/base/SortingSelect/types";
 import SimplePage from "@/app/[lang]/[urlTag]/SimplePage";
 import {
@@ -19,7 +19,7 @@ import {
   searchProducts,
   searchProductsByTag
 } from "@/app/[lang]/[urlTag]/serverFunctions";
-import {FiltersValues} from "@/lib/store/filters/serverFunctions/types";
+import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import {getProducts} from "@/lib/db/product";
 
