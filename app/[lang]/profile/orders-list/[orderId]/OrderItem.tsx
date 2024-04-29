@@ -26,7 +26,7 @@ const OrderItem = ({orderItem}: Props) => {
           _hover={{color: 'hoverLinkTextColor'}}
         >
           <ChakraNextImage
-            as={NextImage} src={`https://mirobuvi.com.ua/ftp_products/${orderItem.imgUrl}/02.jpg`}
+            as={NextImage} src={orderItem.imgUrl}
             alt={'image'} width={0} height={0} sizes="100vw" borderRadius={[30, 15]}
             style={{width: '100%', height: 'auto'}}
           />

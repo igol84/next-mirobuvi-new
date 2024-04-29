@@ -55,7 +55,7 @@ const ItemEditor = ({orderItem}: Props) => {
       <Tooltip label={productName} fontSize='md'>
         <Box>
           <ChakraNextImage
-            as={NextImage} src={`https://mirobuvi.com.ua/ftp_products/${orderItem.imgUrl}/02.jpg`}
+            as={NextImage} src={orderItem.imgUrl}
             alt={'image'} width={49} height={49} sizes="100vw" borderRadius={[30, 15]}
           />
         </Box>

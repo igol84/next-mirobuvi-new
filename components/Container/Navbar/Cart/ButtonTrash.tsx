@@ -1,6 +1,6 @@
 import React, {useTransition} from 'react';
 import {IconButton} from "@chakra-ui/react";
-import {deleteProductQuantity} from "@/lib/action";
+import {deleteProductQuantity} from "@/lib/server/cart/action";
 import {BsFillTrashFill} from "react-icons/bs";
 
 interface Props {

@@ -23,7 +23,7 @@ const Product = ({item}: Props) => {
             _hover={{color: 'hoverLinkTextColor'}}
       >
         <ChakraNextImage
-          as={NextImage} src={`https://mirobuvi.com.ua/ftp_products/${item.imgUrl}/02.jpg`}
+          as={NextImage} src={item.imgUrl}
           alt={'image'} width={49} height={49} sizes="100vw" borderRadius={[30, 15]}
         />
         {productName}

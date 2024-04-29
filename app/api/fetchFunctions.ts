@@ -1,22 +1,9 @@
 import 'server-only'
-import {ProductSchema, TagUrlSchema} from "@/schemas/data";
+import {TagUrlSchema} from "@/schemas/data";
 import {env} from "@/lib/env";
 
 
 const api = env.API_URL
-
-export async function getProductData(url: string): Promise<ProductSchema | null | undefined> {
-  try {
-    const res = await fetch(`${api}/showcase/product-by-url/${url}`, {next: {revalidate: 3600}})
-    if (res.ok)
-      return await res.json()
-    if (res.status === 404) {
-      return null
-    }
-  } catch (error) {
-    return undefined
-  }
-}
 
 export async function getTagsUrlData(): Promise<TagUrlSchema[]> {
   const res = await fetch(`${api}/tag_url/`, {next: {revalidate: 3600}})

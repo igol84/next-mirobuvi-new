@@ -3,7 +3,8 @@ import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import OrderForm from "@/app/[lang]/admin/orders/[orderId]/OrderForm";
 import {getOrder} from "@/lib/db/order";
 import {IOrder, IOrderItem} from "./types";
-import {getProductData} from "@/app/api/fetchFunctions";
+import {getProductByUrl} from "@/lib/db/product";
+import {env} from "@/lib/env";
 
 type Props = {
   params: {
@@ -25,8 +26,9 @@ const Page = async ({params: {orderId}}: Props) => {
   const orderItems: IOrderItem[] = []
   if (order) {
     for (const item of order.orderItems) {
-      const productData = await getProductData(item.productId)
+      const productData = await getProductByUrl(item.productId)
       if (productData) {
+        const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
         orderItems.push({
           productId: item.id,
           productNameUa: item.productNameUa,
@@ -35,7 +37,7 @@ const Page = async ({params: {orderId}}: Props) => {
           price: item.price,
           quantity: item.quantity,
           url: productData.url,
-          imgUrl: productData.product_key
+          imgUrl
         })
       }
     }

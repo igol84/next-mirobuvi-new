@@ -3,7 +3,7 @@ import React, {useState, useTransition} from 'react';
 import {Box, Button, ScaleFade} from "@chakra-ui/react";
 import {MdShoppingCart} from 'react-icons/md'
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
-import {incrementProductQuantity} from "@/lib/action";
+import {incrementProductQuantity} from "@/lib/server/cart/action";
 
 
 interface Props {
@@ -15,18 +15,18 @@ const AddToCartButton = ({productId, size}: Props) => {
   const d = useDictionaryTranslate("product")
   const [isPending, startTransition] = useTransition()
   const [success, setSuccess] = useState(false)
-  const isDisabled = !(size === undefined || size)
+  const isEnable = size === undefined || size
   const onClick = () => {
-    setSuccess(false);
+    setSuccess(false)
     startTransition(async () => {
       await incrementProductQuantity(productId, size ? size : null)
-      setSuccess(true);
-    });
+      setSuccess(true)
+    })
   };
   return (
     <>
       <Button onClick={onClick} leftIcon={<MdShoppingCart/>} variant='solid'
-              isDisabled={isDisabled} isLoading={isPending}>
+              isDisabled={!isEnable} isLoading={isPending}>
         {d('buy')}
       </Button>
 
@@ -36,7 +36,7 @@ const AddToCartButton = ({productId, size}: Props) => {
         </Box>
       </ScaleFade>
     </>
-  );
-};
+  )
+}
 
 export default AddToCartButton;

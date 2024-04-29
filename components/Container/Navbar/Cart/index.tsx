@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Flex, Image, useColorMode} from "@chakra-ui/react";
-import {ProductCart} from "@/lib/cartFunctions";
+import {ProductCart} from "@/lib/server/cart/cartFunctions";
 import CartItem from "@/components/Container/Navbar/Cart/CartItem";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 

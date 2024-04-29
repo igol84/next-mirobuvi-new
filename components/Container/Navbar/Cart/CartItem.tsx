@@ -4,7 +4,7 @@ import NextLink from "next/link";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
 import NextImage from "next/image";
 import {formatPrice} from "@/lib/format";
-import {ProductCart} from "@/lib/cartFunctions";
+import {ProductCart} from "@/lib/server/cart/cartFunctions";
 import {LangContext} from "@/locale/LangProvider";
 import ButtonMinus from "@/components/Container/Navbar/Cart/ButtonMinus";
 import ButtonPlus from "@/components/Container/Navbar/Cart/ButtonPlus";

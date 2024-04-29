@@ -3,7 +3,7 @@ import {Readable} from "stream";
 
 export const getFTPClient = async (host: string, user: string, password: string): Promise<Client> => {
   const client = new Client()
-  client.ftp.verbose = true
+  client.ftp.verbose = false
   await client.access({
     host,
     user,

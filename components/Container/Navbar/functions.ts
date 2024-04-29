@@ -1,5 +1,5 @@
 'use client'
-import {ProductCart} from "@/lib/cartFunctions";
+import {ProductCart} from "@/lib/server/cart/cartFunctions";
 
 export interface TotalData {
   count: number

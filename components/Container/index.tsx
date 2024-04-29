@@ -3,7 +3,7 @@ import React, {ReactNode, useEffect} from 'react';
 import {Flex, useDisclosure} from "@chakra-ui/react";
 import DrawerMenu from "@/components/Container/Navbar/NavbarDrawer";
 import {Item} from "@/components/Container/Navbar/types";
-import {ProductCart} from "@/lib/cartFunctions";
+import {ProductCart} from "@/lib/server/cart/cartFunctions";
 import Header from "@/components/Container/Header";
 import Footer from "@/components/Container/Footer";
 import {User} from "@/lib/store/types";

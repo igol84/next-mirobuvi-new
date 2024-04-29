@@ -3,7 +3,9 @@ import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import {getUserWithOrders} from "@/lib/db/user";
 import OrdersPage from "./OrdersPage";
 import {IOrder, IOrderItem, IUser} from "./types";
-import {getProductData} from "@/app/api/fetchFunctions";
+import {getProductByUrl} from "@/lib/db/product";
+import {env} from "@/lib/env";
+
 
 interface Props {
   params: { lang: Lang, userId: string }
@@ -27,8 +29,9 @@ const Page = async ({params: {lang, userId}}: Props) => {
   for (const order of userdata.orders) {
     const items: IOrderItem[] = []
     for (const item of order.orderItems) {
-      const productData = await getProductData(item.productId)
+      const productData = await getProductByUrl(item.productId)
       if (productData) {
+        const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
         items.push({
           id: item.id,
           productNameUa: item.productNameUa,
@@ -37,7 +40,7 @@ const Page = async ({params: {lang, userId}}: Props) => {
           price: item.price,
           url: productData.url,
           quantity: item.quantity,
-          imgUrl: productData.product_key
+          imgUrl
         })
       }
     }

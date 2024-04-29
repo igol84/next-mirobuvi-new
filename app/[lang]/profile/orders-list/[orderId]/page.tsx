@@ -1,9 +1,10 @@
 import React from 'react';
 import OrderPage from "@/app/[lang]/profile/orders-list/[orderId]/OrderPage";
 import {getOrder} from "@/lib/db/order";
-import {getProductData} from "@/app/api/fetchFunctions";
 import {IOrder, IOrderItem} from "@/app/[lang]/profile/orders-list/[orderId]/types";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
+import {getProductByUrl} from "@/lib/db/product";
+import {env} from "@/lib/env";
 
 export async function generateMetadata({ params: {lang} }: { params: { lang: Lang } }) {
   const dict = await getDictionary(lang)
@@ -25,8 +26,9 @@ async function orderPage({params: {orderId, lang}}: Props) {
   const orderItems: IOrderItem[] = []
   if (order) {
     for (const item of order.orderItems) {
-      const productData = await getProductData(item.productId)
+      const productData = await getProductByUrl(item.productId)
       if (productData) {
+        const imgUrl = `${env.FTP_URL}/products/${productData.url}/1.jpeg?key=${productData.imgUpdatedAt?.getTime()}`
         orderItems.push({
           productNameUa: item.productNameUa,
           productNameEn: item.productNameEn,
@@ -34,7 +36,7 @@ async function orderPage({params: {orderId, lang}}: Props) {
           price: item.price,
           url: productData.url,
           quantity: item.quantity,
-          imgUrl: productData.product_key
+          imgUrl
         })
       }
     }

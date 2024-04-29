@@ -1,7 +1,7 @@
 import React, {useTransition} from 'react';
 import {TiMinus} from "react-icons/ti";
 import {IconButton} from "@chakra-ui/react";
-import {decrementProductQuantity} from "@/lib/action";
+import {decrementProductQuantity} from "@/lib/server/cart/action";
 
 interface Props {
   productId: string

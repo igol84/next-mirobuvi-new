@@ -12,7 +12,7 @@ import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import styled from '@emotion/styled'
 import {MoonIcon, SunIcon} from "@chakra-ui/icons";
 import {LangContext} from "@/locale/LangProvider";
-import {ProductCart} from "@/lib/cartFunctions";
+import {ProductCart} from "@/lib/server/cart/cartFunctions";
 import {Item} from "@/components/Container/Navbar/types";
 import FavoriteProductsIcon from "@/components/Container/FavoriteProductsIcon";
 import {TagUrl} from "@/app/[lang]/[urlTag]/types";

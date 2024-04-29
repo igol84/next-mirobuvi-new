@@ -6,7 +6,7 @@ import './globals.scss'
 import Container from "@/components/Container";
 import {getTagsUrlData} from "@/app/api/fetchFunctions";
 import {getCart} from "@/lib/db/cart";
-import {getCartData, ProductCart} from "@/lib/cartFunctions";
+import {getCartData, ProductCart} from "@/lib/server/cart/cartFunctions";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
 import {env} from "@/lib/env";

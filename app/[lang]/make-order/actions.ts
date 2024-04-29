@@ -4,7 +4,7 @@ import {ErrorField, OrderFormSchema, ProductDetailsByUrl, Response, schema} from
 import {createOrder, OrderCreateInput, OrderItemCreateInput, OrderStatusType} from "@/lib/db/order";
 import {revalidatePath} from "next/cache";
 import {deleteCart, getCart} from "@/lib/db/cart";
-import {getProductData} from "@/app/api/fetchFunctions";
+import {getProductByUrl} from "@/lib/db/product";
 
 export const serverAction = async (orderFormData: OrderFormSchema): Promise<Response> => {
   const result: SafeParseReturnType<OrderFormSchema, OrderFormSchema> = schema.safeParse(orderFormData)
@@ -20,10 +20,10 @@ export const serverAction = async (orderFormData: OrderFormSchema): Promise<Resp
   if (cart && cart.items.length) {
     const productDetailsByUrl: ProductDetailsByUrl = new Map()
     for (const item of cart.items) {
-      const productData = await getProductData(item.productId)
+      const productData = await getProductByUrl(item.productId)
       if (productData)
         productDetailsByUrl.set(item.productId,
-          {ua: productData.name_ua, en: productData.name, price: productData.price}
+          {ua: productData.name_ua, en: productData.name_en, price: productData.price}
         )
     }
     const orderItems: OrderItemCreateInput[] = []
