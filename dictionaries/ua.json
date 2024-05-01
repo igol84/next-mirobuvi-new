@@ -168,6 +168,7 @@
   "admin": {
     "title": "Панель адміністратора",
     "description": "Панель адміністратора",
+    "tagUrls": "Тегі",
     "orders": "Замовлення"
   },
   "status": {
@@ -232,5 +233,8 @@
     "summer": "літо",
     "autumn": "осінь",
     "winter": "зима"
+  },
+  "tagAdmin": {
+    "tagsNotFound": "Теги не знайдено"
   }
 }

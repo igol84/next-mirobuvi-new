@@ -156,3 +156,15 @@ model Shoes {
   product_id   Int
   product      Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 }
+
+model TagUrl {
+  url          String @id
+  parent       String
+  order_number Float
+  search_en    String
+  search_ua    String
+  desc_en      String
+  desc_ua      String
+  text_en      String
+  text_ua      String
+}

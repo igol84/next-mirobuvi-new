@@ -6,11 +6,11 @@ import {authOptions} from "@/configs/auth";
 
 export type CartWithProducts = Prisma.CartGetPayload<{
   include: { items: true }
-}>;
+}>
 
 export type ShoppingCart = CartWithProducts & {
-  cartSize: number;
-};
+  cartSize: number
+}
 
 export async function getCart(): Promise<ShoppingCart | null> {
   const session = await getServerSession(authOptions)

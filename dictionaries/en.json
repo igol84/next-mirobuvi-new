@@ -168,7 +168,8 @@
   "admin": {
     "title": "Admin",
     "description": "Admin Panel",
-    "orders": "Orders"
+    "orders": "Orders",
+    "tagUrls": "Tag Urls"
   },
   "status": {
     "New": "new",
@@ -231,5 +232,8 @@
     "summer": "summer",
     "autumn": "autumn",
     "winter": "winter"
+  },
+  "tagAdmin": {
+    "tagsNotFound": "Tags not found"
   }
 }
