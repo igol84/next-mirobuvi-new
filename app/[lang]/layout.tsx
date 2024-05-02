@@ -4,7 +4,6 @@ import {Providers} from "@/app/providers";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import './globals.scss'
 import Container from "@/components/Container";
-import {getTagsUrlData} from "@/app/api/fetchFunctions";
 import {getCart} from "@/lib/db/cart";
 import {getCartData, ProductCart} from "@/lib/server/cart/cartFunctions";
 import {getServerSession} from "next-auth";
@@ -13,10 +12,10 @@ import {env} from "@/lib/env";
 import {getUser} from "@/lib/db/user";
 import {userConvertFromDB} from "@/lib/store/user";
 import {convertToTagUrlFromDB, TagUrl} from "@/app/[lang]/[urlTag]/types";
-import {TagUrlSchema} from "@/schemas/data";
 import _ from "lodash";
 import {getBrands} from "@/lib/db/brand";
 import {Item} from "@/components/Container/Navbar/types";
+import {getTagUrls} from "@/lib/db/tagUrl";
 
 export const dynamic = 'force-dynamic'
 
@@ -57,7 +56,7 @@ export default async function RootLayout(
   const admins = JSON.parse(env.ADMINS)
   const isAdmin = admins.includes(userEmail)
   const cartProducts: ProductCart[] = cart ? await getCartData(cart, lang) : []
-  const fetchTagsUrl: TagUrlSchema[] = await getTagsUrlData()
+  const fetchTagsUrl = await getTagUrls()
   const fetchParentTagsUrl = fetchTagsUrl.filter(tag => tag.parent === '')
   const orderedFetchParentTagsUrl = _.orderBy(fetchParentTagsUrl, ['order_number'], ['asc'])
   const fetchSubTagsUrl = fetchTagsUrl.filter(tag => tag.parent !== '')

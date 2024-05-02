@@ -3,7 +3,6 @@ import '@/app/theme/style.scss'
 import {Lang} from "@/dictionaries/get-dictionary";
 import {redirect} from "next/navigation";
 import {convertToTagUrlFromDB, ParentTagForBreadCrumb, TagUrl} from "@/app/[lang]/[urlTag]/types";
-import {getTagsUrlData, getTagUrlData} from "@/app/api/fetchFunctions";
 import ProductsList from "@/components/Products/productsList";
 import {getFilterProducts,} from "@/lib/server/filters/serverFunctions/serverFunctions";
 import {getViewedProducts} from "@/lib/productsGetter";
@@ -22,6 +21,7 @@ import {
 import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import {getProducts} from "@/lib/db/product";
+import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
 
 type Props = {
   params: {
@@ -36,7 +36,7 @@ type Props = {
 }
 
 export async function generateMetadata({params: {lang, urlTag}}: Props) {
-  const fetchData = await getTagUrlData(urlTag)
+  const fetchData = await getTagUrl(urlTag)
   if (!fetchData) redirect(`/`)
   const tagData: TagUrl = convertToTagUrlFromDB(fetchData, lang)
   return {
@@ -49,8 +49,8 @@ export async function generateMetadata({params: {lang, urlTag}}: Props) {
 }
 
 export async function generateStaticParams() {
-  const tagsUrlData = await getTagsUrlData()
-  return tagsUrlData.filter(tag => tag.search !== '').map(tag => ({urlTag: tag.url}))
+  const tagsUrlData = await getTagUrls()
+  return tagsUrlData.filter(tag => tag.search_en !== '').map(tag => ({urlTag: tag.url}))
 }
 
 
@@ -58,7 +58,7 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
   const {
     page = '1', sortingBy = 'byOrder', search, ...filtersValues
   } = searchParams
-  const tagsUrlData = await getTagsUrlData()
+  const tagsUrlData = await getTagUrls()
   const fetchData = tagsUrlData.find(tag => tag.url === urlTag)
   if (!fetchData) redirect(`/`)
 
@@ -72,7 +72,7 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
   }
   const parentData = tagsUrlData.find(tag => tag.url === fetchData.parent)
   const parentTagForBreadCrumb: ParentTagForBreadCrumb | undefined = parentData ? {
-    name: lang === 'en' ? parentData.search : parentData.search_ua,
+    name: lang === 'en' ? parentData.search_en : parentData.search_ua,
     url: parentData.url
   } : undefined
   const breadCrumbs = await getBreadCrumbData(lang, tagData.search, parentTagForBreadCrumb)
@@ -86,7 +86,6 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
 
   const filterProducts = getFilterProducts(products, filtersValues)
   products = filterProducts.products
-
   products = sortingProducts(products, sortingBy)
   const [productsSlice, paginationBar] = await getPageData(products, parseInt(page))
   return (

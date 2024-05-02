@@ -4,7 +4,7 @@ import {prisma} from "@/lib/db/prisma"
 
 export type TagUrl = Prisma.TagUrlGetPayload<{}>
 export type CreateTagUrlType = Prisma.TagUrlCreateInput
-export type UpdateTagUrlType = Prisma.TagUrlUncheckedUpdateInput & { url: string }
+export type UpdateTagUrlType = Prisma.TagUrlUncheckedUpdateInput
 
 export const getTagUrls = cache(async (): Promise<TagUrl[]> => {
   return await prisma.tagUrl.findMany()
@@ -22,9 +22,9 @@ export const createTagUrl = async (data: CreateTagUrlType): Promise<TagUrl> => {
   })
 }
 
-export const updateTagUrl = async (data: UpdateTagUrlType): Promise<TagUrl> => {
+export const updateTagUrl = async (url: string, data: UpdateTagUrlType): Promise<TagUrl> => {
   return await prisma.tagUrl.update({
-    where: {url: data.url},
+    where: {url},
     data,
   })
 }

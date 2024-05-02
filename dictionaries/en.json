@@ -5,7 +5,11 @@
     "cancel": "Cancel",
     "save": "Save",
     "close": "Close",
-    "delete": "Delete"
+    "delete": "Delete",
+    "back": "Back",
+    "gt2": "must be at least 2 characters",
+    "lt16": "contain at most 16 characters",
+    "exist": "already exist"
   },
   "home": {
     "title": "Buy sneakers and sneakers in the online store, cheap sneakers in Kyiv, Kharkov, Ukraine - online shoe store Mirobuvi.com.ua",
@@ -234,6 +238,13 @@
     "winter": "winter"
   },
   "tagAdmin": {
-    "tagsNotFound": "Tags not found"
+    "tagsNotFound": "Tags not found",
+    "addNewTag": "Add new Tag",
+    "editTag": "Edit Tag",
+    "url": "Url",
+    "parent": "Parent Url",
+    "orderNumber": "Order Number",
+    "searchEn": "Search En",
+    "searchUa": "Search Ua"
   }
 }

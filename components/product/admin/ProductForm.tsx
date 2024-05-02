@@ -106,6 +106,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
       setIsDeleting(false)
       router.back()
     } : () => undefined
+
   const onAddSize = () => {
     if(shoes.length>0){
       const lastShoes = shoes[shoes.length - 1] as SizeType
@@ -118,8 +119,8 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
     } else {
       setShoes([{size: 36, isAvailable: true, length: 23.5}])
     }
-
   }
+
   const onChangeSize = (oldSize: SizeType, newSize: SizeType) => {
     setShoes(shoeses => shoeses.map(size => {
       if (size === oldSize)
@@ -310,7 +311,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
 
 
         <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between' pt={30}>
-          <Flex pt={4}>
+          <Flex pt={4} alignItems="center">
             <Button mr={3} variant='green' type='submit' isLoading={isLoading}>{dict.save}</Button>
             <Button onClick={router.back}>{dict.cancel}</Button>
           </Flex>

@@ -1,5 +1,6 @@
-import {TagUrlSchema} from "@/schemas/data";
+
 import {Lang} from "@/dictionaries/get-dictionary";
+import {TagUrl as TagUrlSchema} from "@/lib/db/tagUrl";
 
 export interface TagUrl {
   url: string
@@ -15,9 +16,9 @@ export const convertToTagUrlFromDB = (tagUrlDB: TagUrlSchema, lang: Lang, submen
     url: tagUrlDB.url,
     submenu,
     orderNumber: tagUrlDB.order_number,
-    search: lang === 'en' ? tagUrlDB.search : tagUrlDB.search_ua,
-    desc: lang === 'en' ? tagUrlDB.desc : tagUrlDB.desc_ua,
-    text: lang === 'en' ? tagUrlDB.text : tagUrlDB.text_ua
+    search: lang === 'en' ? tagUrlDB.search_en : tagUrlDB.search_ua,
+    desc: lang === 'en' ? tagUrlDB.desc_en : tagUrlDB.desc_ua,
+    text: lang === 'en' ? tagUrlDB.text_en : tagUrlDB.text_ua
   }
 }
 

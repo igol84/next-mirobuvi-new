@@ -44,7 +44,6 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
     resolver: zodResolver(schema)
   })
   const onFormSubmit: SubmitHandler<BrandFormSchema> = async (data, event) => {
-
     const urlIsConsist = urlList.includes(convertTextForUrl(data.url))
     if (urlIsConsist) {
       setError('url', {
