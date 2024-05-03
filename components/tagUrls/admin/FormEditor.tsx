@@ -10,7 +10,7 @@ import {
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
+  NumberInputStepper, Select,
   Text,
   Textarea
 } from "@chakra-ui/react";
@@ -24,10 +24,11 @@ import {useRouter} from "next/navigation";
 import {serverActionDeleteTagUrl, serverActionTagUrl} from "@/app/[lang]/admin/tagUrls/add/actions";
 
 interface Props {
-  defaultValues: TagUrlsFormSchema
+  defaultValues: TagUrlsFormSchema,
+  parents: string[]
 }
 
-const FormEditor = ({defaultValues}: Props) => {
+const FormEditor = ({defaultValues, parents}: Props) => {
   const [isDeleting, setIsDeleting] = useState(false)
   const isEditing = !!defaultValues.selectedUrl
   const {dict, d} = useDict()
@@ -83,15 +84,11 @@ const FormEditor = ({defaultValues}: Props) => {
                 )}
               </Flex>
             </FormControl>
-            <FormControl isInvalid={!!errors.parent}>
-              <Flex direction='row' alignItems='center' gap={2}>
-                <Text>{dict.parent}</Text>
-                <Input {...register('parent')} placeholder={dict.parent}/>
-                {errors.parent && (
-                  <FormErrorMessage>{dict.parent} {dict.gt2}</FormErrorMessage>
-                )}
-              </Flex>
-            </FormControl>
+            <Select {...register('parent')} maxW={200}>
+              {parents.map(parent => (
+                <option key={parent} value={parent}>{parent}</option>
+              ))}
+            </Select>
             <FormControl isInvalid={!!errors.orderNumber} isRequired>
               <Flex direction='row' alignItems='center' gap={2}>
                 <Text>{d('orderNumber')}</Text>

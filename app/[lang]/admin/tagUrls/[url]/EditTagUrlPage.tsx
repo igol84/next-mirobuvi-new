@@ -10,10 +10,11 @@ import {TagUrlsFormSchema} from "@/components/tagUrls/admin/types";
 
 
 interface EditTagUrlPageProps {
-  defaultValues: TagUrlsFormSchema
+  defaultValues: TagUrlsFormSchema,
+  parents: string[]
 }
 
-const EditTagUrlPage = ({defaultValues}: EditTagUrlPageProps) => {
+const EditTagUrlPage = ({defaultValues, parents}: EditTagUrlPageProps) => {
   const d = useDictionaryTranslate("global")
   const router = useRouter()
   return (
@@ -21,7 +22,7 @@ const EditTagUrlPage = ({defaultValues}: EditTagUrlPageProps) => {
       <Button variant='ghost' colorScheme='white' onClick={router.back} leftIcon={<AiOutlineRollback/>}>
         {d('back')}
       </Button>
-      <FormEditor defaultValues={defaultValues}/>
+      <FormEditor defaultValues={defaultValues} parents={parents}/>
     </Box>
   )
 }

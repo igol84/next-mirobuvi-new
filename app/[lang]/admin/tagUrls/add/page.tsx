@@ -1,10 +1,13 @@
 import React from "react";
 import AddPage from "@/app/[lang]/admin/tagUrls/add/AddPage";
+import {getTagUrls} from "@/lib/db/tagUrl";
+import _ from "lodash";
 
 
 const Page = async () => {
-
-  return <AddPage/>
+  const tagUrlsData = await getTagUrls()
+  const parents = _.union(tagUrlsData.map(tagUrl=>tagUrl.parent))
+  return <AddPage parents={parents}/>
 
 }
 

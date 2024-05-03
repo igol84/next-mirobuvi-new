@@ -1,9 +1,10 @@
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
-import {getTagUrl} from "@/lib/db/tagUrl";
+import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
 import React from "react";
 import EditTagUrlPage from "@/app/[lang]/admin/tagUrls/[url]/EditTagUrlPage";
 import {SafeParseReturnType} from "zod";
 import {schema, TagUrlsFormSchema} from "@/components/tagUrls/admin/types";
+import _ from "lodash";
 
 type Props = {
   params: {
@@ -35,8 +36,10 @@ const Page = async ({params: {lang, url}}: Props) => {
   if (!result.success)
     return <div>Data Error</div>
   const defaultValues = result.data
+  const tagUrlsData = await getTagUrls()
+  const parents = _.union(tagUrlsData.map(tagUrl=>tagUrl.parent))
   return (
-    <EditTagUrlPage defaultValues={defaultValues}/>
+    <EditTagUrlPage defaultValues={defaultValues} parents={parents}/>
   )
 }
 
