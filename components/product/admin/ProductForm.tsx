@@ -56,7 +56,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
   const [shoes, setShoes] = useState(shoeses)
   const {dict, d, dc, ds} = useDict()
   const router = useRouter()
-  const isEditing = !!defaultValues.id
+  const isEditing = !!defaultValues.selectedId
   const {
     register, handleSubmit, setError,
     formState: {errors, isSubmitting},
@@ -94,15 +94,15 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
   const [idDeleting, setIsDeleting] = useState<boolean>(false)
   const isLoading = isSubmitting || idDeleting
   const headerRenameImages = async (names: string[]): Promise<Image[]> => {
-    return await serverActionRenameImages(defaultValues.id as number, defaultValues.url, names)
+    return await serverActionRenameImages(defaultValues.selectedId as number, defaultValues.url, names)
   }
   const headerDeleteImage = async (name: string, names: string[]): Promise<Image[] | null> => {
-    return await serverActionDeleteImage(defaultValues.id as number, defaultValues.url, name, names)
+    return await serverActionDeleteImage(defaultValues.selectedId as number, defaultValues.url, name, names)
   }
   const onDelete = isEditing
     ? async (): Promise<void> => {
       setIsDeleting(true)
-      await serverActionDeleteProduct(defaultValues.id as number)
+      await serverActionDeleteProduct(defaultValues.selectedId as number)
       setIsDeleting(false)
       router.back()
     } : () => undefined
@@ -134,7 +134,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
   }
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
-      <input type="hidden" {...register('id')}/>
+      <input type="hidden" {...register('selectedId')}/>
       <input type="hidden" {...register('brandId')}/>
       <Flex direction='column' gap={2}>
         <Flex alignItems="center" gap={3}>
@@ -261,6 +261,22 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
 
         <Flex alignItems="center" gap={20}>
           <Checkbox {...register('promActive')}>{d('promActive')}</Checkbox>
+          <Flex direction='row' alignItems='center' gap={2}>
+            <Text>id</Text>
+            <FormControl isInvalid={!!errors.id} isRequired>
+            <NumberInput name={register('id').name}
+                         defaultValue={defaultValues.id} min={0}>
+              <NumberInputField/>
+              <NumberInputStepper>
+                <NumberIncrementStepper/>
+                <NumberDecrementStepper/>
+              </NumberInputStepper>
+            </NumberInput>
+              {errors.id && (
+                <FormErrorMessage>id {dict[errors.id.message! as 'consist']}</FormErrorMessage>
+              )}
+            </FormControl>
+          </Flex>
           <Flex direction='row' alignItems='center' gap={2}>
             <Text>{d('promAddToId')}</Text>
             <NumberInput name={register('promAddToId').name}

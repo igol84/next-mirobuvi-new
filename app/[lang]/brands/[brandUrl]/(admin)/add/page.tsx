@@ -7,7 +7,7 @@ import {getBrandByUrl} from "@/lib/db/brand";
 import {redirect} from "next/navigation";
 import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/(admin)/add/serverFunctions";
 import {DefaultValues, defaultValues} from "@/components/product/admin/types";
-import {getProductUrls} from "@/lib/db/product";
+import {getProductNexId, getProductUrls} from "@/lib/db/product";
 import {checkForAdmin} from "@/utility/auth";
 import {SizeType} from "@/components/product/admin/shoes/types";
 
@@ -19,7 +19,7 @@ type Props = {
 }
 
 
-const AddNewBrandPage = async ({params: {lang, brandUrl}}: Props) => {
+const AddNewProductPage = async ({params: {lang, brandUrl}}: Props) => {
   const dict = await getDictionary(lang)
   const isAdmin = await checkForAdmin()
   if (!isAdmin)  redirect('/')
@@ -27,7 +27,8 @@ const AddNewBrandPage = async ({params: {lang, brandUrl}}: Props) => {
   if (!brandData) redirect(`/`)
   const breadCrumb = await getBreadCrumb(lang, brandData.name_en, brandUrl)
   const allProductUrls = await getProductUrls()
-  const defaultValuesWithBrandId: DefaultValues = {...defaultValues, brandId: brandData.id}
+  const nexId = await getProductNexId()
+  const defaultValuesWithBrandId: DefaultValues = {...defaultValues, brandId: brandData.id, id: nexId}
   const shoeses: SizeType = {size: 36, isAvailable: true, length: 23.5}
 
   return (
@@ -39,4 +40,4 @@ const AddNewBrandPage = async ({params: {lang, brandUrl}}: Props) => {
   )
 }
 
-export default AddNewBrandPage
+export default AddNewProductPage

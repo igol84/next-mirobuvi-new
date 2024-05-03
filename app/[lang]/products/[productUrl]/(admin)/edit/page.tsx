@@ -49,6 +49,7 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   ))
   const sortedShoes = _.sortBy(shoeses, 'size')
   const defaultValues: ProductFormSchema = {
+    selectedId: productData.id,
     id: productData.id,
     nameEn: productData.name_en,
     nameUa: productData.name_ua,

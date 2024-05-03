@@ -21,17 +21,23 @@ import {getProductImageUrl} from "@/lib/productCardData";
 
 
 export const serverActionCreateOrEditProduct = async (formData: FormData): Promise<Response> => {
-  const id: number | null = !!formData.get("id") ? Number(formData.get("id")) : null
-  const isEditing = !!id
+  const selectedId: number | null = !!formData.get("selectedId") ? Number(formData.get("selectedId")) : null
+  const id = Number(formData.get("id"))
+  if(selectedId!==id){
+    const oldProductData = await getProduct(id)
+    if (oldProductData) return {success: false, errors: [{field: 'id', message: 'consist'}]}
+  }
+  const isEditing = !!selectedId
   let allProductUrls = await getProductUrls()
   if (isEditing) {
-    const oldProductData = await getProduct(id)
+    const oldProductData = await getProduct(selectedId)
     allProductUrls = allProductUrls.filter(url => url !== oldProductData?.url)
   }
   const url = convertTextForUrl(formData.get("url") as string)
   const urlIsConsist = allProductUrls.includes(url)
   if (urlIsConsist) return {success: false, errors: [{field: 'url', message: 'consist'}]}
   const productFormData: ProductFormSchema = {
+    selectedId,
     id,
     nameUa: formData.get("nameUa") as string,
     nameEn: formData.get("nameEn") as string,
@@ -74,12 +80,13 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
   }
   const productData = result.data
   if (isEditing)
-    return editProduct(productData, addedShoes)
+    return editProduct(selectedId, productData, addedShoes)
   return addNewProduct(productData, addedShoes)
 }
 
 const addNewProduct = async (productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
   const product: CreateProductType = {
+    id: productData.id,
     active: productData.active,
     private: productData.private,
     url: productData.url,
@@ -115,7 +122,7 @@ const addNewProduct = async (productData: ProductFormSchema, shoes: SizeType[]):
   return {success: true}
 }
 
-const editProduct = async (productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
+const editProduct = async (selectedId:number, productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
   let product: UpdateProductType = {
     id: productData.id as number,
     active: productData.active,
@@ -168,7 +175,7 @@ const editProduct = async (productData: ProductFormSchema, shoes: SizeType[]): P
     product = {...product, imgUpdatedAt: new Date()}
   }
 
-  await updateProduct(product, shoes)
+  await updateProduct(selectedId, product, shoes)
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }
@@ -177,7 +184,7 @@ export const serverActionRenameImages = async (id: number, productName: string, 
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   await renameImages(ftpClient, `products/${productName}`, names)
   ftpClient.close()
-  const updatedProduct = await updateProduct({id, imgUpdatedAt: new Date()})
+  const updatedProduct = await updateProduct(id, {imgUpdatedAt: new Date()})
   const dateUpdate = updatedProduct.imgUpdatedAt?.getTime()
   const response: Image[] = names.map((_, index) => {
     const name = `${index + 1}.jpeg`
@@ -202,7 +209,7 @@ export const serverActionDeleteImage: ServerActionDeleteImage = async (id, prodU
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
     await deleteImage(ftpClient, `products/${prodUrl}`, delName, names)
     ftpClient.close()
-    const updatedProduct = await updateProduct({id, imgUpdatedAt: new Date()})
+    const updatedProduct = await updateProduct(id, {imgUpdatedAt: new Date()})
     const dateUpdate = updatedProduct.imgUpdatedAt?.getTime()
     const newNames = names.filter(name => name !== delName).sort()
     const response: Image[] = newNames.map((_, index) => {

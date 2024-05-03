@@ -6,7 +6,7 @@ import {SizeType} from "@/components/product/admin/shoes/types";
 
 export type ProductDBType = Prisma.ProductGetPayload<{}>
 export type ProductWithDetailsDBType = Prisma.ProductGetPayload<{ include: { shoeses: true, brand: true } }>
-export type CreateProductType = Omit<Prisma.ProductCreateInput, 'brand'> & { brand_id: number }
+export type CreateProductType = Omit<Prisma.ProductCreateInput, 'brand'> & { id: number, brand_id: number }
 export type UpdateProductType = Prisma.ProductUncheckedUpdateInput
 
 export type CreateShoesType = Prisma.ShoesCreateManyInput
@@ -33,6 +33,12 @@ export const getProductUrls = cache(async (): Promise<string[]> => {
   return products.map(product => product.url)
 })
 
+export const getProductNexId = async (): Promise<number> => {
+  const products = await prisma.product.findMany()
+  const ids = products.map(product => product.id)
+  return Math.max(...ids) + 1
+}
+
 export const createProduct = async (data: CreateProductType, shoes: SizeType[]): Promise<Product> => {
   const product = await prisma.product.create({
     data
@@ -42,10 +48,10 @@ export const createProduct = async (data: CreateProductType, shoes: SizeType[]):
   return product
 }
 
-export const updateProduct = async (data: UpdateProductType, shoes?: SizeType[]): Promise<Product> => {
+export const updateProduct = async (id: number, data: UpdateProductType, shoes?: SizeType[]): Promise<Product> => {
   const oldProduct = await getProduct(data.id as number)
   const product = await prisma.product.update({
-    where: {id: data.id as number},
+    where: {id},
     data: data
   })
   if (data.type === 'shoes' && shoes) {
