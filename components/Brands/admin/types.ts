@@ -13,6 +13,7 @@ export const schema = z.object({
   textUa: z.string().trim(),
   textEn: z.string().trim(),
   active: z.boolean(),
+  private: z.boolean(),
   fileImg: z.any()
 })
 
@@ -43,5 +44,6 @@ export const defaultValues: BrandFormSchema = {
   textUa: "",
   textEn: "",
   active: true,
+  private: false,
   fileImg: null
 }

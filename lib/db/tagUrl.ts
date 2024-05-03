@@ -34,3 +34,10 @@ export const deleteTagUrl = async (url: string) => {
     where: {url}
   })
 }
+
+export const updateParentFieldTagUrl = async (parent: string, newParent: string) => {
+  return await prisma.tagUrl.updateMany({
+    where: {parent},
+    data: {parent: newParent},
+  })
+}

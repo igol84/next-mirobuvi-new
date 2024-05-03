@@ -27,12 +27,14 @@ const Page = async ({params: {lang}}: Props) => {
     url: tag.url,
     parent: tag.parent,
     orderNumber: tag.order_number,
-    searchEn: tag.search_en,
+    titleEn: tag.search_en,
+    titleUa: tag.title_en,
+    searchEn: tag.title_ua,
     searchUa: tag.search_ua,
     descEn: tag.desc_en,
     descUa: tag.desc_ua,
   }))
-  const sortedTagUrls = _.sortBy(tagUrls, ['url, parent, orderNumber'])
+  const sortedTagUrls = _.sortBy(tagUrls, ['parent', 'orderNumber'])
   return (
     <TagUrlsPage tagUrls={sortedTagUrls}/>
   )

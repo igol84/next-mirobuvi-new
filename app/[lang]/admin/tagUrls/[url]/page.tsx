@@ -4,7 +4,7 @@ import React from "react";
 import EditTagUrlPage from "@/app/[lang]/admin/tagUrls/[url]/EditTagUrlPage";
 import {SafeParseReturnType} from "zod";
 import {schema, TagUrlsFormSchema} from "@/components/tagUrls/admin/types";
-import _ from "lodash";
+import {getParents} from "@/app/[lang]/admin/tagUrls/utility";
 
 type Props = {
   params: {
@@ -27,6 +27,8 @@ const Page = async ({params: {lang, url}}: Props) => {
     orderNumber: tagUrlData.order_number,
     searchEn: tagUrlData.search_en,
     searchUa: tagUrlData.search_ua,
+    titleEn: tagUrlData.title_en,
+    titleUa: tagUrlData.title_ua,
     descEn: tagUrlData.desc_en,
     descUa: tagUrlData.desc_ua,
     textEn: tagUrlData.text_en,
@@ -37,9 +39,10 @@ const Page = async ({params: {lang, url}}: Props) => {
     return <div>Data Error</div>
   const defaultValues = result.data
   const tagUrlsData = await getTagUrls()
-  const parents = _.union(tagUrlsData.map(tagUrl=>tagUrl.parent))
+  const parents = getParents(tagUrlsData)
+  console.log(parents)
   return (
-    <EditTagUrlPage defaultValues={defaultValues} parents={parents}/>
+    <EditTagUrlPage defaultValues={defaultValues} parents={['', ...parents]}/>
   )
 }
 

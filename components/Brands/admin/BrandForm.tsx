@@ -178,6 +178,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
 
           <Flex alignItems="center" gap={2}>
             <Checkbox {...register('active')}>{d('active')}</Checkbox>
+            <Checkbox {...register('private')}>{d('private')}</Checkbox>
           </Flex>
 
 

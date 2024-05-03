@@ -127,6 +127,22 @@ const FormEditor = ({defaultValues, parents}: Props) => {
             </FormControl>
           </Flex>
 
+          <Flex alignItems="center" gap={2}>
+            <FormControl isInvalid={!!errors.titleEn}>
+              <Flex direction='row' alignItems='center' gap={2}>
+                <Text>{d('titleEn')}</Text>
+                <Input {...register('titleEn')} placeholder={d('titleEn')}/>
+              </Flex>
+            </FormControl>
+
+            <FormControl isInvalid={!!errors.titleUa}>
+              <Flex direction='row' alignItems='center' gap={2}>
+                <Text>{d('titleUa')}</Text>
+                <Input {...register('titleUa')} placeholder={d('titleUa')}/>
+              </Flex>
+            </FormControl>
+          </Flex>
+
           <FormControl isInvalid={!!errors.descEn}>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{d('descEn')}</Text>

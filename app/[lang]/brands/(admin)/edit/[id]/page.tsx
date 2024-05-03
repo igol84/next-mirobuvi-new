@@ -42,6 +42,7 @@ const EditBrandPage = async ({params: {lang, id}}: Props) => {
     textUa: brandData.text_ua,
     textEn: brandData.text_en,
     active: brandData.active,
+    private: brandData.private,
     fileImg: []
   }
 

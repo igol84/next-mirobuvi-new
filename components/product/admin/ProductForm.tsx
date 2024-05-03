@@ -108,7 +108,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
     } : () => undefined
 
   const onAddSize = () => {
-    if(shoes.length>0){
+    if (shoes.length > 0) {
       const lastShoes = shoes[shoes.length - 1] as SizeType
       const newShoes: SizeType = {
         size: lastShoes.size + 1,

@@ -104,6 +104,7 @@ model OrderItem {
 model Brand {
   id           Int       @id @default(autoincrement())
   active       Boolean
+  private      Boolean   @default(false)
   url          String    @unique
   tags         String
   name_en      String
@@ -163,6 +164,8 @@ model TagUrl {
   order_number Float
   search_en    String
   search_ua    String
+  title_en     String
+  title_ua     String
   desc_en      String
   desc_ua      String
   text_en      String

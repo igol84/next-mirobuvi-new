@@ -7,6 +7,8 @@ export const schema = z.object({
   orderNumber: z.number().nonnegative(),
   searchEn: z.string(),
   searchUa: z.string(),
+  titleEn: z.string(),
+  titleUa: z.string(),
   descEn: z.string(),
   descUa: z.string(),
   textEn: z.string(),
@@ -14,6 +16,7 @@ export const schema = z.object({
 })
 
 export type TagUrlsFormSchema = z.infer<typeof schema>
+export type TagUrlsFormEditSchema = TagUrlsFormSchema & {selectedUrl: string}
 
 export type Response = {
   success: boolean,
@@ -32,6 +35,8 @@ export const defaultValues: TagUrlsFormSchema = {
   orderNumber: 0,
   searchEn: '',
   searchUa: '',
+  titleEn: '',
+  titleUa: '',
   descEn: '',
   descUa: '',
   textEn: '',

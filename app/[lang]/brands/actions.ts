@@ -40,6 +40,7 @@ export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Pr
     textUa: brandFormData.get("textUa") as string,
     textEn: brandFormData.get("textEn") as string,
     active: brandFormData.get("active") === 'on',
+    private: brandFormData.get("private") === 'on',
     fileImg: brandFormData.get("fileImg") as File,
   }
   const result: SafeParseReturnType<BrandFormSchema, BrandFormSchema> = schema.safeParse(brandData)
@@ -69,7 +70,8 @@ const createNewBrand = async (brandData: BrandFormSchema) => {
     text_en: brandData.textEn,
     url: brandData.url,
     tags: brandData.tags,
-    active: brandData.active
+    active: brandData.active,
+    private: brandData.private
   }
   const newBrand = await createBrand(newBrandData)
   if (!newBrand) {
@@ -101,7 +103,8 @@ const editBrand = async (brandFormData: BrandFormSchema) => {
     text_en: brandFormData.textEn,
     url: brandFormData.url,
     tags: brandFormData.tags,
-    active: brandFormData.active
+    active: brandFormData.active,
+    private: brandFormData.private
   }
   const allUrlsList = await getBrandUrls()
   const urlsList = allUrlsList.filter(url => url !== oldBrandData?.url)
