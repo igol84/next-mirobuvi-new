@@ -1,3 +1,4 @@
+'use client'
 import {ProductType} from "@/components/product/types";
 import {ProductType as CardProductType} from "@/components/Products/types";
 import {productFactory} from "@/components/product/ProductFactory";
