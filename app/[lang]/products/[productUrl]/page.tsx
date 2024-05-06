@@ -50,10 +50,10 @@ async function Page({params: {productUrl, lang}}: Props) {
   const isAuth = await checkForAuth()
   const productDBData = await getProductByUrl(productUrl)
   if (!productDBData) redirect(`/`)
-  if (!isAuth && !productDBData.private) redirect(`/`)
-  if (!isAuth && !productDBData.brand.private) redirect(`/`)
-  if (!isAdmin && productDBData.active) redirect(`/`)
-  if (!isAdmin && productDBData.brand.active) redirect(`/`)
+  if (!isAuth && productDBData.private) redirect(`/`)
+  if (!isAuth && productDBData.brand.private) redirect(`/`)
+  if (!isAdmin && !productDBData.active) redirect(`/`)
+  if (!isAdmin && !productDBData.brand.active) redirect(`/`)
   const session = await getServerSession(authOptions)
   const userId = session?.user.id
   const favoriteProducts = []
