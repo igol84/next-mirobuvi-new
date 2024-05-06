@@ -10,16 +10,17 @@ import NextLink from "next/link";
 import {EditIcon} from "@chakra-ui/icons";
 import {LangContext} from "@/locale/LangProvider";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {IsAdminContext} from "@/app/providers";
 
 const FavoriteIcon = dynamic(() => import('@/components/Products/FavoriteIcon'), {ssr: false})
 
 
 interface Props {
   product: ProductType
-  isAdmin?: boolean
 }
 
-const Product = ({product, isAdmin}: Props) => {
+const Product = ({product}: Props) => {
+  const isAdmin = useContext(IsAdminContext)
   const lang = useContext(LangContext)
   const [isHover, setIsHover] = useState(false)
   const d = useDictionaryTranslate("productAdmin")

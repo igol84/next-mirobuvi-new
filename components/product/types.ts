@@ -1,6 +1,7 @@
 export type productType = 'product' | 'shoes'
 
 export interface ProductBase {
+  id: number
   type: productType
   inStock: boolean
   url: string

@@ -21,3 +21,11 @@ export const getAuthUser = async () => {
   const session = await getServerSession(authOptions)
   return session?.user.id
 }
+
+export const checkForEditor = async (): Promise<boolean> => {
+  const session = await getServerSession(authOptions)
+  const admins = JSON.parse(env.ADMINS_EDITORS) as string[]
+  if (session?.user.email)
+    return admins.includes(session.user.email)
+  return false
+}

@@ -232,7 +232,6 @@ export const serverActionDeleteProduct = async (id: number): Promise<Response> =
       return {success: false, serverErrors: 'DB Product dont find'}
     }
     await deleteProduct(id)
-
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
     await ftpClient.removeDir(`products/${product.url}`)
     ftpClient.close()

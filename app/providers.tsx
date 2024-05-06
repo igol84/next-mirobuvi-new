@@ -14,25 +14,29 @@ interface Props {
   lang: Lang
   dict: Dictionary
   isAdmin: boolean
+  isEditor: boolean
   children: React.ReactNode
 }
 
 export const IsAdminContext = createContext(false)
+export const IsEditorContext = createContext(false)
 
-export function Providers({lang, dict, isAdmin, children}: Props) {
+export function Providers({lang, dict, isAdmin, isEditor, children}: Props) {
   return (
     <SessionProvider>
       <IsAdminContext.Provider value={isAdmin}>
-        <LangProvider lang={lang}>
-          <DictProvider dict={dict}>
-            <CacheProvider>
-              <ChakraProvider theme={theme}>
-                <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-                {children}
-              </ChakraProvider>
-            </CacheProvider>
-          </DictProvider>
-        </LangProvider>
+        <IsEditorContext.Provider value={isEditor}>
+          <LangProvider lang={lang}>
+            <DictProvider dict={dict}>
+              <CacheProvider>
+                <ChakraProvider theme={theme}>
+                  <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
+                  {children}
+                </ChakraProvider>
+              </CacheProvider>
+            </DictProvider>
+          </LangProvider>
+        </IsEditorContext.Provider>
       </IsAdminContext.Provider>
     </SessionProvider>
   )

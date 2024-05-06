@@ -11,17 +11,16 @@ import {useBrandCrumbs} from "@/app/[lang]/brands/hooks";
 interface Props {
   brands: BrandCardPropsWithFirst[]
   viewedProducts: ProductType[]
-  isAdmin: boolean
 }
 
-const BrandPage = ({brands, viewedProducts, isAdmin}: Props) => {
+const BrandPage = ({brands, viewedProducts}: Props) => {
   const breadCrumbs = useBrandCrumbs()
   return (
     <>
       <Box display='flex' justifyContent='space-between' flexWrap='wrap' alignItems="center" pb={[2, 4]}>
         <BreadCrumb breadCrumbs={breadCrumbs}/>
       </Box>
-      <Brands brands={brands} isAdmin={isAdmin}/>
+      <Brands brands={brands}/>
       {viewedProducts.length > 0 && (
         <Box pt={4}>
           <ViewedProducts viewedProducts={viewedProducts}/>

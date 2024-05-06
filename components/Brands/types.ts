@@ -10,7 +10,7 @@ export type BrandProps = {
 
 export type BrandCardProps = Omit<BrandProps, 'desc'>
 export type BrandCardPropsWithFirst = BrandCardProps & {isFirst: boolean}
-export type BrandCardPropsWithFirstAdmin = BrandCardPropsWithFirst & {isAdmin: boolean}
+export type BrandCardPropsWithFirstAdmin = BrandCardPropsWithFirst
 
 export const getBrandsImageUrl = (brandName: string, key: number = 0): string => {
   return `${env.FTP_URL}/brands/${brandName}.jpeg?key=${key}`

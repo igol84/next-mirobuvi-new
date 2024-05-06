@@ -29,14 +29,14 @@ export const productFabrice: ProductFabrice = (lang, product, urlImages, userId,
         size: shoes.size, length: shoes.length, inStock: shoes.is_available
       }))
        const shoes: ShoesType = {
-        name, price: product.price, price_prefix, type: 'shoes', url: product.url,
+        id:product.id, name, price: product.price, price_prefix, type: 'shoes', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, sizes: sizes, inStock: !!product.is_available
       }
       return shoes
     }
     default: {
       const singleProduct: SimpleProductProps = {
-        name, price: product.price, price_prefix, type: 'product', url: product.url,
+        id:product.id, name, price: product.price, price_prefix, type: 'product', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, inStock: !!product.is_available
       }
       return singleProduct

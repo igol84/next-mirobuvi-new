@@ -1,7 +1,6 @@
 import React from 'react';
 import {Lang} from "@/dictionaries/get-dictionary";
 import ProductPage from "@/app/[lang]/products/[productUrl]/ProductPage";
-import {ProductType} from "@/components/product/types";
 
 import '@/app/theme/style.scss'
 import {redirect} from 'next/navigation'
@@ -71,7 +70,7 @@ async function Page({params: {productUrl, lang}}: Props) {
     return getProductImageUrl(productDBData.url, productDBData.imgUpdatedAt?.getTime(), image)
   })
   const isProductFavorite = favoriteProducts.includes(productUrl)
-  const productData: ProductType = productFabrice(lang, productDBData, urlImages, userId, isProductFavorite)
+  const productData = productFabrice(lang, productDBData, urlImages, userId, isProductFavorite)
   const breadCrumbData: BreadCrumbData[] = await getBreadCrumbData(lang, productDBData)
   const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   return (

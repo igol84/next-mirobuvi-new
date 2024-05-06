@@ -14,7 +14,7 @@ import _ from "lodash";
 import {getBrands} from "@/lib/db/brand";
 import {Item} from "@/components/Container/Navbar/types";
 import {getTagUrls} from "@/lib/db/tagUrl";
-import {checkForAdmin, getAuthUser} from "@/utility/auth";
+import {checkForAdmin, checkForEditor, getAuthUser} from "@/utility/auth";
 
 export const dynamic = 'force-dynamic'
 
@@ -48,6 +48,7 @@ export default async function RootLayout(
   }) {
   const dict = await getDictionary(lang)
   const isAdmin = await checkForAdmin()
+  const isEditor = await checkForEditor()
   const userId = await getAuthUser()
   const isAuth = !!userId
   let brandsData = await getBrands()
@@ -84,7 +85,7 @@ export default async function RootLayout(
   return (
     <html lang={lang} suppressHydrationWarning={true}>
     <body className={roboto.className} suppressHydrationWarning={true}>
-    <Providers dict={dict} lang={lang} isAdmin={isAdmin}>
+    <Providers dict={dict} lang={lang} isAdmin={isAdmin} isEditor={isEditor}>
       <Container brandsItems={brandsItems} cartProducts={cartProducts} user={user} tagsUrl={tagsUrl}>
         {children}
       </Container>

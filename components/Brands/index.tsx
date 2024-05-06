@@ -1,19 +1,20 @@
 'use client'
-import React from 'react'
+import React, {useContext} from 'react'
 import {Box, IconButton, Wrap, WrapItem} from "@chakra-ui/react"
 import BrandCard from "@/components/Brands/BrandCard"
 import {BrandCardPropsWithFirst} from "@/components/Brands/types"
 import {AddIcon} from "@chakra-ui/icons";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {useRouter} from 'next/navigation'
+import {IsAdminContext} from "@/app/providers";
 
 
 type Props = {
   brands: BrandCardPropsWithFirst[]
-  isAdmin: boolean
 }
 
-const Brands = ({brands, isAdmin}: Props) => {
+const Brands = ({brands}: Props) => {
+  const isAdmin = useContext(IsAdminContext)
   const d = useDictionaryTranslate("brandsAdmin")
   const dict = {'addBrand': d('addBrand')}
   const router = useRouter()
@@ -32,7 +33,7 @@ const Brands = ({brands, isAdmin}: Props) => {
           <WrapItem key={brand.url}>
             <article>
               <BrandCard isFirst={brand.isFirst} brandId={brand.brandId} brandName={brand.brandName} url={brand.url}
-                         imgUrl={brand.imgUrl} isAdmin={isAdmin}/>
+                         imgUrl={brand.imgUrl}/>
             </article>
           </WrapItem>
         ))}

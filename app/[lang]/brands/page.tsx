@@ -39,7 +39,7 @@ const BrandsPage = async ({params: {lang}}: Props) => {
   })
   const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   return (
-    <BrandPage brands={brands} viewedProducts={viewedProducts} isAdmin={isAdmin}/>
+    <BrandPage brands={brands} viewedProducts={viewedProducts}/>
   )
 }
 

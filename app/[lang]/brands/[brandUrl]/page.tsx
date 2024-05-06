@@ -74,7 +74,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   return (
     <FiltersLayout desc={brand.desc} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts} sortingBy={sortingBy}
                    filterMenuType={filterProducts.filterMenuType}>
-      <ProductsList products={productsSlice} brandData={brand} paginationBar={paginationBar} isAdmin={isAdmin}/>
+      <ProductsList products={productsSlice} brandData={brand} paginationBar={paginationBar}/>
     </FiltersLayout>
   )
 }

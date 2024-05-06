@@ -7,8 +7,10 @@ import {LangContext} from "@/locale/LangProvider";
 import {BrandCardPropsWithFirstAdmin} from "@/components/Brands/types";
 import {EditIcon} from "@chakra-ui/icons";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {IsAdminContext} from "@/app/providers";
 
-const BrandCard = ({brandId, brandName, url, isFirst, imgUrl, isAdmin}: BrandCardPropsWithFirstAdmin) => {
+const BrandCard = ({brandId, brandName, url, isFirst, imgUrl}: BrandCardPropsWithFirstAdmin) => {
+  const isAdmin = useContext(IsAdminContext)
   const lang = useContext(LangContext)
   const d = useDictionaryTranslate("brandsAdmin")
   const dict = {

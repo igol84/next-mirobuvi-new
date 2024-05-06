@@ -11,15 +11,16 @@ import NextImage from "next/image";
 import {AddIcon} from "@chakra-ui/icons";
 import NextLink from "next/link";
 import {LangContext} from "@/locale/LangProvider";
+import {IsAdminContext} from "@/app/providers";
 
 interface Props {
   products: ProductType[],
   brandData?: BrandProps,
   paginationBar?: PaginationBarProps,
-  isAdmin?: boolean
 }
 
-const ProductsList = ({products, brandData, paginationBar, isAdmin}: Props) => {
+const ProductsList = ({products, brandData, paginationBar}: Props) => {
+  const isAdmin = useContext(IsAdminContext)
   const d = useDictionaryTranslate("home")
   const lang = useContext(LangContext)
   const brandUrl = brandData?.url
@@ -50,7 +51,7 @@ const ProductsList = ({products, brandData, paginationBar, isAdmin}: Props) => {
                 return (
                   <WrapItem key={product.id}>
                     <article>
-                      <Product product={product} isAdmin={isAdmin}/>
+                      <Product product={product}/>
                     </article>
                   </WrapItem>
                 )
