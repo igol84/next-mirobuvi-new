@@ -10,7 +10,7 @@ const nextConfig = {
       {hostname: 'lh3.googleusercontent.com'},
     ],
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: (config, {isServer}) => {
     if (!isServer) {
       config.output.filename = 'static/chunks/[name].js';
       config.output.chunkFilename = 'static/chunks/[name].js';
