@@ -16,3 +16,8 @@ export const checkForAuth = async () => {
   const session = await getServerSession(authOptions)
   return !!session
 }
+
+export const getAuthUser = async () => {
+  const session = await getServerSession(authOptions)
+  return session?.user.id
+}

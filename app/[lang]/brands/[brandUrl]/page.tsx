@@ -55,7 +55,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   const brandData = await getBrandWithProductsByUrl(brandUrl)
   if (!brandData) redirect(`/`)
   if (!isAuth && brandData.private) redirect(`/`)
-  if (!isAdmin && brandData.active) redirect(`/`)
+  if (!isAdmin && !brandData.active) redirect(`/`)
   const productsData = brandData.products as ProductWithDetailsDBType[]
   const desc = lang === 'en' ? brandData.text_en : brandData.text_ua
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_en
@@ -70,7 +70,7 @@ const Page = async ({params: {brandUrl, lang}, searchParams}: Props) => {
   products = filterProducts.products
   products = sortingProducts(products, sortingBy)
   const [productsSlice, paginationBar] = await getPageData(products, parseInt(page), true)
-  const viewedProducts = await getViewedProducts(lang)
+  const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   return (
     <FiltersLayout desc={brand.desc} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts} sortingBy={sortingBy}
                    filterMenuType={filterProducts.filterMenuType}>

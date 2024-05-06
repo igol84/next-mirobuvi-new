@@ -37,7 +37,7 @@ const BrandsPage = async ({params: {lang}}: Props) => {
       brandId: brand.id, brandName: brand[`name_${lang}`], url: brand.url, isFirst: index < 6, imgUrl
     }
   })
-  const viewedProducts = await getViewedProducts(lang)
+  const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   return (
     <BrandPage brands={brands} viewedProducts={viewedProducts} isAdmin={isAdmin}/>
   )

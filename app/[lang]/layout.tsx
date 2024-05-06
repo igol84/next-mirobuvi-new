@@ -6,8 +6,6 @@ import './globals.scss'
 import Container from "@/components/Container";
 import {getCart} from "@/lib/db/cart";
 import {getCartData, ProductCart} from "@/lib/server/cart/cartFunctions";
-import {getServerSession} from "next-auth";
-import {authOptions} from "@/configs/auth";
 import {env} from "@/lib/env";
 import {getUser} from "@/lib/db/user";
 import {userConvertFromDB} from "@/lib/store/user";
@@ -16,6 +14,7 @@ import _ from "lodash";
 import {getBrands} from "@/lib/db/brand";
 import {Item} from "@/components/Container/Navbar/types";
 import {getTagUrls} from "@/lib/db/tagUrl";
+import {checkForAdmin, getAuthUser} from "@/utility/auth";
 
 export const dynamic = 'force-dynamic'
 
@@ -48,13 +47,18 @@ export default async function RootLayout(
     params: { lang: Lang }
   }) {
   const dict = await getDictionary(lang)
-  const brandsData = await getBrands()
+  const isAdmin = await checkForAdmin()
+  const userId = await getAuthUser()
+  const isAuth = !!userId
+  let brandsData = await getBrands()
+  if (!isAuth)
+    brandsData = brandsData.filter(brand => !brand.private)
+  if (!isAdmin)
+    brandsData = brandsData.filter(brand => brand.active)
   const brandsItems: Item[] = brandsData.map(brand => ({title: brand.name_en, url: brand.url}))
   const cart = await getCart();
-  const session = await getServerSession(authOptions)
-  const userEmail = String(session?.user?.email)
-  const admins = JSON.parse(env.ADMINS)
-  const isAdmin = admins.includes(userEmail)
+
+
   const cartProducts: ProductCart[] = cart ? await getCartData(cart, lang) : []
   const fetchTagsUrl = await getTagUrls()
   const fetchParentTagsUrl = fetchTagsUrl.filter(tag => tag.parent === '')
@@ -70,7 +74,6 @@ export default async function RootLayout(
     tagsUrl.push(tagUrl)
   })
 
-  const userId = session?.user.id
   let user = null
   if (userId) {
     const userDB = await getUser(Number(userId))

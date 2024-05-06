@@ -50,8 +50,10 @@ async function Page({params: {productUrl, lang}}: Props) {
   const isAuth = await checkForAuth()
   const productDBData = await getProductByUrl(productUrl)
   if (!productDBData) redirect(`/`)
-  if (!isAuth && productDBData.private) redirect(`/`)
+  if (!isAuth && !productDBData.private) redirect(`/`)
+  if (!isAuth && !productDBData.brand.private) redirect(`/`)
   if (!isAdmin && productDBData.active) redirect(`/`)
+  if (!isAdmin && productDBData.brand.active) redirect(`/`)
   const session = await getServerSession(authOptions)
   const userId = session?.user.id
   const favoriteProducts = []
@@ -71,7 +73,7 @@ async function Page({params: {productUrl, lang}}: Props) {
   const isProductFavorite = favoriteProducts.includes(productUrl)
   const productData: ProductType = productFabrice(lang, productDBData, urlImages, userId, isProductFavorite)
   const breadCrumbData: BreadCrumbData[] = await getBreadCrumbData(lang, productDBData)
-  const viewedProducts = await getViewedProducts(lang)
+  const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   return (
     <ProductPage productData={productData} breadCrumbData={breadCrumbData} viewedProducts={viewedProducts}/>
   )

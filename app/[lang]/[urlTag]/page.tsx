@@ -66,7 +66,7 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
   if (!fetchData) redirect(`/`)
 
   const tagData = convertToTagUrlFromDB(fetchData, lang)
-  const viewedProducts = await getViewedProducts(lang)
+  const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   if (isSinglePage(tagData)) {
     const breadCrumbs = getBreadCrumbDataSinglePage(tagData.desc)
     return (
@@ -82,9 +82,9 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
 
   let productsData = await getProducts()
   if (!isAuth)
-    productsData = productsData.filter(product => !product.private)
+    productsData = productsData.filter(product => !product.private && !product.brand.private)
   if (!isAdmin)
-    productsData = productsData.filter(product => product.active)
+    productsData = productsData.filter(product => product.active && product.brand.active)
   let products: ProductType[] = productsData.map(product => createProduct(product, lang))
   if (tagData.search !== 'header')
     products = searchProductsByTag(products, tagData.search)
