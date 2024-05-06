@@ -28,6 +28,8 @@ const BrandsPage = async ({params: {lang}}: Props) => {
   const isAuth = await checkForAuth()
   let brandsData = await getBrands()
   if (!isAuth)
+    brandsData = brandsData.filter(brand => !brand.private)
+  if (!isAdmin)
     brandsData = brandsData.filter(brand => brand.active)
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = getBrandsImageUrl(brand.url, brand.updatedAt?.getTime())

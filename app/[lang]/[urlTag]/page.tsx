@@ -22,6 +22,7 @@ import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import {getProducts} from "@/lib/db/product";
 import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
+import {checkForAdmin, checkForAuth} from "@/utility/auth";
 
 type Props = {
   params: {
@@ -58,6 +59,8 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
   const {
     page = '1', sortingBy = 'byOrder', search, ...filtersValues
   } = searchParams
+  const isAdmin = await checkForAdmin()
+  const isAuth = await checkForAuth()
   const tagsUrlData = await getTagUrls()
   const fetchData = tagsUrlData.find(tag => tag.url === urlTag)
   if (!fetchData) redirect(`/`)
@@ -77,7 +80,11 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
   } : undefined
   const breadCrumbs = await getBreadCrumbData(lang, tagData.search, parentTagForBreadCrumb)
 
-  const productsData = await getProducts()
+  let productsData = await getProducts()
+  if (!isAuth)
+    productsData = productsData.filter(product => !product.private)
+  if (!isAdmin)
+    productsData = productsData.filter(product => product.active)
   let products: ProductType[] = productsData.map(product => createProduct(product, lang))
   if (tagData.search !== 'header')
     products = searchProductsByTag(products, tagData.search)

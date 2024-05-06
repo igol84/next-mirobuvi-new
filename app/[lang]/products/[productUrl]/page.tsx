@@ -15,6 +15,7 @@ import {env} from "@/lib/env";
 import {getProductByUrl, getProducts} from "@/lib/db/product";
 import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {getProductImageUrl} from "@/lib/productCardData";
+import {checkForAdmin, checkForAuth} from "@/utility/auth";
 
 
 type Props = {
@@ -45,8 +46,12 @@ export async function generateStaticParams() {
 }
 
 async function Page({params: {productUrl, lang}}: Props) {
+  const isAdmin = await checkForAdmin()
+  const isAuth = await checkForAuth()
   const productDBData = await getProductByUrl(productUrl)
   if (!productDBData) redirect(`/`)
+  if (!isAuth && productDBData.private) redirect(`/`)
+  if (!isAdmin && productDBData.active) redirect(`/`)
   const session = await getServerSession(authOptions)
   const userId = session?.user.id
   const favoriteProducts = []

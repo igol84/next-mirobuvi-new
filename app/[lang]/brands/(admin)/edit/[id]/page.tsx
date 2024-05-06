@@ -1,4 +1,3 @@
-import {checkForAdmin} from "@/utility/auth";
 import {redirect} from "next/navigation";
 import {getBrand, getBrands, getBrandUrls} from "@/lib/db/brand";
 import BrandForm from "@/components/Brands/admin/BrandForm";
@@ -22,8 +21,6 @@ type Props = {
 }
 
 const EditBrandPage = async ({params: {lang, id}}: Props) => {
-  const isAdmin = await checkForAdmin()
-  if (!isAdmin) redirect('/')
   const brandId = Number(id)
   const brandData = await getBrand(brandId)
   if (!brandData) redirect('/')

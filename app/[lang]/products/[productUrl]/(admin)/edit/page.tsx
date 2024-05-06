@@ -1,5 +1,4 @@
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
-import {checkForAdmin} from "@/utility/auth";
 import {redirect} from "next/navigation";
 import {getProductByUrl, getProductUrls} from "@/lib/db/product";
 import {ProductFormSchema} from "@/components/product/admin/types";
@@ -26,8 +25,6 @@ type Props = {
 
 const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
   const dict = await getDictionary(lang)
-  const isAdmin = await checkForAdmin()
-  if (!isAdmin) redirect('/')
   const productData = await getProductByUrl(productUrl)
   if (!productData) redirect(`/`)
   const brandData = await getBrand(productData.brand_id)

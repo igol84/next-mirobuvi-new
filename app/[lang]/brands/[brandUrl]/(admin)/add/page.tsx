@@ -8,7 +8,6 @@ import {redirect} from "next/navigation";
 import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/(admin)/add/serverFunctions";
 import {DefaultValues, defaultValues} from "@/components/product/admin/types";
 import {getProductNexId, getProductUrls} from "@/lib/db/product";
-import {checkForAdmin} from "@/utility/auth";
 import {SizeType} from "@/components/product/admin/shoes/types";
 
 type Props = {
@@ -21,8 +20,6 @@ type Props = {
 
 const AddNewProductPage = async ({params: {lang, brandUrl}}: Props) => {
   const dict = await getDictionary(lang)
-  const isAdmin = await checkForAdmin()
-  if (!isAdmin)  redirect('/')
   const brandData = await getBrandByUrl(brandUrl)
   if (!brandData) redirect(`/`)
   const breadCrumb = await getBreadCrumb(lang, brandData.name_en, brandUrl)

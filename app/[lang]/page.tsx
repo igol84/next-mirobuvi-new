@@ -3,7 +3,7 @@ import Home from "@/app/[lang]/Home";
 import {BrandCardPropsWithFirst, getBrandsImageUrl} from "@/components/Brands/types";
 import {getBrands} from "@/lib/db/brand";
 import {Lang} from "@/dictionaries/get-dictionary";
-import {checkForAuth} from "@/utility/auth";
+import {checkForAdmin, checkForAuth} from "@/utility/auth";
 
 type Props = {
   params: {
@@ -12,9 +12,12 @@ type Props = {
 }
 
 const Page = async ({params: {lang}}: Props) => {
-  const isAuthUser = await checkForAuth()
+  const isAdminUser = await checkForAdmin()
+  const isAuth = await checkForAuth()
   let brandsData = await getBrands()
-  if (!isAuthUser)
+  if (!isAuth)
+    brandsData = brandsData.filter(brand => !brand.private)
+  if (!isAdminUser)
     brandsData = brandsData.filter(brand => brand.active)
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = getBrandsImageUrl(brand.url, brand.updatedAt?.getTime())
