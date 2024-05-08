@@ -23,9 +23,9 @@ const SimpleProduct = ({productData}: Props) => {
   const textNotAvailable = d('notAvailable')
   const [priceEdit, setPriceEdit] = useState(false)
 
-  function onPriceClick() {
+  const onPriceClick = isEditAccess ? () => {
     setPriceEdit(true)
-  }
+  } : () => undefined
 
 
   function onStopEdit() {

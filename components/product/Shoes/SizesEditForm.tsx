@@ -44,8 +44,8 @@ const SizesEditForm = ({shoesId, defaultSizes, onClose}: Props) => {
   }
   const onSubmit = async () => {
     setLoading(true)
-    await waitSecond()
     await serverActionSizeEdit(shoesId, sizes)
+    await waitSecond()
     setLoading(false)
     onClose()
   }

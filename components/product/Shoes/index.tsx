@@ -58,20 +58,22 @@ const Shoes = ({shoesData}: Props) => {
   const isPriceEditMod = editMode === 'price'
   const isSizesEditMod = editMode === 'sizes'
 
-  function onPriceClick() {
-    setEditMode('price')
-  }
+  const onPriceClick = isEditAccess
+    ? () => {
+      setEditMode('price')
+    } : () => undefined
 
-  function onSizesEditClick() {
-    setEditMode('sizes')
-  }
+  const onSizesEditClick = isEditAccess
+    ? () => {
+      setEditMode('sizes')
+    } : () => undefined
 
-  function onStopEdit() {
+  const onStopEdit = () => {
     setEditMode(null)
   }
-const defaultSizes: SizeType[] = shoesData.sizes.map(size=> ({
-  size: size.size, isAvailable:size.inStock, length: size.length!
-}))
+  const defaultSizes: SizeType[] = shoesData.sizes.map(size => ({
+    size: size.size, isAvailable: size.inStock, length: size.length!
+  }))
   return (
     <>
       <Text fontSize={36}>
@@ -107,13 +109,12 @@ const defaultSizes: SizeType[] = shoesData.sizes.map(size=> ({
                 })}
 
               </Flex>
-
               <Box color='secondary' pb={6}>{sizeDesc}</Box>
               <AddToCartButton productId={shoesData.url} size={selectedSize}/>
             </>
           ) : <Text color='red.400'>{textNotAvailable}</Text>}
         </Box>
-        <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>
+        {isEditAccess && <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>}
       </Flex>
     </>
   );
