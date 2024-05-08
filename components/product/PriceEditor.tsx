@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import React, {useState} from "react";
 import {CheckIcon, CloseIcon} from "@chakra-ui/icons";
-import {serverActionPriceEdite} from "@/components/product/SimpleProduct/actions";
 import {waitSecond} from "@/utility/functions";
+import {serverActionPriceEdit} from "@/components/product/actions";
 
 interface Props {
   id: number,
@@ -25,7 +25,7 @@ const PriceEditor = ({id, defaultPrice, onClose}: Props) => {
   const onSubmit = async () => {
     if(price != defaultPrice) {
       setLoading(true)
-      await serverActionPriceEdite(id, price)
+      await serverActionPriceEdit(id, price)
       await waitSecond()
       setLoading(false)
     }

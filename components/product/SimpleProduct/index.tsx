@@ -6,7 +6,7 @@ import AddToCartButton from "@/components/product/AddToCartButton";
 import dynamic from "next/dynamic";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {IsAdminContext, IsEditorContext} from "@/app/providers";
-import PriceEditor from "@/components/product/SimpleProduct/PriceEditor";
+import PriceEditor from "@/components/product/PriceEditor";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -18,10 +18,10 @@ const SimpleProduct = ({productData}: Props) => {
   const isAdmin = useContext(IsAdminContext)
   const isEditor = useContext(IsEditorContext)
   const isEditAccess = isAdmin || isEditor
-  const [priceEdit, setPriceEdit] = useState(false)
   const d = useDictionaryTranslate("product")
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
   const textNotAvailable = d('notAvailable')
+  const [priceEdit, setPriceEdit] = useState(false)
 
   function onPriceClick() {
     setPriceEdit(true)
@@ -34,27 +34,22 @@ const SimpleProduct = ({productData}: Props) => {
 
   return (
     <>
-      <Text fontSize={36}>
-        {productData.name}
-      </Text>
+      <Text fontSize={36}>{productData.name}</Text>
+      {priceEdit && <PriceEditor id={productData.id} defaultPrice={productData.price} onClose={onStopEdit}/>}
+      <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={priceEdit}>
+        <Flex alignItems='baseline' color='price' cursor={isEditAccess ? 'pointer' : 'default'}
+              onClick={onPriceClick}>
+          <Text fontSize={64} fontWeight='bold'>
+            {UAHFormat.format(productData.price)}
+          </Text>
+          <Text fontSize={24}>{productData.price_prefix}</Text>
+        </Flex>
+        <Like productUrl={productData.url}/>
+      </Flex>
+      {productData.inStock ? (
+        <AddToCartButton productId={productData.url}/>
+      ) : <Text color='red.400'>{textNotAvailable}</Text>}
 
-      {priceEdit
-        ? <PriceEditor id={productData.id} defaultPrice={productData.price} onClose={onStopEdit}/>
-        : (<>
-          <Flex wrap='wrap' alignItems='center' justifyContent='space-between'>
-            <Flex alignItems='baseline' color='price' cursor={isEditAccess ? 'pointer' : 'default'}
-                  onClick={onPriceClick}>
-              <Text fontSize={64} fontWeight='bold'>
-                {UAHFormat.format(productData.price)}
-              </Text>
-              <Text fontSize={24}>{productData.price_prefix}</Text>
-            </Flex>
-            <Like productUrl={productData.url}/>
-          </Flex>
-          {productData.inStock ? (
-            <AddToCartButton productId={productData.url}/>
-          ) : <Text color='red.400'>{textNotAvailable}</Text>}
-        </>)}
     </>
   );
 };

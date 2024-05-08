@@ -1,11 +1,16 @@
 'use client'
-import React, {useState} from 'react';
-import {Box, Flex, Text} from "@chakra-ui/react";
+import React, {useContext, useState} from 'react';
+import {Box, Flex, IconButton, Text} from "@chakra-ui/react";
 import {ShoesType} from "@/components/product/types";
 import Size from "@/components/product/Shoes/Size";
 import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import dynamic from "next/dynamic";
+import {IsAdminContext, IsEditorContext} from "@/app/providers";
+import PriceEditor from "@/components/product/PriceEditor";
+import {EditIcon} from "@chakra-ui/icons";
+import SizesEditForm from "@/components/product/Shoes/SizesEditForm";
+import {SizeType} from "@/components/product/admin/shoes/types";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -17,8 +22,12 @@ const Shoes = ({shoesData}: Props) => {
   const d = useDictionaryTranslate("product")
   const ds = useDictionaryTranslate("shoes")
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
+  const isAdmin = useContext(IsAdminContext)
+  const isEditor = useContext(IsEditorContext)
+  const isEditAccess = isAdmin || isEditor
   const [selectedSize, setSelectedSize] = useState<number | null>(null)
   const [sizeDesc, setSizeDesc] = useState<string>(ds('select_size'))
+  const [editMode, setEditMode] = useState<null | 'price' | 'sizes'>(null)
   const textLength = ds('insole_length')
   const textSelect = ds('select_size')
   const textNotAvailable = d('notAvailable')
@@ -46,13 +55,32 @@ const Shoes = ({shoesData}: Props) => {
       setSizeDesc(textSelect)
   }
   const inStock = shoesData.inStock && !!shoesData.sizes.filter(size => size.inStock).length
+  const isPriceEditMod = editMode === 'price'
+  const isSizesEditMod = editMode === 'sizes'
+
+  function onPriceClick() {
+    setEditMode('price')
+  }
+
+  function onSizesEditClick() {
+    setEditMode('sizes')
+  }
+
+  function onStopEdit() {
+    setEditMode(null)
+  }
+const defaultSizes: SizeType[] = shoesData.sizes.map(size=> ({
+  size: size.size, isAvailable:size.inStock, length: size.length!
+}))
   return (
     <>
       <Text fontSize={36}>
         {shoesData.name}
       </Text>
-      <Flex wrap='wrap' alignItems='center' justifyContent='space-between'>
-        <Flex alignItems='baseline' color='price'>
+      {isPriceEditMod && <PriceEditor id={shoesData.id} defaultPrice={shoesData.price} onClose={onStopEdit}/>}
+      <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={editMode === 'price'}>
+        <Flex alignItems='baseline' color='price' cursor={isEditAccess ? 'pointer' : 'default'}
+              onClick={onPriceClick}>
           <Text fontSize={64} fontWeight='bold'>
             {UAHFormat.format(shoesData.price)}
           </Text>
@@ -62,28 +90,31 @@ const Shoes = ({shoesData}: Props) => {
         </Flex>
         <Like productUrl={shoesData.url}/>
       </Flex>
-      {inStock ? (
-        <>
-          <Flex gap={2} alignItems='center' wrap='wrap' pb={4}>
-            <Text>{textSizes}</Text>
-            {shoesData.sizes.map(sizeData => {
-                const selected = selectedSize === sizeData.size
-                return (
-                  <Size
-                    key={sizeData.size} sizeData={sizeData} selected={selected} onClickSize={onClickSize}
-                    onHoverSize={onHoverSize} onLiveSize={onLiveSize}
-                  />
-                )
-              }
-            )}
-          </Flex>
-          <Box color='secondary' h={8}>
-            {sizeDesc}
-          </Box>
-          <AddToCartButton productId={shoesData.url} size={selectedSize}/>
-        </>
-      ) : <Text color='red.400'>{textNotAvailable}</Text>}
+      {isSizesEditMod && <SizesEditForm shoesId={shoesData.id} defaultSizes={defaultSizes} onClose={onStopEdit}/>}
+      <Flex gap={2} hidden={isSizesEditMod}>
+        <Box>
+          {inStock ? (
+            <>
+              <Flex gap={2} alignItems='center' wrap='wrap' pb={4}>
+                <Text>{textSizes}</Text>
+                {shoesData.sizes.map(sizeData => {
+                  const selected = selectedSize === sizeData.size
+                  return (
+                    <Size
+                      key={sizeData.size} sizeData={sizeData} selected={selected} onClickSize={onClickSize}
+                      onHoverSize={onHoverSize} onLiveSize={onLiveSize}
+                    />)
+                })}
 
+              </Flex>
+
+              <Box color='secondary' pb={6}>{sizeDesc}</Box>
+              <AddToCartButton productId={shoesData.url} size={selectedSize}/>
+            </>
+          ) : <Text color='red.400'>{textNotAvailable}</Text>}
+        </Box>
+        <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>
+      </Flex>
     </>
   );
 };

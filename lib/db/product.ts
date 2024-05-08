@@ -63,6 +63,13 @@ export const updateProduct = async (id: number, data: UpdateProductType, shoes?:
   return product
 }
 
+export const updateProductPrice = async (id: number, price: number): Promise<void> => {
+  await prisma.product.update({
+    where: {id},
+    data: {price}
+  })
+}
+
 export const createShoes = async (productId: number, shoes: SizeType[]): Promise<void> => {
   const shoesDB: CreateShoesType[] = shoes.map(shoe => {
     return {
@@ -82,4 +89,9 @@ export const deleteProduct = async (productId: number): Promise<void> => {
   await prisma.product.delete({
     where: {id: productId}
   })
+}
+
+export const editSizes = async (id: number, sizes: SizeType[]) => {
+  await prisma.shoes.deleteMany({where: {product_id: id}})
+  await createShoes(id, sizes)
 }
