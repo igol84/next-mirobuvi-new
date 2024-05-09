@@ -23,7 +23,7 @@ import {getProductImageUrl} from "@/lib/productCardData";
 export const serverActionCreateOrEditProduct = async (formData: FormData): Promise<Response> => {
   const selectedId: number | null = !!formData.get("selectedId") ? Number(formData.get("selectedId")) : null
   const id = Number(formData.get("id"))
-  if(selectedId!==id){
+  if (selectedId !== id) {
     const oldProductData = await getProduct(id)
     if (oldProductData) return {success: false, errors: [{field: 'id', message: 'consist'}]}
   }
@@ -122,7 +122,7 @@ const addNewProduct = async (productData: ProductFormSchema, shoes: SizeType[]):
   return {success: true}
 }
 
-const editProduct = async (selectedId:number, productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
+const editProduct = async (selectedId: number, productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
   let product: UpdateProductType = {
     id: productData.id as number,
     active: productData.active,
@@ -179,8 +179,10 @@ const editProduct = async (selectedId:number, productData: ProductFormSchema, sh
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }
-
-export const serverActionRenameImages = async (id: number, productName: string, names: string[]): Promise<Image[]> => {
+type ServerActionRenameImages = {
+  (id: number, productName: string, names: string[]): Promise<Image[]>
+}
+export const serverActionRenameImages: ServerActionRenameImages = async (id, productName, names) => {
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   await renameImages(ftpClient, `products/${productName}`, names)
   ftpClient.close()

@@ -8,7 +8,8 @@ import {
   deleteBrand,
   editeBrand,
   getBrand,
-  getBrandUrls, getBrandWithProducts,
+  getBrandUrls,
+  getBrandWithProducts,
   UpdateBrandType
 } from "@/lib/db/brand";
 import {convertTextForUrl} from "@/utility/functions";
@@ -17,17 +18,23 @@ import {env} from "@/lib/env";
 
 
 export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Promise<Response> => {
-  const id: number | null = !!brandFormData.get("id") ? Number(brandFormData.get("id")) : null
-  const isEditing = !!id
+  const selectedId: number | null = !!brandFormData.get("selectedId") ? Number(brandFormData.get("selectedId")) : null
+  const id = Number(brandFormData.get("id"))
+  if (selectedId !== id) {
+    const oldBrandData = await getBrand(id)
+    if (oldBrandData) return {success: false, errors: [{field: 'id', message: 'consist'}]}
+  }
+  const isEditing = !!selectedId
   let urlsList = await getBrandUrls()
   const url = convertTextForUrl(brandFormData.get("url") as string)
-  if(isEditing){
-    const oldPBrandData = await getBrand(id)
+  if (isEditing) {
+    const oldPBrandData = await getBrand(selectedId)
     urlsList = urlsList.filter(url => url !== oldPBrandData?.url)
   }
   const urlIsConsist = urlsList.includes(url)
   if (urlIsConsist) return {success: false, errors: [{field: 'url', message: 'consist'}]}
   const brandData: BrandFormSchema = {
+    selectedId,
     id,
     nameUa: brandFormData.get("nameUa") as string,
     nameEn: brandFormData.get("nameEn") as string,
@@ -53,13 +60,14 @@ export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Pr
   }
 
   if (isEditing)
-    return await editBrand(result.data)
+    return await editBrand(selectedId, result.data)
   return await createNewBrand(result.data)
 
 }
 
 const createNewBrand = async (brandData: BrandFormSchema) => {
   const newBrandData: CreateBrandType = {
+    id: brandData.id,
     name_ua: brandData.nameUa,
     name_en: brandData.nameEn,
     title_ua: brandData.titleUa,
@@ -89,8 +97,8 @@ const createNewBrand = async (brandData: BrandFormSchema) => {
   return {success: true}
 }
 
-const editBrand = async (brandFormData: BrandFormSchema) => {
-  const oldBrandData = await getBrand(brandFormData.id as number)
+const editBrand = async (selectedId: number, brandFormData: BrandFormSchema) => {
+  const oldBrandData = await getBrand(brandFormData.selectedId as number)
   const brandData: UpdateBrandType = {
     id: brandFormData.id as number,
     name_ua: brandFormData.nameUa,
@@ -113,7 +121,7 @@ const editBrand = async (brandFormData: BrandFormSchema) => {
     const response: Response = {success: false, errors: [{field: 'url', message: 'consist'}]}
     return response
   }
-  const brand = await editeBrand(brandData)
+  const brand = await editeBrand(selectedId, brandData)
   if (!brand) {
     return {success: false, serverErrors: 'DB Error'};
   }
@@ -141,7 +149,7 @@ export const serverActionDeleteBrand = async (brandId: number): Promise<Response
     if (!brandData) {
       return {success: false, serverErrors: 'DB Brand dont find'};
     }
-    if(brandData.products.length === 0){
+    if (brandData.products.length > 0) {
       return {success: false, serverErrors: 'Products Exist'};
     }
     await deleteBrand(brandId)

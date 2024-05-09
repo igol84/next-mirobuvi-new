@@ -5,7 +5,7 @@ import {prisma} from "@/lib/db/prisma";
 export type BrandDBType = Prisma.BrandGetPayload<{}>
 export type BrandDBWithProductsType = Prisma.BrandGetPayload<{ include: { products: { include: { shoeses: true } } } }>
 export type UpdateBrandType = Prisma.BrandUncheckedCreateInput
-export type CreateBrandType = Prisma.BrandCreateInput
+export type CreateBrandType = Prisma.BrandCreateInput & { id: number }
 
 export const getBrands = cache(async (): Promise<BrandDBType[]> => {
   return await prisma.brand.findMany()
@@ -16,6 +16,13 @@ export const getBrand = cache(async (brandId: number): Promise<BrandDBType | nul
     where: {id: brandId}
   })
 })
+
+export const getBrandNexId = async (): Promise<number> => {
+  const brands = await prisma.brand.findMany()
+  const ids = brands.map(brand => brand.id)
+  return Math.max(...ids) + 1
+}
+
 
 export const getBrandWithProducts = cache(async (brandId: number): Promise<BrandDBWithProductsType | null> => {
   return await prisma.brand.findUnique({
@@ -48,9 +55,9 @@ export const createBrand = async (data: CreateBrandType): Promise<BrandDBType> =
     data
   })
 }
-export const editeBrand = async (data: UpdateBrandType): Promise<BrandDBType> => {
+export const editeBrand = async (id: number, data: UpdateBrandType): Promise<BrandDBType> => {
   return await prisma.brand.update({
-    where: {id: data.id},
+    where: {id},
     data: data
   })
 }

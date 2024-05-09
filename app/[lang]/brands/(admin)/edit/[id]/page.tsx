@@ -27,6 +27,7 @@ const EditBrandPage = async ({params: {lang, id}}: Props) => {
   const allUrlList = await getBrandUrls()
   const urlList = allUrlList.filter(url => url !== brandData.url)
   const defaultValues: BrandFormSchema = {
+    selectedId: brandId,
     id: brandId,
     nameUa: brandData.name_ua,
     nameEn: brandData.name_en,

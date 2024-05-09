@@ -7,7 +7,7 @@ import {
   FormControl,
   FormErrorMessage,
   Heading,
-  Input,
+  Input, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper,
   Text,
   Textarea
 } from "@chakra-ui/react";
@@ -33,7 +33,7 @@ type Props = {
 }
 
 const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
-  const isEditing = !!defaultValues.id
+  const isEditing = !!defaultValues.selectedId
   const {dict, d} = useDict()
   const router = useRouter()
   const {
@@ -76,7 +76,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
   const onDelete = isEditing
     ? async () => {
       setIsDeleting(true)
-      const brandId = defaultValues.id as number
+      const brandId = defaultValues.selectedId as number
       await serverActionDeleteBrand(brandId)
       setIsDeleting(false)
       router.back()
@@ -87,7 +87,23 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
       <BreadCrumb breadCrumbs={breadCrumbs}/>
       <Heading as='h1'>{headingText}</Heading>
       <form onSubmit={handleSubmit(onFormSubmit)}>
-        <input type="hidden" {...register('id')}/>
+        <input type="hidden" {...register('selectedId')}/>
+        <Flex direction='row' alignItems='center' gap={2}>
+          <Text>id</Text>
+          <FormControl isInvalid={!!errors.id} isRequired>
+            <NumberInput name={register('id').name}
+                         defaultValue={defaultValues.id} min={0}>
+              <NumberInputField/>
+              <NumberInputStepper>
+                <NumberIncrementStepper/>
+                <NumberDecrementStepper/>
+              </NumberInputStepper>
+            </NumberInput>
+            {errors.id && (
+              <FormErrorMessage>id {dict[errors.id.message! as 'consist']}</FormErrorMessage>
+            )}
+          </FormControl>
+        </Flex>
         <Flex direction='column' gap={2}>
           <Flex alignItems="center" gap={2}>
             <FormControl isInvalid={!!errors.nameUa} isRequired>
