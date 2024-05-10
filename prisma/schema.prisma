@@ -129,12 +129,14 @@ model Product {
   date           DateTime  @default(now())
   type           String
   name_en        String
+  name_ru        String
   name_ua        String
   title_en       String
   title_ua       String
   meta_desc_en   String
   meta_desc_ua   String
   text_ua        String
+  text_ru        String
   text_en        String
   price          Float
   old_price      Float

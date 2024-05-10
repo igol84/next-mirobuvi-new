@@ -8,6 +8,7 @@ export const useDict = () => {
   const dict = {
     'nameUa': d('nameUa'),
     'nameEn': d('nameEn'),
+    'nameRu': d('nameRu'),
     'gt2': d('gt2'),
     'consist': d('consist'),
     'url': d('url'),

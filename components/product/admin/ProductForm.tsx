@@ -157,6 +157,16 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
               )}
             </Flex>
           </FormControl>
+
+          <FormControl isInvalid={!!errors.nameRu} isRequired>
+            <Flex direction='row' alignItems='center' gap={2}>
+              <Text>{dict.nameRu}</Text>
+              <Input {...register('nameRu')} placeholder={dict.nameRu}/>
+              {errors.nameRu && (
+                <FormErrorMessage>{dict.nameRu} {dict.gt2}</FormErrorMessage>
+              )}
+            </Flex>
+          </FormControl>
         </Flex>
 
         <Flex alignItems="center" gap={2}>
@@ -219,6 +229,13 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           <Flex direction='row' alignItems='center' gap={2}>
             <Text>{d('textEn')}</Text>
             <Textarea {...register('textEn')} placeholder={d('textEn')}/>
+          </Flex>
+        </FormControl>
+
+        <FormControl isInvalid={!!errors.textRu}>
+          <Flex direction='row' alignItems='center' gap={2}>
+            <Text>{d('textRu')}</Text>
+            <Textarea {...register('textRu')} placeholder={d('textRu')}/>
           </Flex>
         </FormControl>
 
