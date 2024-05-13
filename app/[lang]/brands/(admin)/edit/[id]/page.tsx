@@ -46,6 +46,7 @@ const EditBrandPage = async ({params: {lang, id}}: Props) => {
 
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   const imgExist = await isFileExist(ftpClient, "brands", `${brandData.url}.jpeg`)
+  ftpClient.close()
   const imgUrl = imgExist ? getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime()) : null
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_ua
   const breadCrumbs = await getBreadCrumb(lang, brandName, brandData.url)

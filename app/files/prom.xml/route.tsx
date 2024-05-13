@@ -6,7 +6,7 @@ import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {getProductImageUrl} from "@/lib/productCardData";
 
-export const revalidate = 3600
+export const revalidate = 60*60*5
 
 type Offer = {
   id: string,
@@ -50,7 +50,7 @@ export async function GET() {
         name: product.name_ru,
         name_ua: product.name_ua,
         categoryId: String(product.brand_id),
-        price: String(product.price),
+        price: String(_.ceil(product.price/0.84, -1)+10),
         vendor: product.brand.name_en,
         description: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
         description_ua: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
@@ -63,24 +63,24 @@ export async function GET() {
       for (const shoes of product.shoeses) {
         if (shoes.is_available) {
           allSizes.push(shoes.size)
-          descSizes += `<tr> <td>${shoes.size}</td> <td>${shoes.length}см.</td> </tr>`
+          descSizes += ` <tr><td>${shoes.size}</td><td>${shoes.length}см.</td></tr> `
         }
       }
       for (const shoes of product.shoeses) {
         if (shoes.is_available) {
           const name = `${product.name_ru} ${shoes.size}. Размеры в наличии: ${allSizes.join(', ')}.`
           const name_ua = `${product.name_ua} ${shoes.size}. Розміри в наявності: ${allSizes.join(', ')}.`
-          const description = `<table border="1" style="width:500px"> <tbody><tr> <th>Размеры в наличии</th> \
+          const description = `<table border="1" style="width:500px"> <tbody><tr><th>Размеры в наличии</th> \
                                <th>Длина стельки(см)</th></tr> ${descSizes} </tbody></table>`
-          const description_ua = `<table border="1" style="width:500px"> <tbody><tr> <th>Розміри в наявності</th> \
+          const description_ua = `<table border="1" style="width:500px"> <tbody><tr><th>Розміри в наявності</th> \
                                   <th>Довжина устілки(см)</th></tr> ${descSizes} </tbody></table>`
           offers.push({
-            id: String(product.id),
+            id: `${product.id}${shoes.size}`,
             group_id: String(product.id),
             name,
             name_ua,
             categoryId: String(product.brand_id),
-            price: String(product.price),
+            price: String(_.ceil(product.price/0.84, -1)+10),
             vendor: product.brand.name_en,
             description: _.escape(description),
             description_ua: _.escape(description_ua),
