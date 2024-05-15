@@ -3,6 +3,7 @@ import {z} from "zod";
 export const schema = z.object({
   selectedId: z.number().nullable(),
   id: z.number(),
+  orderNumber: z.number(),
   nameUa: z.string().trim().min(2, 'gt2'),
   nameEn: z.string().trim().min(2, 'gt2'),
   titleUa: z.string().trim(),
@@ -35,6 +36,7 @@ export type ErrorField = {
 export const defaultValues: BrandFormSchema = {
   selectedId: null,
   id: 0,
+  orderNumber: 0,
   nameUa: "",
   nameEn: "",
   titleUa: "",

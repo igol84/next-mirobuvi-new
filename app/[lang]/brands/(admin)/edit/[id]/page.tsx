@@ -29,6 +29,7 @@ const EditBrandPage = async ({params: {lang, id}}: Props) => {
   const defaultValues: BrandFormSchema = {
     selectedId: brandId,
     id: brandId,
+    orderNumber: brandData.order_number,
     nameUa: brandData.name_ua,
     nameEn: brandData.name_en,
     titleUa: brandData.title_ua,

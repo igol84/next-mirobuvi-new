@@ -103,6 +103,18 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
               <FormErrorMessage>id {dict[errors.id.message! as 'consist']}</FormErrorMessage>
             )}
           </FormControl>
+
+          <Text>Order number</Text>
+          <FormControl isRequired>
+            <NumberInput name={register('orderNumber').name}
+                         defaultValue={defaultValues.orderNumber} min={0}>
+              <NumberInputField/>
+              <NumberInputStepper>
+                <NumberIncrementStepper/>
+                <NumberDecrementStepper/>
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
         </Flex>
         <Flex direction='column' gap={2}>
           <Flex alignItems="center" gap={2}>

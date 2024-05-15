@@ -36,6 +36,7 @@ export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Pr
   const brandData: BrandFormSchema = {
     selectedId,
     id,
+    orderNumber: Number(brandFormData.get("orderNumber")),
     nameUa: brandFormData.get("nameUa") as string,
     nameEn: brandFormData.get("nameEn") as string,
     titleUa: brandFormData.get("titleUa") as string,
@@ -68,6 +69,7 @@ export const serverActionCreateOrEditBrand = async (brandFormData: FormData): Pr
 const createNewBrand = async (brandData: BrandFormSchema) => {
   const newBrandData: CreateBrandType = {
     id: brandData.id,
+    order_number: brandData.orderNumber,
     name_ua: brandData.nameUa,
     name_en: brandData.nameEn,
     title_ua: brandData.titleUa,
@@ -101,6 +103,7 @@ const editBrand = async (selectedId: number, brandFormData: BrandFormSchema) => 
   const oldBrandData = await getBrand(brandFormData.selectedId as number)
   const brandData: UpdateBrandType = {
     id: brandFormData.id as number,
+    order_number: brandFormData.orderNumber,
     name_ua: brandFormData.nameUa,
     name_en: brandFormData.nameEn,
     title_ua: brandFormData.titleUa,

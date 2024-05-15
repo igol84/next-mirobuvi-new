@@ -4,6 +4,7 @@ import {BrandCardPropsWithFirst, getBrandsImageUrl} from "@/components/Brands/ty
 import {getBrands} from "@/lib/db/brand";
 import {Lang} from "@/dictionaries/get-dictionary";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import _ from "lodash";
 
 type Props = {
   params: {
@@ -19,6 +20,7 @@ const Page = async ({params: {lang}}: Props) => {
     brandsData = brandsData.filter(brand => !brand.private)
   if (!isAdminUser)
     brandsData = brandsData.filter(brand => brand.active)
+  brandsData = _.orderBy(brandsData, 'order_number')
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = getBrandsImageUrl(brand.url, brand.updatedAt?.getTime())
     return {

@@ -5,6 +5,7 @@ import BrandPage from "@/app/[lang]/brands/BrandPage";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {getBrands} from "@/lib/db/brand";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import _ from "lodash";
 
 type Props = {
   params: {
@@ -31,6 +32,7 @@ const BrandsPage = async ({params: {lang}}: Props) => {
     brandsData = brandsData.filter(brand => !brand.private)
   if (!isAdmin)
     brandsData = brandsData.filter(brand => brand.active)
+  brandsData = _.orderBy(brandsData, 'order_number')
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = getBrandsImageUrl(brand.url, brand.updatedAt?.getTime())
     return {
