@@ -5,6 +5,8 @@ import {createOrder, OrderCreateInput, OrderItemCreateInput, OrderStatusType} fr
 import {revalidatePath} from "next/cache";
 import {deleteCart, getCart} from "@/lib/db/cart";
 import {getProductByUrl} from "@/lib/db/product";
+import {sendEmail} from "@/lib/email";
+import {env} from "@/lib/env";
 
 export const serverAction = async (orderFormData: OrderFormSchema): Promise<Response> => {
   const result: SafeParseReturnType<OrderFormSchema, OrderFormSchema> = schema.safeParse(orderFormData)
@@ -58,6 +60,7 @@ export const serverAction = async (orderFormData: OrderFormSchema): Promise<Resp
     }
     await createOrder(orderCreateInput)
     await deleteCart(cart.id)
+    await sendEmail('Нове замовлення', `${env.URL}/admin/orders`)
     revalidatePath("/[lang]/profile/orders-list")
     return {success: true}
   }

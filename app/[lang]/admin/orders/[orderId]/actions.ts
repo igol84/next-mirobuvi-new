@@ -16,23 +16,23 @@ export const serverActionEditOrder = async (orderFormData: OrderEditFormSchema):
     return {success: false, errors: zodErrors}
   }
   await editOrder(orderFormData)
-  revalidatePath("/[lang]/admin/orders")
+  revalidatePath("/[lang]/admin/orders", 'page')
   return {success: true}
 }
 
 export const serverActionDeleteOrder = async (orderId: number) => {
   await deleteOrder(orderId)
-  revalidatePath("/[lang]/admin/orders")
+  revalidatePath("/[lang]/admin/orders", 'page')
 }
 
 export const serverActionEditItemQuantity = async (productId: number, quantity: number) => {
   const result = await editItemQuantity(productId, quantity)
-  revalidatePath("/[lang]/admin/orders")
+  revalidatePath("/[lang]/admin/orders", 'page')
   return result
 }
 
 export const serverActionDeleteItem = async (productId: number) => {
   const result = await deleteItem(productId)
-  revalidatePath("/[lang]/admin/orders")
+  revalidatePath("/[lang]/admin/orders", 'page')
   return result
 }

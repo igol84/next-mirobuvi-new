@@ -33,7 +33,7 @@ export async function incrementProductQuantity(productId: string, size?: number 
       },
     });
   }
-  revalidatePath("/")
+  revalidatePath("/" , 'page')
 }
 
 export async function decrementProductQuantity(productId: string, size?: number | null) {
@@ -62,7 +62,7 @@ export async function decrementProductQuantity(productId: string, size?: number 
         },
       })
   }
-  revalidatePath("/")
+  revalidatePath("/" , 'page')
 }
 
 export async function deleteProductQuantity(productId: string, size?: number | null) {
@@ -78,5 +78,5 @@ export async function deleteProductQuantity(productId: string, size?: number | n
       },
     });
   }
-  revalidatePath("/")
+  revalidatePath("/" , 'page')
 }

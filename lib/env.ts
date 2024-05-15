@@ -14,6 +14,11 @@ const envSchema = zod.object({
   FTP_HOST: zod.string(),
   FTP_USER: zod.string(),
   FTP_PASS: zod.string(),
+  MY_EMAIL: zod.string(),
+  MY_PASSWORD: zod.string(),
+  SERVER_EMAIL: zod.string(),
+  SERVER_EMAIL_PASSWORD: zod.string(),
+  SERVER_HOST: zod.string(),
 })
 
 export const env = envSchema.parse(process.env)
