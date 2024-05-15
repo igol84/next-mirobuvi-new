@@ -7,7 +7,6 @@ import {getParents} from "@/app/[lang]/admin/tagUrls/utility";
 const Page = async () => {
   const tagUrlsData = await getTagUrls()
   const parents = getParents(tagUrlsData)
-  console.log(parents)
   return <AddPage parents={['', ...parents]}/>
 
 }

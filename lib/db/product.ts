@@ -16,7 +16,6 @@ export const getProducts = cache(async (): Promise<ProductWithDetailsDBType[]> =
 })
 
 export const getProduct = cache(async (productId: number): Promise<ProductDBType | null> => {
-  console.log(productId)
   return await prisma.product.findUnique({
     where: {id: productId},
   })

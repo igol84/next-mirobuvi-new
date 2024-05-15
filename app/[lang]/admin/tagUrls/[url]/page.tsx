@@ -40,7 +40,6 @@ const Page = async ({params: {lang, url}}: Props) => {
   const defaultValues = result.data
   const tagUrlsData = await getTagUrls()
   const parents = getParents(tagUrlsData)
-  console.log(parents)
   return (
     <EditTagUrlPage defaultValues={defaultValues} parents={['', ...parents]}/>
   )
