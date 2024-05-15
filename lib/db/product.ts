@@ -16,6 +16,7 @@ export const getProducts = cache(async (): Promise<ProductWithDetailsDBType[]> =
 })
 
 export const getProduct = cache(async (productId: number): Promise<ProductDBType | null> => {
+  console.log(productId)
   return await prisma.product.findUnique({
     where: {id: productId},
   })
@@ -49,7 +50,9 @@ export const createProduct = async (data: CreateProductType, shoes: SizeType[]):
 }
 
 export const updateProduct = async (id: number, data: UpdateProductType, shoes?: SizeType[]): Promise<Product> => {
-  const oldProduct = await getProduct(data.id as number)
+  let oldProduct = null
+  if (data.id && typeof data.id === 'number')
+    oldProduct = await getProduct(data.id as number)
   const product = await prisma.product.update({
     where: {id},
     data: data
