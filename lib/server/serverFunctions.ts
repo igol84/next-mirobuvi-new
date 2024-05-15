@@ -32,7 +32,7 @@ export const sortingProducts = (products: ProductType[], sortingBy: SortingType)
   const isInStock = (product: ProductType): boolean => !!product.name
   switch (sortingBy) {
     case "byOrder": {
-      return _.orderBy(products, [isInStock, 'date'], ['desc', 'desc'])
+      return _.orderBy(products, [isInStock, 'id'], ['desc', 'desc'])
     }
     case "byIncreasingPrice": {
       return _.orderBy(products, [isInStock, 'price'], ['desc', 'asc'])

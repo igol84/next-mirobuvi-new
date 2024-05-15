@@ -56,7 +56,7 @@ export const defaultValues: Omit<ProductFormSchema, 'filesImg'> = {
   nameRu: "",
   titleUa: "",
   titleEn: "",
-  tags: "",
+  tags: "Men's sneakers Чоловічі кросівки Women's sneakers Жіночі кросівки",
   metaDescEn: "",
   metaDescUa: "",
   url: "",
