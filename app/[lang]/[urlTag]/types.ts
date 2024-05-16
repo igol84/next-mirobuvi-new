@@ -60,9 +60,9 @@ export type FilterGenderType = {
 }
 
 export type FilterColor = "black" | "white" | "blackWhite" | "green" | "yellow" | "red" | "blue" | "gray" | "purple"
-  | "brown"
+  | "pink" | "brown"
 export const allColors: FilterColor[] = [
-  "black", "white", "green", "blackWhite", "yellow", "red", "blue", "gray", "purple", "brown"
+  "black", "white", "green", "blackWhite", "yellow", "red", "blue", "gray", "purple", "pink", "brown"
 ]
 export const isColor = (color: any): color is FilterColor => allColors.includes(color)
 export type FilterColorType = {
