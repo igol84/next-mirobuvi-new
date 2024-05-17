@@ -41,7 +41,7 @@ const FiltersLayout = ({children, desc, sortingBy, breadCrumbs, viewedProducts, 
         <Flex justifyContent='space-between' flexWrap='wrap' alignItems="center">
           <SortingSelect value={sortingBy}/>
           <IconButton display={{base: "inherit", lg: "none"}} aria-label={d('openFilterMenu')} icon={<FaFilter/>}
-                      onClick={mobileFilterMenu.onOpen} isRound={true}
+                      onClick={mobileFilterMenu.onOpen} isRound={true}  variant='outline'
           />
         </Flex>
       </Flex>

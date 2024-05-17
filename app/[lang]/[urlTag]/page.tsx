@@ -64,7 +64,6 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
   const tagsUrlData = await getTagUrls()
   const fetchData = tagsUrlData.find(tag => tag.url === urlTag)
   if (!fetchData) redirect(`/`)
-
   const tagData = convertToTagUrlFromDB(fetchData, lang)
   const viewedProducts = await getViewedProducts(lang, isAdmin, isAuth)
   if (isSinglePage(tagData)) {

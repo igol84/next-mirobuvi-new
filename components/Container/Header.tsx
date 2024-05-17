@@ -41,7 +41,7 @@ const Header = ({onMenuOpen, onMenuClose, cartProducts, brandsItems, tagsUrl}: P
           <Flex as='header' flex={1} pt={4} alignItems='center' color='primary' p={2} justifyContent='space-between'
                 roundedTop={16} backgroundColor='bodyColor' boxShadow={'base'}>
             <IconButton onClick={onMenuOpen} fontSize={[28, 36, 48, 56]} display={{base: "inherit", lg: "none"}}
-                        icon={<HiMenu/>} aria-label={d("toggleMenu")} isRound={true}
+                        icon={<HiMenu/>} aria-label={d("toggleMenu")} isRound={true} variant='outline'
             />
             <Box as={Link} href={`/${lang}`} className="_icon-logo" aria-label={d("homePage")}
                  sx={{transition: 'all 0.3s ease 0s;'}} _hover={{textDecoration: 'none'}} fontSize={[28, 36, 48, 56]}
