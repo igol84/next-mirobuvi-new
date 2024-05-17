@@ -6,7 +6,7 @@ import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {getProductImageUrl} from "@/lib/productCardData";
 
-export const revalidate = 60*60*5
+export const revalidate = 60 * 60 * 5
 
 type Offer = {
   id: string,
@@ -43,14 +43,15 @@ export async function GET() {
     const imagesNames = await getAllImages(ftpClient, `products/${product.url}`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')
+    const group_id = product.prom_add_to_id ? Number(product.id) * 10000 + product.prom_add_to_id : Number(product.id)
     if (product.type === 'product') {
       offers.push({
-        id: String(product.id),
+        id: String(group_id),
         group_id: String(product.id),
         name: product.name_ru,
         name_ua: product.name_ua,
         categoryId: String(product.brand_id),
-        price: String(_.ceil(product.price/0.84, -1)+10),
+        price: String(_.ceil(product.price / 0.84, -1) + 10),
         vendor: product.brand.name_en,
         description: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
         description_ua: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
@@ -75,12 +76,12 @@ export async function GET() {
           const description_ua = `<table border="1" style="width:500px"> <tbody><tr><th>Розміри в наявності</th> \
                                   <th>Довжина устілки(см)</th></tr> ${descSizes} </tbody></table>`
           offers.push({
-            id: `${product.id}${shoes.size}`,
-            group_id: String(product.id),
+            id: `${group_id}${shoes.size}`,
+            group_id: String(group_id),
             name,
             name_ua,
             categoryId: String(product.brand_id),
-            price: String(_.ceil(product.price/0.84, -1)+10),
+            price: String(_.ceil(product.price / 0.84, -1) + 10),
             vendor: product.brand.name_en,
             description: _.escape(description),
             description_ua: _.escape(description_ua),
