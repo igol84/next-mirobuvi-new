@@ -5,6 +5,7 @@ import {ProductType, ShoesType, SimpleProductProps, SizeType} from "@/components
 import {dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
+import _ from "lodash";
 
 type ProductFabrice = {
   (
@@ -28,9 +29,10 @@ export const productFabrice: ProductFabrice = (lang, product, urlImages, userId,
       const sizes: SizeType[] = product.shoeses.map(shoes => ({
         size: shoes.size, length: shoes.length, inStock: shoes.is_available
       }))
+      const sortedSizes = _.sortBy(sizes, 'size')
        const shoes: ShoesType = {
         id:product.id, name, price: product.price, price_prefix, type: 'shoes', url: product.url,
-        images: urlImages, desc, userId, isFavorite, isNew, sizes: sizes, inStock: !!product.is_available
+        images: urlImages, desc, userId, isFavorite, isNew, sizes: sortedSizes, inStock: !!product.is_available
       }
       return shoes
     }

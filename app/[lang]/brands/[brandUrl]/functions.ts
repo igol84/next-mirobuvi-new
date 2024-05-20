@@ -26,9 +26,10 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
         if(shoes.is_available)
           sizes.push(shoes.size)
       })
+      const sortedSizes = sizes.sort()
       return {
         id: product.id, name, url: product.url, imageUrl, isAvailable: true, color: product.color,
-        price: product.price, price_prefix, type: 'shoes', sizes, page, date, isNew, tags: product.tags,
+        price: product.price, price_prefix, type: 'shoes', sizes: sortedSizes, page, date, isNew, tags: product.tags,
         season: product.season
       }
     }
