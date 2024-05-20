@@ -25,7 +25,7 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
   const imageUrl = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime())
   switch (product.type) {
     case "shoes": {
-      const sizes: number[] = product.shoeses.map(shoes => shoes.size).sort()
+      const sizes: number[] = product.shoeses.filter(shoes => shoes.is_available).map(shoes => shoes.size).sort()
       const shoes: ShoesType = {
         id: product.id, name, url: product.url, isAvailable: true, imageUrl, color: product.color,
         season: product.season, price: product.price, price_prefix, page, date, isNew, tags: product.tags,

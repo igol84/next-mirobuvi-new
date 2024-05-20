@@ -18,8 +18,8 @@ const ShoesCard = ({product}: Props) => {
   const {name, price, price_prefix, sizes, url} = product
   const lang = useContext(LangContext)
   let UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
-  const filter = product.isNew ? undefined : 'auto'
-  const brightness = product.isNew ? undefined : '40%'
+  const filter = product.isAvailable ? undefined : 'auto'
+  const brightness = product.isAvailable ? undefined : '40%'
   return (
     <Flex flexDirection='column' gap={4} w={249}>
       <Link as={NextLink} href={`/${lang}/products/${url}`} _hover={{color: 'hoverLinkTextColor'}}>
@@ -36,7 +36,7 @@ const ShoesCard = ({product}: Props) => {
           <Text fontSize={16}>{price_prefix}</Text>
         </Center>
         <Center>
-          {product.isNew ? <Sizes sizes={sizes}/> : <Text color='red.400'>{textNotAvailable}</Text>}
+          {product.isAvailable ? <Sizes sizes={sizes}/> : <Text color='red.400'>{textNotAvailable}</Text>}
         </Center>
       </Link>
     </Flex>
