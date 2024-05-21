@@ -7,13 +7,13 @@ import {
   Boots, Conv,
   Converse,
   FlipFlops,
-  NewBalance,
+  NewBalanceIcon,
   Nike,
   Puma,
   Reebok,
   RenBen,
   Sneakers,
-  Ugg
+  Ugg, WomenSandalsIcon, WomenShoesIcon
 } from "@/app/theme/icons/library";
 
 type Icon = {
@@ -34,6 +34,8 @@ export const icons: Icon[] = [
   {name: 'Boots', icon: Boots},
   {name: 'botinki-zhenskie', icon: Boots},
   {name: 'botinki-muzhskie', icon: Boots},
+  {name: 'zhenskie-tufli', icon: WomenShoesIcon},
+  {name: 'zhenskie-bosonozhki', icon: WomenSandalsIcon},
   {name: 'Ugg', icon: Ugg},
   {name: 'brands/Nike', icon: Nike},
   {name: 'brands/Adidas', icon: Adidas},
@@ -42,7 +44,7 @@ export const icons: Icon[] = [
   {name: 'brands/Asics', icon: Asics},
   {name: 'brands/Puma', icon: Puma},
   {name: 'brands/Reebok', icon: Reebok},
-  {name: 'brands/new-balance', icon: NewBalance},
+  {name: 'brands/new-balance', icon: NewBalanceIcon},
 ]
 
 export const getIcon = (name: string) => icons.find(icon => name === icon.name.toLowerCase())?.icon
