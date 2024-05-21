@@ -38,7 +38,7 @@ export async function GET() {
   let offersXML = ''
   for (const product of promProducts) {
 
-    const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpg`)
+    const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpeg`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')
     const group_id = product.prom_add_to_id ? Number(product.id) * 10000 + product.prom_add_to_id : Number(product.id)
