@@ -224,8 +224,10 @@ export const serverActionDeleteImage: ServerActionDeleteImage = async (id, prodU
   try {
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
     await deleteImage(ftpClient, `products/${prodUrl}`, delName, names)
+    const imagesNames = await getAllImages(ftpClient, `products/${prodUrl}`)
+    const imgCount = imagesNames.length
     ftpClient.close()
-    const updatedProduct = await updateProduct(id, {imgUpdatedAt: new Date()})
+    const updatedProduct = await updateProduct(id, {imgUpdatedAt: new Date(), imgCount: imgCount})
     const dateUpdate = updatedProduct.imgUpdatedAt?.getTime()
     const newNames = names.filter(name => name !== delName).sort()
     const response: Image[] = newNames.map((_, index) => {

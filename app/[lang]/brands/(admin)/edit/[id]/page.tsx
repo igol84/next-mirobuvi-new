@@ -2,8 +2,6 @@ import {redirect} from "next/navigation";
 import {getBrand, getBrands, getBrandUrls} from "@/lib/db/brand";
 import BrandForm from "@/components/Brands/admin/BrandForm";
 import {BrandFormSchema} from "@/components/Brands/admin/types";
-import {getFTPClient, isFileExist} from "@/lib/ftp";
-import {env} from "@/lib/env";
 import {Lang} from "@/dictionaries/get-dictionary";
 import {getBreadCrumb} from "@/app/[lang]/brands/(admin)/edit/[id]/serverFunctions";
 import {getBrandsImageUrl} from "@/components/Brands/types";
@@ -45,10 +43,7 @@ const EditBrandPage = async ({params: {lang, id}}: Props) => {
     fileImg: []
   }
 
-  const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
-  const imgExist = await isFileExist(ftpClient, "brands", `${brandData.url}.jpeg`)
-  ftpClient.close()
-  const imgUrl = imgExist ? getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime()) : null
+  const imgUrl = getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime())
   const brandName = lang === 'en' ? brandData.name_en : brandData.name_ua
   const breadCrumbs = await getBreadCrumb(lang, brandName, brandData.url)
 

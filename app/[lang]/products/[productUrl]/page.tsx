@@ -10,11 +10,10 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
 import {getUser} from "@/lib/db/user";
 import {getBreadCrumbData, productFabrice} from "@/app/[lang]/products/[productUrl]/serverFunctions";
-import {env} from "@/lib/env";
 import {getProductByUrl, getProducts} from "@/lib/db/product";
-import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import _ from "lodash";
 
 
 type Props = {
@@ -63,9 +62,7 @@ async function Page({params: {productUrl, lang}}: Props) {
       favoriteProducts.push(...favoriteProductsFromUser)
     }
   }
-  const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
-  const images = await getAllImages(ftpClient, `products/${productUrl}`)
-  ftpClient.close()
+  const images = _.times(productDBData.imgCount, index => `${index + 1}.jpeg`)
   const urlImages = images.map(image => {
     return getProductImageUrl(productDBData.url, productDBData.imgUpdatedAt?.getTime(), image)
   })
