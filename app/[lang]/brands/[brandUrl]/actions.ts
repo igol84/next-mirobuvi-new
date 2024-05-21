@@ -12,7 +12,7 @@ import {
   UpdateProductType
 } from "@/lib/db/product";
 import {revalidatePath} from "next/cache";
-import {addFiles, deleteImage, getFTPClient, renameFolder, renameImages, uploadFiles} from "@/lib/ftp";
+import {addFiles, deleteImage, getAllImages, getFTPClient, renameFolder, renameImages, uploadFiles} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {convertTextForUrl} from "@/utility/functions";
 import {Image} from "@/components/product/admin/ProductImage";
@@ -87,46 +87,77 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
 }
 
 const addNewProduct = async (productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
-  const product: CreateProductType = {
-    id: productData.id,
-    active: productData.active,
-    private: productData.private,
-    url: productData.url,
-    is_available: productData.isAvailable,
-    tags: productData.tags,
-    type: productData.type,
-    name_en: productData.nameEn,
-    name_ua: productData.nameUa,
-    name_ru: productData.nameRu,
-    title_en: productData.titleEn,
-    title_ua: productData.titleUa,
-    meta_desc_en: productData.metaDescEn,
-    meta_desc_ua: productData.metaDescUa,
-    text_en: productData.textEn,
-    text_ua: productData.textUa,
-    text_ru: productData.textRu,
-    price: productData.price,
-    old_price: productData.oldPrice ?? productData.price,
-    prom_active: productData.promActive,
-    prom_add_to_id: productData.promAddToId,
-    season: productData.season,
-    color: productData.color,
-    brand_id: productData.brandId,
-  }
-  await createProduct(product, shoes)
   try {
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
     const files = productData.filesImg as File[]
-    await uploadFiles(ftpClient, `products/${product.url}`, files)
+    await uploadFiles(ftpClient, `products/${productData.url}`, files)
+    const imagesNames = await getAllImages(ftpClient, `products/${productData.url}`)
+    const imgCount = imagesNames.length
     ftpClient.close()
+    const product: CreateProductType = {
+      id: productData.id,
+      active: productData.active,
+      private: productData.private,
+      url: productData.url,
+      is_available: productData.isAvailable,
+      tags: productData.tags,
+      type: productData.type,
+      name_en: productData.nameEn,
+      name_ua: productData.nameUa,
+      name_ru: productData.nameRu,
+      title_en: productData.titleEn,
+      title_ua: productData.titleUa,
+      meta_desc_en: productData.metaDescEn,
+      meta_desc_ua: productData.metaDescUa,
+      text_en: productData.textEn,
+      text_ua: productData.textUa,
+      text_ru: productData.textRu,
+      price: productData.price,
+      old_price: productData.oldPrice ?? productData.price,
+      prom_active: productData.promActive,
+      prom_add_to_id: productData.promAddToId,
+      season: productData.season,
+      color: productData.color,
+      brand_id: productData.brandId,
+      imgCount
+    }
+    await createProduct(product, shoes)
   } catch {
     return {success: false, serverErrors: 'FTP Error'};
   }
+
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }
 
 const editProduct = async (selectedId: number, productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
+
+  let isFileEdited = false
+  const oldProduct = await getProduct(productData.id as number)
+  let imgCount = oldProduct?.imgCount as number
+  const urlIsChanged = oldProduct?.url !== productData.url
+
+  if (urlIsChanged) {
+    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+    await renameFolder(ftpClient, 'products', oldProduct?.url as string, productData.url as string)
+    ftpClient.close()
+  }
+
+  const files = productData.filesImg as File[]
+  const isFilesExist = files.length >= 1 && files[0].size > 0
+  if (isFilesExist) {
+    try {
+      const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
+      await addFiles(ftpClient, `products/${productData.url}`, files)
+      const imagesNames = await getAllImages(ftpClient, `products/${productData.url}`)
+      imgCount = imagesNames.length
+      ftpClient.close()
+      isFileEdited = true
+    } catch {
+      return {success: false, serverErrors: 'FTP Error'};
+    }
+  }
+
   let product: UpdateProductType = {
     id: productData.id as number,
     active: productData.active,
@@ -153,41 +184,18 @@ const editProduct = async (selectedId: number, productData: ProductFormSchema, s
     color: productData.color,
     brand_id: productData.brandId,
   }
-  let isFileEdited = false
-  const oldProduct = await getProduct(product.id as number)
-  const urlIsChanged = oldProduct?.url !== product.url
-
-  if (urlIsChanged) {
-    const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
-    await renameFolder(ftpClient, 'products', oldProduct?.url as string, product.url as string)
-    ftpClient.close()
-  }
-
-
-  const files = productData.filesImg as File[]
-  const isFilesExist = files.length >= 1 && files[0].size > 0
-  if (isFilesExist) {
-    try {
-      const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
-      await addFiles(ftpClient, `products/${product.url}`, files)
-      ftpClient.close()
-      isFileEdited = true
-    } catch {
-      return {success: false, serverErrors: 'FTP Error'};
-    }
-  }
-
   if (isFileEdited) {
-    product = {...product, imgUpdatedAt: new Date()}
+    product = {...product, imgUpdatedAt: new Date(), imgCount}
   }
-
   await updateProduct(selectedId, product, shoes)
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
 }
+
 type ServerActionRenameImages = {
   (id: number, productName: string, names: string[]): Promise<Image[]>
 }
+
 export const serverActionRenameImages: ServerActionRenameImages = async (id, productName, names) => {
   const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   await renameImages(ftpClient, `products/${productName}`, names)
