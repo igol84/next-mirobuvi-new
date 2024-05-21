@@ -2,8 +2,6 @@ import 'server-only'
 import {getBrands} from "@/lib/db/brand";
 import {getProducts} from "@/lib/db/product";
 import _ from "lodash";
-import {getAllImages, getFTPClient} from "@/lib/ftp";
-import {env} from "@/lib/env";
 import {getProductImageUrl} from "@/lib/productCardData";
 
 export const revalidate = 60 * 60 * 5
@@ -23,7 +21,6 @@ type Offer = {
 }
 
 export async function GET() {
-  const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
   const brands = await getBrands()
   const categories = brands.map(brand => ({
     id: brand.id,
@@ -40,7 +37,8 @@ export async function GET() {
   const offers: Offer[] = []
   let offersXML = ''
   for (const product of promProducts) {
-    const imagesNames = await getAllImages(ftpClient, `products/${product.url}`)
+
+    const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpg`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')
     const group_id = product.prom_add_to_id ? Number(product.id) * 10000 + product.prom_add_to_id : Number(product.id)
@@ -92,7 +90,6 @@ export async function GET() {
       }
     }
   }
-  ftpClient.close()
   offers.forEach(data => {
     offersXML += `
           <offer id="${data.id}" available="true" in_stock="На складі" group_id="${data.group_id}">

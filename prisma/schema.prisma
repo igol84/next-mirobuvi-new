@@ -145,6 +145,7 @@ model Product {
   prom_add_to_id Int
   season         String
   color          String
+  imgCount       Int       @default(0)
   imgUpdatedAt   DateTime? @default(now())
   brand_id       Int
   brand          Brand     @relation(fields: [brand_id], references: [id], onDelete: Restrict)
