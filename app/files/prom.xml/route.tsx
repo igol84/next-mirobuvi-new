@@ -37,7 +37,6 @@ export async function GET() {
   const offers: Offer[] = []
   let offersXML = ''
   for (const product of promProducts) {
-
     const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpeg`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')
@@ -59,34 +58,33 @@ export async function GET() {
     } else if (product.type === 'shoes') {
       const allSizes = []
       let descSizes = ''
-      for (const shoes of product.shoeses) {
+      const sortedShoes = _.sortBy(product.shoeses.filter(shoes => shoes.is_available), 'size')
+      for (const shoes of sortedShoes) {
         if (shoes.is_available) {
           allSizes.push(shoes.size)
           descSizes += ` <tr><td>${shoes.size}</td><td>${shoes.length}см.</td></tr> `
         }
       }
-      for (const shoes of product.shoeses) {
-        if (shoes.is_available) {
-          const name = `${product.name_ru} ${shoes.size}. Размеры в наличии: ${allSizes.join(', ')}.`
-          const name_ua = `${product.name_ua} ${shoes.size}. Розміри в наявності: ${allSizes.join(', ')}.`
-          const description = `<table border="1" style="width:500px"> <tbody><tr><th>Размеры в наличии</th> \
+      for (const shoes of sortedShoes) {
+        const name = `${product.name_ru} ${shoes.size}. Размеры в наличии: ${allSizes.join(', ')}.`
+        const name_ua = `${product.name_ua} ${shoes.size}. Розміри в наявності: ${allSizes.join(', ')}.`
+        const description = `<table border="1" style="width:500px"> <tbody><tr><th>Размеры в наличии</th> \
                                <th>Длина стельки(см)</th></tr> ${descSizes} </tbody></table>`
-          const description_ua = `<table border="1" style="width:500px"> <tbody><tr><th>Розміри в наявності</th> \
+        const description_ua = `<table border="1" style="width:500px"> <tbody><tr><th>Розміри в наявності</th> \
                                   <th>Довжина устілки(см)</th></tr> ${descSizes} </tbody></table>`
-          offers.push({
-            id: `${group_id}${shoes.size}`,
-            group_id: String(group_id),
-            name,
-            name_ua,
-            categoryId: String(product.brand_id),
-            price: String(_.ceil(product.price / 0.84, -1) + 10),
-            vendor: product.brand.name_en,
-            description: _.escape(description),
-            description_ua: _.escape(description_ua),
-            images,
-            param: `<param name="Розмір взуття(устілка)" unit="">${shoes.size}(${shoes.length})</param>`
-          })
-        }
+        offers.push({
+          id: `${group_id}${shoes.size}`,
+          group_id: String(group_id),
+          name,
+          name_ua,
+          categoryId: String(product.brand_id),
+          price: String(_.ceil(product.price / 0.84, -1) + 10),
+          vendor: product.brand.name_en,
+          description: _.escape(description),
+          description_ua: _.escape(description_ua),
+          images,
+          param: `<param name="Розмір взуття(устілка)" unit="">${shoes.size}(${shoes.length})</param>`
+        })
       }
     }
   }
