@@ -17,17 +17,17 @@ import NextLink from "next/link";
 const CarouselComponent = () => {
   const slides = [
     {
-      img: "https://mirobuvi.com.ua/images/slide/Adidas_Nite_Jogger_Black_Black.jpg?1691342023491",
+      img: "/images/slide/Adidas_Nite_Jogger_Black_Black.jpg?1691342023491",
       label: "First Slide",
       description: "Nulla vitae elit libero, a pharetra augue mollis interdum.",
     },
     {
-      img: "https://mirobuvi.com.ua/images/slide/slide-6.jpg",
+      img: "/images/slide/slide-6.jpg",
       label: "Second Slide",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
-      img: "https://mirobuvi.com.ua/images/slide/slide-4.jpg",
+      img: "/images/slide/slide-4.jpg",
       label: "Third Slide",
       description:
         "Praesent commodo cursus magna, vel scelerisque nisl consectetur.",
