@@ -15,8 +15,8 @@ const ProductCard = ({product}: Props) => {
   const {name, price, price_prefix, url} = product
   const lang = useContext(LangContext)
   let UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
-  const filter = product.isNew ? undefined : 'auto'
-  const brightness = product.isNew  ? undefined : '40%'
+  const filter = product.isAvailable ? undefined : 'auto'
+  const brightness = product.isAvailable  ? undefined : '40%'
   const textNotAvailable = d('notAvailable')
   return (
     <Flex flexDirection='column' gap={4} w={product.page === 'viewed' ? [200, 249] : 249}>

@@ -36,7 +36,7 @@ const Product = ({product}: Props) => {
          borderRadius={15} shadow={isHover ? '2xl' : 'none'} _dark={{shadow: isHover ? 'dark-lg' : 'none'}}>
       {isAdmin
         ? (
-          <Box position='absolute' top={2} right={2} hidden={!isHover}>
+          <Box position='absolute' top={2} right={2} hidden={!isHover} zIndex={99999}>
             <Link as={NextLink} href={`/${lang}/products/${product.url}/edit`} _hover={{color: 'hoverLinkTextColor'}}>
               <IconButton aria-label={dict.editProduct} icon={<EditIcon/>}/>
             </Link>

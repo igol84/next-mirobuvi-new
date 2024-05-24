@@ -26,8 +26,9 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
   switch (product.type) {
     case "shoes": {
       const sizes: number[] = product.shoeses.filter(shoes => shoes.is_available).map(shoes => shoes.size).sort()
+      const isAvailable = !!product.is_available && sizes.length > 0
       const shoes: ShoesType = {
-        id: product.id, name, url: product.url, isAvailable: true, imageUrl, color: product.color,
+        id: product.id, name, url: product.url, isAvailable, imageUrl, color: product.color,
         season: product.season, price: product.price, price_prefix, page, date, isNew, tags: product.tags,
         type: 'shoes', sizes
       }
@@ -35,7 +36,7 @@ export const createProduct: CreateProduct = (product, lang, page = 'catalog') =>
     }
     default: {
       const simpleProduct: SimpleProductProps = {
-        id: product.id, name, url: product.url, isAvailable: true, imageUrl, color: product.color,
+        id: product.id, name, url: product.url, isAvailable: !!product.is_available, imageUrl, color: product.color,
         season: product.season, price: product.price, price_prefix, page, date, isNew, tags: product.tags,
         type: 'product'
       }

@@ -14,4 +14,20 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+npx prisma generate
+npx prisma migrate dev --name add field
+```bash
+ssh admin@mirobuvi.com.ua
+cd core/
+git pull
+npm i
+npx pm2 stop next
+npx prisma migrate deploy
+npx prisma generate
+npm run build
+npx pm2 start next
+
+
+npx pm2 reload all
+```
 
