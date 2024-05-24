@@ -1,10 +1,10 @@
 import 'server-only'
 
+import _ from "lodash";
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import {ParentTagForBreadCrumb, TagUrl} from "@/app/[lang]/[urlTag]/types";
-import {ProductType} from "@/components/Products/types";
-import _ from "lodash";
+import {ProductWithDetailsDBType} from "@/lib/db/product";
 
 export const isSinglePage = (tagData: TagUrl): boolean => tagData.search === ''
 
@@ -50,7 +50,11 @@ export const getBreadCrumbData: GetBreadCrumbData = async (lang, pageName, paren
   return breadCrumbs
 }
 
-export const searchProductsByTag = (products: ProductType[], searchValue: string): ProductType[] => {
+type SearchProductsByTag = {
+  (products: ProductWithDetailsDBType[], searchValue: string): ProductWithDetailsDBType[]
+}
+
+export const searchProductsByTag: SearchProductsByTag = (products, searchValue) => {
   return products.filter(product => {
     const searchInTags = _.startCase(product.tags)
     const whatSearchInTags = _.startCase(searchValue)
@@ -58,11 +62,18 @@ export const searchProductsByTag = (products: ProductType[], searchValue: string
   })
 }
 
-export const searchProducts = (products: ProductType[], searchValue: string): ProductType[] => {
+type SearchProducts = {
+  (products: ProductWithDetailsDBType[], searchValue: string): ProductWithDetailsDBType[]
+}
+
+export const searchProducts: SearchProducts = (products, searchValue) => {
   return products.filter(product => {
-    const searchInName = product.name.toLowerCase()
+    const searchInNameUa = product.name_ua.toLowerCase()
+    const searchInNameRu = product.name_ru.toLowerCase()
+    const searchInNameEn = product.name_en.toLowerCase()
     const searchInTags = product.tags.toLowerCase()
     const whatSearch = searchValue.trim().toLowerCase()
-    return searchInName.includes(whatSearch) || searchInTags.includes(whatSearch)
+    return searchInNameUa.includes(whatSearch) || searchInNameRu.includes(whatSearch) ||
+      searchInNameEn.includes(whatSearch) ||searchInTags.includes(whatSearch)
   })
 }

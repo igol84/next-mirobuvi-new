@@ -84,11 +84,11 @@ const Page = async ({params: {lang, urlTag}, searchParams}: Props) => {
     productsData = productsData.filter(product => !product.private && !product.brand.private)
   if (!isAdmin)
     productsData = productsData.filter(product => product.active && product.brand.active)
-  let products: ProductType[] = productsData.map(product => createProduct(product, lang))
-  if (tagData.search !== 'header')
-    products = searchProductsByTag(products, tagData.search)
   if (search)
-    products = searchProducts(products, search)
+    productsData = searchProducts(productsData, search)
+  if (tagData.search !== 'header')
+    productsData = searchProductsByTag(productsData, tagData.search)
+  let products: ProductType[] = productsData.map(product => createProduct(product, lang))
 
   const filterProducts = getFilterProducts(products, filtersValues)
   products = filterProducts.products
