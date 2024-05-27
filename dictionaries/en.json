@@ -28,7 +28,8 @@
     "notAdmin": "You are not admin!",
     "search": "Search",
     "notFound": "Products not found",
-    "products": "Products"
+    "products": "Products",
+    "articles": "Articles"
   },
   "breadcrumb": {
     "home": "Home",

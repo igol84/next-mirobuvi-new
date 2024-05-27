@@ -1,5 +1,5 @@
-import React from 'react';
-import {Flex, IconButton} from "@chakra-ui/react";
+import React, {useContext} from 'react';
+import {Box, Button, Flex, IconButton, Text} from "@chakra-ui/react";
 import MenuItems from "@/components/Container/Navbar/MenuItems";
 import './style.css'
 import {Item} from "@/components/Container/Navbar/types";
@@ -7,6 +7,8 @@ import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import FavoriteProductsIcon from "@/components/Container/FavoriteProductsIcon";
 import SearchInput from "@/components/Container/Navbar/SearchInput";
 import {TagUrl} from "@/app/[lang]/[urlTag]/types";
+import NextLink from "next/link";
+import {LangContext} from "@/locale/LangProvider";
 
 type Props = {
   brandsItems: Item[]
@@ -17,6 +19,7 @@ type Props = {
 
 const Navbar = ({brandsItems, isMobile, tagsUrl, onClose}: Props) => {
   const d = useDictionaryTranslate("home")
+  const lang = useContext(LangContext)
   const updatedBrandItems = brandsItems.map(item => {
     const url = `brands/${item.url}`
     return {...item, url}
@@ -34,8 +37,18 @@ const Navbar = ({brandsItems, isMobile, tagsUrl, onClose}: Props) => {
     <Flex as='ul' sx={{listStyle: 'none'}} flexDirection={isMobile ? 'column' : 'row'}>
       {allItems.map((menu, index) => {
         const depthLevel = 0;
-        return <MenuItems items={menu} key={index} depthLevel={depthLevel} isMobile={isMobile} onClose={onClose}/>;
+        return <MenuItems items={menu} key={index} depthLevel={depthLevel} isMobile={isMobile} onClose={onClose}/>
       })}
+      <Box as={'li'} position='relative' className="menu-items">
+      <Button h={isMobile ? 1 : 'none'} variant='navButton' aria-haspopup="menu" pl={2}
+              aria-expanded={"true"} w='100%'>
+        <Text as={NextLink} href={`/${lang}/articles`} onClick={onClose}
+              w={!isMobile ? 'full' : undefined} textAlign={!isMobile ? 'left' : undefined}
+        >
+          {d('articles')}
+        </Text>
+      </Button>
+      </Box>
       <Flex justifyContent='center' alignItems='center' py={{base: 2, sm: 0}}>
         <SearchInput onClose={onClose}/>
       </Flex>

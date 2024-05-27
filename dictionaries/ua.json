@@ -28,7 +28,8 @@
     "notAdmin": "Ви не адмін!",
     "search": "Пошук",
     "notFound": "Товарів не знайдено",
-    "products": "Продукти"
+    "products": "Продукти",
+    "articles": "Статті"
   },
   "breadcrumb": {
     "home": "Додому",
