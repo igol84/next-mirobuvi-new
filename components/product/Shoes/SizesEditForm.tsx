@@ -56,7 +56,7 @@ const SizesEditForm = ({shoesId, defaultSizes, onClose}: Props) => {
       <Flex gap={2}>
         <IconButton
           isRound={true}
-          variant='outline'
+          variant='outlineGreen'
           aria-label='Done'
           fontSize='20px'
           icon={<CheckIcon/>}
@@ -73,7 +73,6 @@ const SizesEditForm = ({shoesId, defaultSizes, onClose}: Props) => {
           isLoading={loading}
         />
       </Flex>
-
     </Flex>
   )
 }

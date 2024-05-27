@@ -94,27 +94,27 @@ const Shoes = ({shoesData}: Props) => {
       </Flex>
       {isSizesEditMod && <SizesEditForm shoesId={shoesData.id} defaultSizes={defaultSizes} onClose={onStopEdit}/>}
       <Flex gap={2} hidden={isSizesEditMod}>
-        <Box>
-          {inStock ? (
-            <>
-              <Flex gap={2} alignItems='center' wrap='wrap' pb={4}>
-                <Text>{textSizes}</Text>
-                {shoesData.sizes.map(sizeData => {
-                  const selected = selectedSize === sizeData.size
-                  return (
-                    <Size
-                      key={sizeData.size} sizeData={sizeData} selected={selected} onClickSize={onClickSize}
-                      onHoverSize={onHoverSize} onLiveSize={onLiveSize}
-                    />)
-                })}
-
-              </Flex>
-              <Box color='secondary' pb={6}>{sizeDesc}</Box>
-              <AddToCartButton productId={shoesData.url} size={selectedSize}/>
-            </>
-          ) : <Text color='red.400'>{textNotAvailable}</Text>}
-        </Box>
-        {isEditAccess && <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>}
+        {inStock ? (
+          <Box>
+            <Flex gap={2} alignItems='center' wrap='wrap' pb={4}>
+              {isEditAccess && (
+                <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>
+              )}
+              <Text>{textSizes}</Text>
+              {shoesData.sizes.map(sizeData => {
+                const selected = selectedSize === sizeData.size
+                return (
+                  <Size
+                    key={sizeData.size} sizeData={sizeData} selected={selected} onClickSize={onClickSize}
+                    onHoverSize={onHoverSize} onLiveSize={onLiveSize}
+                  />)
+              })}
+            </Flex>
+            <Box color='secondary' pb={6}>{sizeDesc}</Box>
+            <Box pb={6} color='secondary'>Відправляємо за передоплатою 150грн.</Box>
+            <AddToCartButton productId={shoesData.url} size={selectedSize}/>
+          </Box>
+        ) : <Text color='red.400'>{textNotAvailable}</Text>}
       </Flex>
     </>
   );

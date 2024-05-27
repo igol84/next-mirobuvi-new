@@ -98,7 +98,7 @@ const Button = defineStyleConfig({
     outline: {
       fontWeight: 'bold',
       textTransform: 'lowercase',
-      borderRadius: 'base', // <-- border radius is same for all variants and sizes
+      borderRadius: 'base',
       border: 'none',
       color: 'primary.700',
       _hover: {
@@ -111,6 +111,25 @@ const Button = defineStyleConfig({
         _hover: {
           bg: 'primary.900',
           color: 'primary.100',
+        },
+      }
+    },
+    outlineGreen: {
+      fontWeight: 'bold',
+      textTransform: 'lowercase',
+      borderRadius: 'base',
+      border: 'none',
+      color: 'green.700',
+      _hover: {
+        bg: 'primary.50',
+        color: 'green.500',
+      },
+      _dark: {
+        textTransform: 'uppercase',
+        color: 'green.200',
+        _hover: {
+          bg: 'primary.900',
+          color: 'green.100',
         },
       }
     },

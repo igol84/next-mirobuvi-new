@@ -23,8 +23,8 @@ const FavoriteProduct = ({product, userId}: Props) => {
   const onClick = () => onClickDelete(product.url)
   return (
     <Box position='relative'>
-      <IconButton icon={<SmallCloseIcon/>} position='absolute' _hover={{bgColor: 'red'}} right={3} top={3}
-                  size='xs' variant='solid' isLoading={loading} aria-label={d('buttonLabel')} onClick={onClick}/>
+      <IconButton icon={<SmallCloseIcon/>} position='absolute' _hover={{bgColor: 'red'}} right={3} top={3} size='xs'
+                  zIndex={99999} variant='solid' isLoading={loading} aria-label={d('buttonLabel')} onClick={onClick}/>
       {ProductComponent}
     </Box>
   );
