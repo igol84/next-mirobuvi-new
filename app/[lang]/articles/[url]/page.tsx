@@ -4,6 +4,7 @@ import {Box, Heading} from "@chakra-ui/react";
 import {redirect} from "next/navigation";
 import React from "react";
 import '@/app/theme/style.scss'
+import {checkForAdmin} from "@/utility/auth";
 type Props = {
   params: {
     url: string
@@ -32,8 +33,10 @@ export async function generateStaticParams() {
 }
 
 const Page = async ({params: {url, lang}}: Props) => {
+  const isAdmin = await checkForAdmin()
   const articleData = await getArticle(url)
   if (!articleData) redirect(`/`)
+  if (!isAdmin && !articleData.active) redirect(`/`)
   const header = lang==='ua' ? articleData.title_ua : articleData.title_en
   const text = lang==='ua' ? articleData.text_ua : articleData.text_en
   return (
