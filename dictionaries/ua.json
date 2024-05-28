@@ -35,7 +35,8 @@
   "breadcrumb": {
     "home": "Додому",
     "brands": "Бренди",
-    "products": "Продукти"
+    "products": "Продукти",
+    "articles": "Статті"
   },
   "orderForm": {
     "clientData": "Дані клієнта",

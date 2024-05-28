@@ -35,7 +35,8 @@
   "breadcrumb": {
     "home": "Home",
     "brands": "Brands",
-    "products": "Products"
+    "products": "Products",
+    "articles": "Articles"
   },
   "orderForm": {
     "clientData": "Client data",

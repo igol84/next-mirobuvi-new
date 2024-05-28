@@ -8,6 +8,8 @@ import {AddIcon} from "@chakra-ui/icons";
 import {LangContext} from "@/locale/LangProvider";
 import Article from "@/components/Articles/Article";
 import {ListItem} from "@/components/Articles/type";
+import {useBrandCrumbs} from "@/components/Articles/hooks";
+import BreadCrumb from "@/components/base/BreadCrumb";
 
 
 interface ArticleListProps {
@@ -17,8 +19,12 @@ interface ArticleListProps {
 const ArticleList = ({listItems}: ArticleListProps) => {
   const lang = useContext(LangContext)
   const isAdmin = useContext(IsAdminContext)
+  const breadCrumbs = useBrandCrumbs()
   return (
     <Box>
+      <Box display='flex' justifyContent='space-between' flexWrap='wrap' alignItems="center" pb={[2, 4]}>
+        <BreadCrumb breadCrumbs={breadCrumbs}/>
+      </Box>
       {isAdmin && (
         <Box pb={2}>
           <Link as={NextLink} href={`/${lang}/articles/add`} _hover={{color: 'hoverLinkTextColor'}}>
