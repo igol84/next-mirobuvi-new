@@ -126,7 +126,7 @@ const editBrand = async (selectedId: number, brandFormData: BrandFormSchema) => 
   }
   const brand = await editeBrand(selectedId, brandData)
   if (!brand) {
-    return {success: false, serverErrors: 'DB Error'};
+    return {success: false, serverErrors: 'DB Error'}
   }
   const oldImgName = oldBrandData?.url as string
   const imgName = brand?.url as string
@@ -140,7 +140,7 @@ const editBrand = async (selectedId: number, brandFormData: BrandFormSchema) => 
       await uploadFile(ftpClient, "brands", brandFormData.fileImg as File, imgName)
     ftpClient.close()
   } catch {
-    return {success: false, serverErrors: 'FTP Error'};
+    return {success: false, serverErrors: 'FTP Error'}
   }
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
@@ -150,10 +150,10 @@ export const serverActionDeleteBrand = async (brandId: number): Promise<Response
   try {
     const brandData = await getBrandWithProducts(brandId)
     if (!brandData) {
-      return {success: false, serverErrors: 'DB Brand dont find'};
+      return {success: false, serverErrors: 'DB Brand dont find'}
     }
     if (brandData.products.length > 0) {
-      return {success: false, serverErrors: 'Products Exist'};
+      return {success: false, serverErrors: 'Products Exist'}
     }
     await deleteBrand(brandId)
 
@@ -165,6 +165,4 @@ export const serverActionDeleteBrand = async (brandId: number): Promise<Response
   }
   revalidatePath("/[lang]/brands", 'page')
   return {success: true}
-
-
 }

@@ -13,9 +13,10 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
+```bash
 npx prisma generate
-npx prisma migrate dev --name add field
+npx prisma migrate dev --name desc
+```
 ```bash
 ssh admin@mirobuvi.com.ua
 cd core/

@@ -11,7 +11,7 @@ import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
 import {getFilterProducts} from "@/lib/server/filters/serverFunctions/serverFunctions";
 import {getBreadCrumb} from "@/app/[lang]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
-import ProductsList from "@/components/Products/productsList";
+import ProductsList from "@/components/Products/ProductsList";
 import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/brand";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import {createProduct} from "@/app/[lang]/brands/[brandUrl]/functions";

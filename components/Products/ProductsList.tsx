@@ -26,10 +26,10 @@ const ProductsList = ({products, brandData, paginationBar}: Props) => {
   const brandUrl = brandData?.url
   return (
     <>
-      {isAdmin && brandUrl!==undefined &&(
+      {isAdmin && brandUrl !== undefined && (
         <Box pb={2}>
           <Link as={NextLink} href={`/${lang}/brands/${brandUrl}/add`} _hover={{color: 'hoverLinkTextColor'}}>
-          <IconButton aria-label={'addBrand'} onClick={() => undefined} icon={<AddIcon/>}/>
+            <IconButton aria-label={'addBrand'} icon={<AddIcon/>}/>
           </Link>
         </Box>
       )}
@@ -65,9 +65,9 @@ const ProductsList = ({products, brandData, paginationBar}: Props) => {
             )}
           </Flex>
         )}
-        </>
-        )
-        ;
-      };
+    </>
+  )
+    ;
+};
 
-      export default ProductsList;
+export default ProductsList;

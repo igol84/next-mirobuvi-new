@@ -9,7 +9,8 @@
     "back": "Назад",
     "gt2": "повинно бути принаймні 2 символи",
     "lt16": "містить не більше 16 символів",
-    "exist": "вже існує"
+    "exist": "вже існує",
+    "consist": "вже присутствує"
   },
   "home": {
     "title": "Купити фірмові кросівки та кеди в інтернет магазині, дешеві кросівки у Києві, Харкові, Україні - інтернет магазин взуття Mirobuvi.com.ua",
@@ -253,5 +254,21 @@
     "parent": "Parent Url",
     "searchEn": "Пошуковий запит En",
     "searchUa": "Пошуковий запит Ua"
+  },
+  "articles" : {
+    "title": "Cтатті о взутті Mirobuvi.com.ua",
+    "description": "Товари магазину взуття Mirobuvi.com.ua, де ви знайдете такі відомі бренди, які випускають спортивне та класичне взуття."
+  },
+  "articlesAdmin" : {
+    "addNewArticle": "Добавити нову статтю",
+    "editArticle": "Редагувати статтю",
+    "titleUa": "Title Ua",
+    "titleEn": "Title En",
+    "metaDescUa": "Meta Description Ua",
+    "metaDescEn": "Meta Description En",
+    "textUa": "Текст Ua",
+    "textEn": "Текст En",
+    "img": "Зображення",
+    "active": "Active"
   }
 }

@@ -3,7 +3,7 @@ import '@/app/theme/style.scss'
 import {Lang} from "@/dictionaries/get-dictionary";
 import {redirect} from "next/navigation";
 import {convertToTagUrlFromDB, ParentTagForBreadCrumb, TagUrl} from "@/app/[lang]/[urlTag]/types";
-import ProductsList from "@/components/Products/productsList";
+import ProductsList from "@/components/Products/ProductsList";
 import {getFilterProducts,} from "@/lib/server/filters/serverFunctions/serverFunctions";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {ProductType} from "@/components/Products/types";

@@ -175,3 +175,15 @@ model TagUrl {
   text_en      String
   text_ua      String
 }
+
+model Article {
+  url      String  @id
+  active   Boolean
+  title_en String
+  title_ua String
+  desc_en  String
+  desc_ua  String
+  text_en  String
+  text_ua  String
+  img      String
+}
