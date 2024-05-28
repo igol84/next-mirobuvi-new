@@ -23,6 +23,7 @@ import FiltersLayout from "@/components/Products/FiltersLayout";
 import {getProducts} from "@/lib/db/product";
 import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import {getArticles} from "@/lib/db/article";
 
 type Props = {
   params: {
@@ -38,6 +39,10 @@ type Props = {
 
 export async function generateMetadata({params: {lang, urlTag}}: Props) {
   const fetchData = await getTagUrl(urlTag)
+  const articlesUrls = await getArticles().then(articles=> articles.map(article => article.url))
+  if(articlesUrls.includes(urlTag)) {
+    redirect(`/${lang}/articles/${urlTag}`)
+  }
   if (!fetchData) redirect(`/`)
   const tagData: TagUrl = convertToTagUrlFromDB(fetchData, lang)
   return {
