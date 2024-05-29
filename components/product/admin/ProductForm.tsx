@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  BrandType,
   colors,
   DefaultValues,
   ProductFormSchema,
@@ -47,11 +48,12 @@ import {SizeType} from "@/components/product/admin/shoes/types";
 interface ProductFormProps {
   defaultValues: ProductFormSchema | DefaultValues,
   urlList: string[],
-  urlImages?: Image[]
-  shoeses: SizeType[]
+  urlImages?: Image[],
+  shoeses: SizeType[],
+  brands: BrandType[]
 }
 
-const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductFormProps) => {
+const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: ProductFormProps) => {
   const [selectedType, setSelectedType] = useState(defaultValues.type)
   const [shoes, setShoes] = useState(shoeses)
   const {dict, d, dc, ds} = useDict()
@@ -87,7 +89,8 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
         console.log(response.serverErrors)
       }
       if (response.success) {
-        router.back()
+        const brandUrl = brands.find(brand => brand.id === data.brandId)!.url
+        router.push(`/brands/${brandUrl}`)
       }
     }
   }
@@ -104,7 +107,8 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
       setIsDeleting(true)
       await serverActionDeleteProduct(defaultValues.selectedId as number)
       setIsDeleting(false)
-      router.back()
+      const brandUrl = brands.find(brand => brand.id === defaultValues.brandId)!.url
+      router.push(`/brands/${brandUrl}`)
     } : () => undefined
 
   const onAddSize = () => {
@@ -132,12 +136,15 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
   const onDeleteSize = (delSize: SizeType) => {
     setShoes(shoeses => shoeses.filter(size => size !== delSize))
   }
+  const onClickCancel = () => {
+    const brandUrl = brands.find(brand => brand.id === defaultValues.brandId)!.url
+    router.push(`/brands/${brandUrl}`)
+  }
   return (
     <form onSubmit={handleSubmit(onFormSubmit)}>
       <input type="hidden" {...register('selectedId')}/>
-      <input type="hidden" {...register('brandId')}/>
       <Flex direction='column' gap={2}>
-        <Flex alignItems="center" gap={3}>
+        <Flex alignItems="center" gap={3} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.nameUa} isRequired>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{dict.nameUa}</Text>
@@ -169,7 +176,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           </FormControl>
         </Flex>
 
-        <Flex alignItems="center" gap={2}>
+        <Flex alignItems="center" gap={2} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.titleUa}>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{d('titleUa')}</Text>
@@ -185,7 +192,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           </FormControl>
         </Flex>
 
-        <Flex alignItems="center" gap={2}>
+        <Flex alignItems="center" gap={2} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.metaDescUa}>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{d('metaDescUa')}</Text>
@@ -208,15 +215,23 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           </Flex>
         </FormControl>
 
-        <FormControl isInvalid={!!errors.url} isRequired>
-          <Flex direction='row' alignItems='center' gap={2}>
-            <Text>{dict.url}</Text>
-            <Input {...register('url')} placeholder={dict.url}/>
-            {errors.url && (
-              <FormErrorMessage>{dict.url} {dict[errors.url.message! as 'consist']}</FormErrorMessage>
-            )}
-          </Flex>
-        </FormControl>
+        <Flex alignItems="center" gap={2} direction={{base: 'column', md: 'row'}}>
+          <FormControl isInvalid={!!errors.url} isRequired>
+            <Flex direction='row' alignItems='center' gap={2}>
+              <Text>{dict.url}</Text>
+              <Input {...register('url')} placeholder={dict.url}/>
+              {errors.url && (
+                <FormErrorMessage>{dict.url} {dict[errors.url.message! as 'consist']}</FormErrorMessage>
+              )}
+            </Flex>
+          </FormControl>
+
+          <Select {...register('brandId', {valueAsNumber: true})} placeholder={d('brand')} isRequired maxW={200}>
+            {brands.map(brand => (
+              <option key={brand.id} value={brand.id}>{brand.name}</option>
+            ))}
+          </Select>
+        </Flex>
 
         <FormControl isInvalid={!!errors.textUa}>
           <Flex direction='row' alignItems='center' gap={2}>
@@ -239,14 +254,14 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           </Flex>
         </FormControl>
 
-        <Flex alignItems="center" gap={20}>
+        <Flex alignItems="center" gap={8} flexWrap="wrap">
           <Checkbox {...register('active')}>{d('active')}</Checkbox>
           <Checkbox {...register('private')}>{d('private')}</Checkbox>
           <Checkbox {...register('isAvailable')}>{d('isAvailable')}</Checkbox>
         </Flex>
 
 
-        <Flex alignItems="center" gap={2}>
+        <Flex alignItems="center" gap={2} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.price}>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{d('price')}</Text>
@@ -276,19 +291,19 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
           </FormControl>
         </Flex>
 
-        <Flex alignItems="center" gap={20}>
+        <Flex alignItems="center" gap={4} flexWrap="wrap">
           <Checkbox {...register('promActive')}>{d('promActive')}</Checkbox>
           <Flex direction='row' alignItems='center' gap={2}>
             <Text>id</Text>
             <FormControl isInvalid={!!errors.id} isRequired>
-            <NumberInput name={register('id').name}
-                         defaultValue={defaultValues.id} min={0}>
-              <NumberInputField/>
-              <NumberInputStepper>
-                <NumberIncrementStepper/>
-                <NumberDecrementStepper/>
-              </NumberInputStepper>
-            </NumberInput>
+              <NumberInput name={register('id').name}
+                           defaultValue={defaultValues.id} min={0}>
+                <NumberInputField/>
+                <NumberInputStepper>
+                  <NumberIncrementStepper/>
+                  <NumberDecrementStepper/>
+                </NumberInputStepper>
+              </NumberInput>
               {errors.id && (
                 <FormErrorMessage>id {dict[errors.id.message! as 'consist']}</FormErrorMessage>
               )}
@@ -346,7 +361,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses}: ProductF
         <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between' pt={30}>
           <Flex pt={4} alignItems="center">
             <Button mr={3} variant='green' type='submit' isLoading={isLoading}>{dict.save}</Button>
-            <Button onClick={router.back}>{dict.cancel}</Button>
+            <Button onClick={onClickCancel}>{dict.cancel}</Button>
           </Flex>
           <Box>
             {isEditing && (

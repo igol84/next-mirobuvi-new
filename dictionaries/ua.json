@@ -136,7 +136,8 @@
     "shoes": "Взуття",
     "season": "Сезон",
     "color": "Колір",
-    "editProduct": "Редагувати товар"
+    "editProduct": "Редагувати товар",
+    "brand": "Бренд"
   },
   "product": {
     "buy": "Купити",

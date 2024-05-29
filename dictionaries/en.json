@@ -136,7 +136,8 @@
     "shoes": "Shoes",
     "season": "Season",
     "color": "Color",
-    "editProduct": "Edit product"
+    "editProduct": "Edit product",
+    "brand": "Brand"
   },
   "product": {
     "buy": "Buy",

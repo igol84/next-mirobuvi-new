@@ -77,3 +77,9 @@ export const defaultValues: Omit<ProductFormSchema, 'filesImg'> = {
 }
 
 export type DefaultValues = typeof defaultValues
+
+export type BrandType = {
+  id: number
+  name: string
+  url: string
+}

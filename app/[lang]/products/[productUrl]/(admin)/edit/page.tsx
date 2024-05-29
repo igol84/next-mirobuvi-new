@@ -1,13 +1,13 @@
 import {getDictionary, Lang} from "@/dictionaries/get-dictionary";
 import {redirect} from "next/navigation";
 import {getProductByUrl, getProductUrls} from "@/lib/db/product";
-import {ProductFormSchema} from "@/components/product/admin/types";
+import {BrandType, ProductFormSchema} from "@/components/product/admin/types";
 import {Heading, VStack} from "@chakra-ui/react";
 import BreadCrumb from "@/components/base/BreadCrumb";
 import ProductForm from "@/components/product/admin/ProductForm";
 import React from "react";
 import {getBreadCrumb} from "@/app/[lang]/products/[productUrl]/(admin)/edit/serverFunctions";
-import {getBrand} from "@/lib/db/brand";
+import {getBrand, getBrands} from "@/lib/db/brand";
 import {getAllImages, getFTPClient} from "@/lib/ftp";
 import {env} from "@/lib/env";
 import {Image} from "@/components/product/admin/ProductImage";
@@ -73,11 +73,18 @@ const ProductEditPage = async ({params: {lang, productUrl}}: Props) => {
     type: productData.type,
     brandId: productData.brand_id
   }
+  const brandsData = await getBrands()
+  const brands: BrandType[] = brandsData.map(brand => ({
+    id: brand.id,
+    name: lang === 'en' ? brand.name_en : brand.name_ua,
+    url: brand.url
+  }))
   return (
     <VStack align='left' spacing={4}>
       <BreadCrumb breadCrumbs={breadCrumb}/>
       <Heading as='h1'>{dict.productAdmin.editProduct} {productName}</Heading>
-      <ProductForm defaultValues={defaultValues} shoeses={sortedShoes} urlList={urlList} urlImages={urlImages}/>
+      <ProductForm defaultValues={defaultValues} shoeses={sortedShoes} urlList={urlList} urlImages={urlImages}
+                   brands={brands}/>
     </VStack>
   )
 }

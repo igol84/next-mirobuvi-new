@@ -65,7 +65,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
         console.log(response.serverErrors)
       }
       if (response.success) {
-        router.back()
+        router.push(`/brands`)
       }
     }
   }
@@ -79,9 +79,12 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
       const brandId = defaultValues.selectedId as number
       await serverActionDeleteBrand(brandId)
       setIsDeleting(false)
-      router.back()
+      router.push(`/brands`)
     }
     : () => undefined
+  const onClickCancel = () => {
+    router.push(`/brands`)
+  }
   return (
     <Flex direction="column" gap={2} justify="space-between">
       <BreadCrumb breadCrumbs={breadCrumbs}/>
@@ -228,7 +231,7 @@ const BrandForm = ({defaultValues, urlList, imgUrl, breadCrumbs}: Props) => {
         <Flex direction='row' alignItems='center' gap={2} justifyContent='space-between'>
           <Flex pt={4}>
             <Button mr={3} variant='green' type='submit' isLoading={isLoading}>{dict.save}</Button>
-            <Button onClick={router.back}>{dict.cancel}</Button>
+            <Button onClick={onClickCancel}>{dict.cancel}</Button>
           </Flex>
           <Box>
             {isEditing && (
