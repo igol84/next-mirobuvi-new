@@ -93,13 +93,14 @@ const Shoes = ({shoesData}: Props) => {
         <Like productUrl={shoesData.url}/>
       </Flex>
       {isSizesEditMod && <SizesEditForm shoesId={shoesData.id} defaultSizes={defaultSizes} onClose={onStopEdit}/>}
+      {isEditAccess && !isSizesEditMod &&(
+        <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>
+      )}
       <Flex gap={2} hidden={isSizesEditMod}>
+
         {inStock ? (
           <Box>
             <Flex gap={2} alignItems='center' wrap='wrap' pb={4}>
-              {isEditAccess && (
-                <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>
-              )}
               <Text>{textSizes}</Text>
               {shoesData.sizes.map(sizeData => {
                 const selected = selectedSize === sizeData.size
