@@ -26,7 +26,7 @@ const AddNewProductPage = async ({params: {lang, brandUrl}}: Props) => {
   const allProductUrls = await getProductUrls()
   const nexId = await getProductNexId()
   const defaultValuesWithBrandId: DefaultValues = {...defaultValues, brandId: brandData.id, id: nexId}
-  const shoeses: SizeType = {size: 36, isAvailable: true, length: 23.5}
+  const shoeses: SizeType = {size: 36, isAvailable: false, length: 23.5}
   const brandsData = await getBrands()
   const brands: BrandType[] = brandsData.map(brand => ({
     id: brand.id,
