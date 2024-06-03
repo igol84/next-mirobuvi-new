@@ -4,7 +4,7 @@ import {getProducts} from "@/lib/db/product";
 import _ from "lodash";
 import {getProductImageUrl} from "@/lib/productCardData";
 
-export const revalidate = 60 * 60 * 5
+export const revalidate = 60 * 60 // seconds * minutes * hours
 
 type Offer = {
   id: string,
