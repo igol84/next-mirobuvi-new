@@ -41,21 +41,23 @@ const SearchInput = ({onClose = () => undefined}: Props) => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          {loading ? <Spinner color="gray.600"/> : <Search2Icon color="gray.600"/>}
-        </InputLeftElement>
-        <Input name='search' value={searchValue} onChange={onChange} borderRadius={8} type="text"
-               placeholder={`${d('search')}...`} isDisabled={loading}/>
-        <input name='lang' type='hidden' defaultValue={lang}/>
-        <InputRightAddon p={0} border="none" borderEndRadius={8}>
-          <Button type='submit'>
-            {d('search')}
-          </Button>
-        </InputRightAddon>
-      </InputGroup>
-    </form>
+    <search>
+      <form onSubmit={onSubmit}>
+        <InputGroup>
+          <InputLeftElement pointerEvents="none">
+            {loading ? <Spinner color="gray.600"/> : <Search2Icon color="gray.600"/>}
+          </InputLeftElement>
+          <Input name='search' value={searchValue} onChange={onChange} borderRadius={8} type="text"
+                 placeholder={`${d('search')}...`} isDisabled={loading}/>
+          <input name='lang' type='hidden' defaultValue={lang}/>
+          <InputRightAddon p={0} border="none" borderEndRadius={8}>
+            <Button type='submit'>
+              {d('search')}
+            </Button>
+          </InputRightAddon>
+        </InputGroup>
+      </form>
+    </search>
   )
 }
 

@@ -33,9 +33,12 @@ const ProductPage = ({productData, breadCrumbData, viewedProducts}: Props) => {
           {product}
         </Box>
       </Flex>
-      <Heading>{productData.name}</Heading>
-      <div className='desc' dangerouslySetInnerHTML={{__html: productData.desc}}/>
-
+      <header>
+        <Heading>{productData.name}</Heading>
+      </header>
+      <section>
+        <div className='desc' dangerouslySetInnerHTML={{__html: productData.desc}}/>
+      </section>
       {viewedProducts.length > 0 && (
         <Box pt={4}>
           <ViewedProducts viewedProducts={viewedProducts}/>

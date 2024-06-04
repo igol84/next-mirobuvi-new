@@ -7,6 +7,7 @@ import '@/app/theme/style.scss'
 import {checkForAdmin} from "@/utility/auth";
 import {getBreadCrumb} from "@/app/[lang]/articles/[url]/serverFunctions";
 import BreadCrumb from "@/components/base/BreadCrumb";
+
 type Props = {
   params: {
     url: string
@@ -39,15 +40,19 @@ const Page = async ({params: {url, lang}}: Props) => {
   const articleData = await getArticle(url)
   if (!articleData) redirect(`/`)
   if (!isAdmin && !articleData.active) redirect(`/`)
-  const header = lang==='ua' ? articleData.title_ua : articleData.title_en
-  const text = lang==='ua' ? articleData.text_ua : articleData.text_en
+  const header = lang === 'ua' ? articleData.title_ua : articleData.title_en
+  const text = lang === 'ua' ? articleData.text_ua : articleData.text_en
   const breadCrumbs = await getBreadCrumb(lang, header, articleData.url)
 
   return (
     <Box>
       <BreadCrumb breadCrumbs={breadCrumbs}/>
-      <Heading>{header}</Heading>
-      <div className='desc' dangerouslySetInnerHTML={{__html: text}}/>
+      <header>
+        <Heading>{header}</Heading>
+      </header>
+      <section>
+        <div className='desc' dangerouslySetInnerHTML={{__html: text}}/>
+      </section>
     </Box>
   )
 }
