@@ -83,7 +83,7 @@ export default async function RootLayout(
     }
   }
   return (
-    <html lang={lang} suppressHydrationWarning={true}>
+    <html lang={lang === 'ua' ? 'uk' : lang} suppressHydrationWarning={true}>
     <body className={roboto.className} suppressHydrationWarning={true}>
     <Providers dict={dict} lang={lang} isAdmin={isAdmin} isEditor={isEditor}>
       <Container brandsItems={brandsItems} cartProducts={cartProducts} user={user} tagsUrl={tagsUrl}>
