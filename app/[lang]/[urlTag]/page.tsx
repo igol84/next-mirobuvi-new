@@ -40,8 +40,12 @@ type Props = {
 export async function generateMetadata({params: {lang, urlTag}}: Props) {
   const fetchData = await getTagUrl(urlTag)
   const articlesUrls = await getArticles().then(articles=> articles.map(article => article.url))
+  const productsUrls = await getProducts().then(product=> product.map(product => product.url))
   if(articlesUrls.includes(urlTag)) {
     redirect(`/${lang}/articles/${urlTag}`)
+  }
+  if(productsUrls.includes(urlTag)) {
+    redirect(`/${lang}/products/${urlTag}`)
   }
   if (!fetchData) redirect(`/`)
   const tagData: TagUrl = convertToTagUrlFromDB(fetchData, lang)
