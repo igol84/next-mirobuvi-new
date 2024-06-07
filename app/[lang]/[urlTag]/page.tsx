@@ -24,6 +24,7 @@ import {getProducts} from "@/lib/db/product";
 import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import {getArticles} from "@/lib/db/article";
+import {getBrands} from "@/lib/db/brand";
 
 type Props = {
   params: {
@@ -41,11 +42,15 @@ export async function generateMetadata({params: {lang, urlTag}}: Props) {
   const fetchData = await getTagUrl(urlTag)
   const articlesUrls = await getArticles().then(articles=> articles.map(article => article.url))
   const productsUrls = await getProducts().then(product=> product.map(product => product.url))
+  const brandsUrls = await getBrands().then(brand=> brand.map(brand => brand.url))
   if(articlesUrls.includes(urlTag)) {
     redirect(`/${lang}/articles/${urlTag}`)
   }
   if(productsUrls.includes(urlTag)) {
     redirect(`/${lang}/products/${urlTag}`)
+  }
+  if(brandsUrls.includes(urlTag)) {
+    redirect(`/${lang}/brands/${urlTag}`)
   }
   if (!fetchData) redirect(`/`)
   const tagData: TagUrl = convertToTagUrlFromDB(fetchData, lang)
