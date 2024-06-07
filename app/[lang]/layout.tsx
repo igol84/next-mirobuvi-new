@@ -15,6 +15,7 @@ import {getBrands} from "@/lib/db/brand";
 import {Item} from "@/components/Container/Navbar/types";
 import {getTagUrls} from "@/lib/db/tagUrl";
 import {checkForAdmin, checkForEditor, getAuthUser} from "@/utility/auth";
+import {languages} from "@/locale/settings";
 
 export const dynamic = 'force-dynamic'
 
@@ -37,6 +38,9 @@ export async function generateMetadata({params: {lang}}: { params: { lang: Lang 
   }
 }
 
+export function generateStaticParams() {
+  return languages.map((locale) => ({locale}));
+}
 
 export default async function RootLayout(
   {
