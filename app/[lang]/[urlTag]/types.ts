@@ -51,30 +51,27 @@ export type FilterSizesType = {
   selectedSizes: number[]
 }
 
-export type FilterGender = "men's" | "women's"
-export const allGenders: FilterGender[] = ["men's", "women's"]
+export const allGenders = ["men's", "women's"] as const
+export type FilterGender = typeof allGenders[number]
 export const isGender = (gender: any): gender is FilterGender => allGenders.includes(gender)
 export type FilterGenderType = {
   genders: FilterGender[]
   selectedGender: FilterGender | null
 }
 
-export type FilterColor = "black" | "white" | "blackWhite" | "green" | "yellow" | "red" | "blue" | "gray" | "purple"
-  | "pink" | "brown" | "beige" | "burgundy" | "orange"
-export const allColors: FilterColor[] = [
+export const allColors = [
   "black", "white", "green", "blackWhite", "yellow", "red", "blue", "gray", "purple", "pink", "brown", "beige",
   "burgundy", "orange"
-]
+] as const
+export type FilterColor = typeof allColors[number]
 export const isColor = (color: any): color is FilterColor => allColors.includes(color)
 export type FilterColorType = {
   colors: FilterColor[]
   selectedColor: FilterColor | null
 }
 
-export type FilterSeason = "summer" | "autumn" | "winter"
-export const allSeasons: FilterSeason[] = [
-  "summer", "autumn", "winter"
-]
+export const allSeasons = ["summer", "autumn", "winter"] as const
+export type FilterSeason = typeof allSeasons[number]
 export const isSeason = (season: any): season is FilterSeason => allSeasons.includes(season)
 export type FilterSeasonType = {
   seasons: FilterSeason[]
