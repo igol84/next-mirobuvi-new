@@ -1,7 +1,7 @@
 import {Roboto} from 'next/font/google'
 import React from "react";
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages, getTranslations} from 'next-intl/server';
+import {getMessages, getNow, getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import {Providers} from "@/app/providers";
 import './globals.scss'
 import {getCart} from "@/lib/db/cart";
@@ -52,6 +52,7 @@ export default async function RootLayout(
     children: React.ReactNode
     params: { locale: Locale }
   }) {
+  unstable_setRequestLocale(locale)
   const messages = await getMessages();
   const isAdmin = await checkForAdmin()
   const isEditor = await checkForEditor()

@@ -14,6 +14,7 @@ import {getProductImageUrl} from "@/lib/productCardData";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import _ from "lodash";
 import {Locale} from "@/i18n";
+import {unstable_setRequestLocale} from "next-intl/server";
 
 
 type Props = {
@@ -24,6 +25,7 @@ type Props = {
 }
 
 export async function generateMetadata({params: {productUrl, locale}}: Props) {
+  unstable_setRequestLocale(locale)
   const productData = await getProductByUrl(productUrl)
   if (!productData) redirect(`/`)
   const title = locale === 'en' ? productData.name_en : productData.name_ua

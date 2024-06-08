@@ -5,6 +5,7 @@ import {getBrands} from "@/lib/db/brand";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import _ from "lodash";
 import {Locale} from "@/i18n";
+import {unstable_setRequestLocale} from "next-intl/server";
 
 type Props = {
   params: {
@@ -13,6 +14,7 @@ type Props = {
 }
 
 const Page = async ({params: {locale}}: Props) => {
+  unstable_setRequestLocale(locale)
   const isAdminUser = await checkForAdmin()
   const isAuth = await checkForAuth()
   let brandsData = await getBrands()

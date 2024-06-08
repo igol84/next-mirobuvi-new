@@ -25,6 +25,7 @@ import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import {getArticles} from "@/lib/db/article";
 import {getBrands} from "@/lib/db/brand";
 import {Locale} from "@/i18n";
+import {unstable_setRequestLocale} from "next-intl/server";
 
 type Props = {
   params: {
@@ -39,6 +40,7 @@ type Props = {
 }
 
 export async function generateMetadata({params: {locale, urlTag}}: Props) {
+  unstable_setRequestLocale(locale)
   const fetchData = await getTagUrl(urlTag)
   const articlesUrls = await getArticles().then(articles=> articles.map(article => article.url))
   const productsUrls = await getProducts().then(product=> product.map(product => product.url))

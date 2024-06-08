@@ -16,6 +16,7 @@ import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import {createProduct} from "@/app/[locale]/brands/[brandUrl]/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {Locale} from "@/i18n";
+import {unstable_setRequestLocale} from "next-intl/server";
 
 type Props = {
   params: {
@@ -29,6 +30,7 @@ type Props = {
 }
 
 export async function generateMetadata({params: {brandUrl, locale}}: Props) {
+  unstable_setRequestLocale(locale)
   const brandData = await getBrandByUrl(brandUrl)
   if (!brandData) redirect('/')
   const imgUrl = getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime())

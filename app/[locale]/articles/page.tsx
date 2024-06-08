@@ -2,7 +2,7 @@ import ArticleList from "@/components/Articles/ArticleList";
 import {getArticles} from "@/lib/db/article";
 import {ListItem} from "@/components/Articles/type";
 import {checkForAdmin} from "@/utility/auth";
-import {getTranslations} from "next-intl/server";
+import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {Locale} from "@/i18n";
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
 }
 
 export async function generateMetadata({params: {locale}}: Props) {
+  unstable_setRequestLocale(locale)
   const t = await getTranslations({locale, namespace: 'articles'})
   return {
     title: t('title'),

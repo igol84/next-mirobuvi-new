@@ -5,7 +5,7 @@ import {getViewedProducts} from "@/lib/productsGetter";
 import {getBrands} from "@/lib/db/brand";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import _ from "lodash";
-import {getTranslations} from "next-intl/server";
+import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {Locale} from "@/i18n";
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
 }
 
 export async function generateMetadata({params: {locale}}: Props) {
+  unstable_setRequestLocale(locale)
   const t = await getTranslations({locale, namespace: 'brands'})
   return {
     title: t('title'),
