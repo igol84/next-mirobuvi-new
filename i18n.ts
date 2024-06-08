@@ -13,6 +13,7 @@ export default getRequestConfig(async ({locale}) => {
   }
 
   return {
-    messages: (await import(`@/dictionaries/${locale}.json`)).default
+    messages: (await import(`@/dictionaries/${locale}.json`)).default,
+    timeZone: 'Europe/Kiev',
   };
 });

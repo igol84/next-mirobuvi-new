@@ -8,12 +8,10 @@ export default createMiddleware({
 
   // Used when no locale matches
   defaultLocale,
-
-  localePrefix: "always"
 })
 
 export const config = {
   // matcher: '/:lng*'
   // matcher: ['/((?!api|files|_next/static|_next/image|assets|images|favicon.ico).*)']
-  matcher: ['/((?!api|files|_next|_vercel|.*\\..*).*)']
+  matcher: ['/((?!api|files|_next|.*\\..*).*)']
 }
