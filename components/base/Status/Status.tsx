@@ -1,8 +1,8 @@
 import React from 'react';
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {Badge, Box} from "@chakra-ui/react";
 import {getColorScheme} from "./functions";
 import {OrderStatusType} from "./types";
+import {useTranslations} from "next-intl";
 
 interface Props {
   status: OrderStatusType
@@ -10,12 +10,12 @@ interface Props {
 
 
 const Status = ({status}: Props) => {
-  const d = useDictionaryTranslate("status")
+  const t = useTranslations('status')
   const colorScheme = getColorScheme(status)
   return (
     <Box>
       <Badge colorScheme={colorScheme} variant='solid'>
-        {d(status)}
+        {t(status)}
       </Badge>
     </Box>
 

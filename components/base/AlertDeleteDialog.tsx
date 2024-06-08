@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import {AiFillDelete} from "react-icons/ai";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 interface Props {
   variant?: 'sm' | 'big',
@@ -28,7 +28,8 @@ const AlertDeleteDialog = ({onDelete, headerText = '', bodyText = '', variant = 
     onDelete()
   }
   const cancelRef = React.useRef(null)
-  const d = useDictionaryTranslate("global")
+  const t = useTranslations('global')
+
   return (
     <>
       {variant === 'sm'
@@ -37,7 +38,7 @@ const AlertDeleteDialog = ({onDelete, headerText = '', bodyText = '', variant = 
         )
         : (
           <Button variant='solid' bgColor={'red.600'} colorScheme='red' onClick={onOpen} leftIcon={<AiFillDelete/>}>
-            {d('delete')}
+            {t('delete')}
           </Button>
         )
       }
@@ -60,10 +61,10 @@ const AlertDeleteDialog = ({onDelete, headerText = '', bodyText = '', variant = 
 
             <AlertDialogFooter gap={2}>
               <Button variant='red' onClick={onClickDelete} isLoading={isLoading}>
-                {d('delete')}
+                {t('delete')}
               </Button>
               <Button ref={cancelRef} onClick={onClose}>
-                {d('cancel')}
+                {t('cancel')}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

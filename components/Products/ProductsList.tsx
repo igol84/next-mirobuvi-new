@@ -4,14 +4,14 @@ import {Box, Center, Flex, Heading, IconButton, Link, Text, Wrap, WrapItem} from
 import Product from "@/components/Products/Product";
 import {ProductType} from "@/components/Products/types";
 import PaginationBar, {PaginationBarProps} from "@/components/base/PaginationBar";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {BrandProps} from "@/components/Brands/types";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
 import NextImage from "next/image";
 import {AddIcon} from "@chakra-ui/icons";
 import NextLink from "next/link";
-import {LangContext} from "@/locale/LangProvider";
 import {IsAdminContext} from "@/app/providers";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 interface Props {
   products: ProductType[],
@@ -21,20 +21,20 @@ interface Props {
 
 const ProductsList = ({products, brandData, paginationBar}: Props) => {
   const isAdmin = useContext(IsAdminContext)
-  const d = useDictionaryTranslate("home")
-  const lang = useContext(LangContext)
+  const t = useTranslations('home')
+  const locale = useLocale() as Locale
   const brandUrl = brandData?.url
   return (
     <>
       {isAdmin && brandUrl !== undefined && (
         <Box pb={2}>
-          <Link as={NextLink} href={`/${lang}/brands/${brandUrl}/add`} _hover={{color: 'hoverLinkTextColor'}}>
+          <Link as={NextLink} href={`/${locale}/brands/${brandUrl}/add`} _hover={{color: 'hoverLinkTextColor'}}>
             <IconButton aria-label={'addBrand'} icon={<AddIcon/>}/>
           </Link>
         </Box>
       )}
       {products.length === 0
-        ? <Heading>{d('notFound')}</Heading>
+        ? <Heading>{t('notFound')}</Heading>
         : (
           <Flex flexDirection='column' gap={4} pb={{base: 4, sm: 0}}>
             <Wrap justify={{base: 'center', lg: 'flex-start'}} spacing={[0, 0, 0, 1, 0]}>

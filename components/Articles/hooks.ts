@@ -1,16 +1,15 @@
-import {useContext} from "react";
-import {LangContext} from "@/locale/LangProvider";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 export const useBrandCrumbs = () => {
-  const lang = useContext(LangContext)
-  const d = useDictionaryTranslate("breadcrumb")
+  const t = useTranslations('breadcrumb')
+  const locale = useLocale() as Locale
 
   const breadCrumbs: BreadCrumbData[] = []
   const brandCrumb: BreadCrumbData = {
-    label: d('articles'),
-    href: `/${lang}/articles`
+    label: t('articles'),
+    href: `/${locale}/articles`
   }
   breadCrumbs.push(brandCrumb)
   return breadCrumbs

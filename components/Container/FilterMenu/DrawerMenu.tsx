@@ -9,7 +9,7 @@ import {
   DrawerHeader,
   DrawerOverlay
 } from "@chakra-ui/react";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 interface Props{
   children: React.ReactNode
@@ -18,7 +18,7 @@ interface Props{
 }
 
 const DrawerMenu = ({children, isOpen, onClose}: Props) => {
-  const d = useDictionaryTranslate("global")
+  const t = useTranslations('global')
   return (
     <Drawer
       isOpen={isOpen}
@@ -36,7 +36,7 @@ const DrawerMenu = ({children, isOpen, onClose}: Props) => {
 
         <DrawerFooter>
           <Button variant='outline' mr={3} onClick={onClose}>
-            {d('close')}
+            {t('close')}
           </Button>
         </DrawerFooter>
       </DrawerContent>

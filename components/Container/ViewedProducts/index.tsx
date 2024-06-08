@@ -5,18 +5,18 @@ import {ProductType} from "@/components/Products/types";
 import {productCardFactory} from "@/components/Products/ProductCardFactory";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import {Navigation} from 'swiper/modules';
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {MdArrowBackIosNew, MdArrowForwardIos} from "react-icons/md";
+import {useTranslations} from "next-intl";
 
 interface Props {
   viewedProducts: ProductType[]
 }
 
 const ViewedProducts = ({viewedProducts}: Props) => {
-  const d = useDictionaryTranslate("viewedProducts")
+  const t = useTranslations('viewedProducts')
   return (
     <Box>
-      <Heading as='h3'>{d('beforeThatYouLooked')}</Heading>
+      <Heading as='h3'>{t('beforeThatYouLooked')}</Heading>
       <Flex pt={4} w='100%' alignItems='center' gap={2}>
         <IconButton fontSize={['16', '24', '24', '44']} icon={<MdArrowBackIosNew/>} aria-label='prev'
                     className='review-swiper-button-prev'/>

@@ -1,4 +1,4 @@
-import {FilterProductType, FilterProductTypeType} from "@/app/[lang]/[urlTag]/types";
+import {FilterProductType, FilterProductTypeType} from "@/app/[locale]/[urlTag]/types";
 import {ProductTypeType} from "@/components/Container/FilterMenu/ProductType";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {createUrl} from "@/lib/format";

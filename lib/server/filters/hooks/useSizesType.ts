@@ -1,4 +1,4 @@
-import {FilterSizesType} from "@/app/[lang]/[urlTag]/types";
+import {FilterSizesType} from "@/app/[locale]/[urlTag]/types";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {createUrl} from "@/lib/format";
 import {SizesType} from "@/components/Container/FilterMenu/ShoesMenu/Sizes";

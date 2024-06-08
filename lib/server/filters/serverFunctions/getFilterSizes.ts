@@ -1,5 +1,5 @@
 import {ProductType} from "@/components/Products/types";
-import {FilterSizesType} from "@/app/[lang]/[urlTag]/types";
+import {FilterSizesType} from "@/app/[locale]/[urlTag]/types";
 import _ from "lodash";
 
 type GetFilterSizes = {

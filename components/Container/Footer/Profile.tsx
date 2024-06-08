@@ -1,39 +1,38 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Box, Flex, Heading, Link} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {signIn, signOut} from "next-auth/react";
-import {LangContext} from "@/locale/LangProvider";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useLocale, useTranslations} from "next-intl";
 
 type Props = {
   isAuthorized: boolean
 }
 
 const Profile = ({isAuthorized}: Props) => {
-  const lang = useContext(LangContext)
-  const d = useDictionaryTranslate("footer")
+  const t = useTranslations('footer')
+  const locale = useLocale()
   return (
     <Box>
-      <Heading size='xl' pb={2}>{d('profile')}</Heading>
+      <Heading size='xl' pb={2}>{t('profile')}</Heading>
       {isAuthorized ? (
         <Link as={NextLink} href='#' onClick={() => signOut()} _hover={{color: 'hoverLinkTextColor'}}>
           <Flex alignItems='center' gap={1} p={2}>
             <span className="_icon-person"/>
-            {d('signOut')}
+            {t('signOut')}
           </Flex>
         </Link>
       ) : (
         <Link as={NextLink} href='#' onClick={() => signIn()} _hover={{color: 'hoverLinkTextColor'}}>
           <Flex alignItems='center' gap={1}  p={2}>
             <span className="_icon-person"/>
-            {d('signIn')}
+            {t('signIn')}
           </Flex>
         </Link>
       )}
-      <Link as={NextLink} href={`/${lang}/profile/orders-list`} _hover={{color: 'hoverLinkTextColor'}}>
+      <Link as={NextLink} href={`/${locale}/profile/orders-list`} _hover={{color: 'hoverLinkTextColor'}}>
         <Flex alignItems='center' gap={1} p={2}>
           <span className="_icon-credit-card"/>
-          {d('orders')}
+          {t('orders')}
         </Flex>
       </Link>
     </Box>

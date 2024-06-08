@@ -1,14 +1,14 @@
 import {cookies} from "next/headers";
 import {PageType, ProductType} from "@/components/Products/types";
-import {Lang} from "@/dictionaries/get-dictionary";
 import {createProduct} from "@/lib/productCardData";
 import {getProductByUrl} from "@/lib/db/product";
+import {Locale} from "@/i18n";
 
 type Type = {
-  (lang: Lang, isAdmin: boolean, isAuth: boolean): Promise<ProductType[]>
+  (locale: Locale, isAdmin: boolean, isAuth: boolean): Promise<ProductType[]>
 }
 
-export const getViewedProducts: Type = async (lang, isAdmin, isAuth) => {
+export const getViewedProducts: Type = async (locale, isAdmin, isAuth) => {
   const page: PageType = 'viewed'
   const viewedProductsJSON: string | undefined = cookies().get("viewedProducts")?.value
   const viewedProductUrls: string[] = viewedProductsJSON ? JSON.parse(viewedProductsJSON) : []
@@ -26,7 +26,7 @@ export const getViewedProducts: Type = async (lang, isAdmin, isAuth) => {
           access = false
       }
       if (access)
-        viewedProducts.push(createProduct(productData, lang, page))
+        viewedProducts.push(createProduct(productData, locale, page))
     }
 
   }

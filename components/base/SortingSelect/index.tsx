@@ -1,15 +1,15 @@
 'use client'
 import React, {useState} from 'react';
 import {Box, Flex, Select, Text} from "@chakra-ui/react";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {createUrl} from "@/lib/format";
 import {Sorting, SortingProps, SortingType} from "@/components/base/SortingSelect/types";
+import {useTranslations} from "next-intl";
 
 
 const SortingSelect = ({value}: SortingProps) => {
   const [selectedValue, setSelectedValue] = useState(value)
-  const d = useDictionaryTranslate("sortingForm")
+  const t = useTranslations('sortingForm')
   const searchParams = useSearchParams()
   const pathname = usePathname()
   let params = new URLSearchParams(searchParams.toString())
@@ -26,11 +26,11 @@ const SortingSelect = ({value}: SortingProps) => {
   return (
     <Flex gap={1} alignItems="center">
       <Box whiteSpace='nowrap'>
-        <Text>{d('sortingBy')}</Text>
+        <Text>{t('sortingBy')}</Text>
       </Box>
       <Select value={selectedValue} size='sm' onChange={onChange} aria-label="Sorting By">
         {stringValues.map(value => (
-          <option key={value} value={value}>{d(value as string)}</option>
+          <option key={value} value={value}>{t(value as string)}</option>
         ))}
       </Select>
     </Flex>

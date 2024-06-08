@@ -1,18 +1,18 @@
-import {TagUrlTypeWithoutText} from "@/app/[lang]/admin/tagUrls/types";
+import {TagUrlTypeWithoutText} from "@/app/[locale]/admin/tagUrls/types";
 import {Box, Divider, Flex, IconButton, Link} from "@chakra-ui/react";
-import React, {useContext} from "react";
+import React from "react";
 import NextLink from "next/link";
 import {EditIcon} from "@chakra-ui/icons";
-import {LangContext} from "@/locale/LangProvider";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 interface Props {
   tagUrl: TagUrlTypeWithoutText
 }
 
 const TagUrl = ({tagUrl}: Props) => {
-  const lang = useContext(LangContext)
-  const d = useDictionaryTranslate("tagAdmin")
+  const t = useTranslations('tagAdmin')
+  const locale = useLocale() as Locale
   return (
     <Box layerStyle='adminOrderWithItems' boxShadow='2xl'>
       <Flex gap={2} layerStyle='adminOrder' direction={{base: "column", md: "row"}} justifyContent='space-between'>
@@ -25,8 +25,8 @@ const TagUrl = ({tagUrl}: Props) => {
         <Box>
           {tagUrl.orderNumber}
         </Box>
-        <Link as={NextLink} href={`/${lang}/admin//tagUrls/${tagUrl.url}`}>
-          <IconButton variant='green' aria-label={d('editTag')} icon={<EditIcon/>}/>
+        <Link as={NextLink} href={`/${locale}/admin//tagUrls/${tagUrl.url}`}>
+          <IconButton variant='green' aria-label={t('editTag')} icon={<EditIcon/>}/>
         </Link>
       </Flex>
       <Divider/>

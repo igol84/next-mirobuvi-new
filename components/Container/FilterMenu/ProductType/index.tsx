@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box} from "@chakra-ui/react";
 import Shoes from "./Shoes";
-import {FilterProductType, FilterProductTypeType} from "@/app/[lang]/[urlTag]/types";
+import {FilterProductType, FilterProductTypeType} from "@/app/[locale]/[urlTag]/types";
 
 export type ProductTypeType = {
   filterProductType: FilterProductType

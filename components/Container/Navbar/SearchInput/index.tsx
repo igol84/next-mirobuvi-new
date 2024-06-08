@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Input, InputGroup, InputLeftElement, InputRightAddon, Spinner} from "@chakra-ui/react";
 import {Search2Icon} from "@chakra-ui/icons";
 import {usePathname, useSearchParams} from "next/navigation";
-import {LangContext} from "@/locale/LangProvider";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import serverActionSearch from "@/components/Container/Navbar/SearchInput/actions";
 import {searchData} from "@/components/Container/Navbar/SearchInput/types";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 const isProductsPage = (path: string): boolean => {
   return path.includes('products')
@@ -16,8 +16,8 @@ interface Props {
 }
 
 const SearchInput = ({onClose = () => undefined}: Props) => {
-  const lang = useContext(LangContext)
-  const d = useDictionaryTranslate("home")
+  const t = useTranslations('home')
+  const locale = useLocale() as Locale
   const params = useSearchParams()
   const searchParams = params.get('search') ? params.get('search') as string : ''
   const [searchValue, setSearchValue] = useState(searchParams)
@@ -33,7 +33,7 @@ const SearchInput = ({onClose = () => undefined}: Props) => {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const searchData: searchData = {search: searchValue, lang}
+    const searchData: searchData = {search: searchValue, locale}
     setLoading(true)
     await serverActionSearch(searchData)
     onClose()
@@ -48,11 +48,11 @@ const SearchInput = ({onClose = () => undefined}: Props) => {
             {loading ? <Spinner color="gray.600"/> : <Search2Icon color="gray.600"/>}
           </InputLeftElement>
           <Input name='search' value={searchValue} onChange={onChange} borderRadius={8} type="text"
-                 placeholder={`${d('search')}...`} isDisabled={loading}/>
-          <input name='lang' type='hidden' defaultValue={lang}/>
+                 placeholder={`${t('search')}...`} isDisabled={loading}/>
+          <input name='lang' type='hidden' defaultValue={locale}/>
           <InputRightAddon p={0} border="none" borderEndRadius={8}>
             <Button type='submit'>
-              {d('search')}
+              {t('search')}
             </Button>
           </InputRightAddon>
         </InputGroup>

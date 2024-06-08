@@ -1,5 +1,5 @@
 import {ProductType} from "@/components/Products/types";
-import {FilterMenuPriceType} from "@/app/[lang]/[urlTag]/types";
+import {FilterMenuPriceType} from "@/app/[locale]/[urlTag]/types";
 import _ from "lodash";
 
 type GetFilterMenuPrice = {

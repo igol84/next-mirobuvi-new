@@ -1,19 +1,19 @@
 import React from 'react';
 import {Box, Checkbox} from "@chakra-ui/react";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 interface Props {
   isChecked: boolean
   onChange:(checked: boolean) => void
 }
 const Shoes = ({isChecked, onChange}: Props) => {
-  const d = useDictionaryTranslate("filter")
+  const t = useTranslations('filter')
   const onChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked)
   }
   return (
     <Box>
-      <Checkbox defaultChecked={isChecked} onChange={onChangeValue}>{d('shoes')}</Checkbox>
+      <Checkbox defaultChecked={isChecked} onChange={onChangeValue}>{t('shoes')}</Checkbox>
     </Box>
   );
 };

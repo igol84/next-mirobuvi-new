@@ -9,13 +9,13 @@ import {SizeType} from "@/components/product/admin/shoes/types";
 
 export const serverActionPushProductLike = async (userId: number, productUrl: string) => {
   const result = await pushFavoriteProduct(userId, productUrl)
-  revalidatePath("/[lang]/products/[productUrl]", "page")
+  revalidatePath("/[locale]/products/[productUrl]", "page")
   return result
 }
 
 export const serverActionPutProductLike = async (userId: number, productUrl: string) => {
   const result = await putFavoriteProduct(userId, productUrl)
-  revalidatePath("/[lang]/products/[productUrl]", "page")
+  revalidatePath("/[locale]/products/[productUrl]", "page")
   return result
 }
 
@@ -26,7 +26,7 @@ export const serverActionPriceEdit = async (id: number, price: number) => {
     const product = await getProduct(formDate.id)
     if (product && product.price !== formDate.price) {
       await updateProductPrice(id, formDate.price)
-      revalidatePath("/[lang]/products/[productUrl]", 'page')
+      revalidatePath("/[locale]/products/[productUrl]", 'page')
     }
   }
 }
@@ -38,5 +38,5 @@ export const serverActionSizeEdit = async (shoesId: number, sizes: SizeType[]) =
       addedShoes.push(size)
   }
   await editSizes(shoesId, addedShoes)
-  revalidatePath("/[lang]/products/[productUrl]", 'page')
+  revalidatePath("/[locale]/products/[productUrl]", 'page')
 }

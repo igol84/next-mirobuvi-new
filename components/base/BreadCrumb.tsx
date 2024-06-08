@@ -1,10 +1,11 @@
 'use client'
-import React, {useContext} from 'react';
+import React from 'react';
 import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, Text} from "@chakra-ui/react";
 import NextLink from "next/link";
-import {LangContext} from "@/locale/LangProvider";
 import {Icon} from "@chakra-ui/icons";
 import {AiFillHome} from "react-icons/ai";
+import {useLocale} from "next-intl";
+import {Locale} from "@/i18n";
 
 export interface BreadCrumbData {
   label: string
@@ -16,12 +17,12 @@ interface Props {
 }
 
 const BreadCrumb = ({breadCrumbs}: Props) => {
-  const lang = useContext(LangContext)
+  const locale = useLocale() as Locale
   return (
     <Breadcrumb whiteSpace='nowrap' overflow='hidden' textOverflow='ellipsis'>
 
       <BreadcrumbItem>
-        <BreadcrumbLink display='flex' alignItems='center' as={NextLink} href={`/${lang}`}>
+        <BreadcrumbLink display='flex' alignItems='center' as={NextLink} href={`/${locale}`}>
           <Icon as={AiFillHome} aria-label="Home"/>
         </BreadcrumbLink>
       </BreadcrumbItem>

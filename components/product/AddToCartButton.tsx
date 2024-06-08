@@ -2,8 +2,8 @@
 import React, {useState, useTransition} from 'react';
 import {Box, Button, ScaleFade} from "@chakra-ui/react";
 import {MdShoppingCart} from 'react-icons/md'
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {incrementProductQuantity} from "@/lib/server/cart/action";
+import {useTranslations} from "next-intl";
 
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const AddToCartButton = ({productId, size}: Props) => {
-  const d = useDictionaryTranslate("product")
+  const t = useTranslations('product')
   const [isPending, startTransition] = useTransition()
   const [success, setSuccess] = useState(false)
   const isEnable = size === undefined || size
@@ -27,12 +27,12 @@ const AddToCartButton = ({productId, size}: Props) => {
     <>
       <Button onClick={onClick} leftIcon={<MdShoppingCart/>} variant='solid'
               isDisabled={!isEnable} isLoading={isPending}>
-        {d('buy')}
+        {t('buy')}
       </Button>
 
       <ScaleFade initialScale={0.9} in={!isPending && success}>
         <Box p='3' mt='4' color='white' bg='teal.500' rounded='md' shadow='md'>
-          {d('addedOnCart')}
+          {t('addedOnCart')}
         </Box>
       </ScaleFade>
     </>

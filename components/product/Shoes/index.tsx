@@ -3,7 +3,6 @@ import React, {useContext, useState} from 'react';
 import {Box, Flex, IconButton, Text} from "@chakra-ui/react";
 import {ShoesType} from "@/components/product/types";
 import Size from "@/components/product/Shoes/Size";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import dynamic from "next/dynamic";
 import {IsAdminContext, IsEditorContext} from "@/app/providers";
@@ -11,6 +10,7 @@ import PriceEditor from "@/components/product/PriceEditor";
 import {EditIcon} from "@chakra-ui/icons";
 import SizesEditForm from "@/components/product/Shoes/SizesEditForm";
 import {SizeType} from "@/components/product/admin/shoes/types";
+import {useTranslations} from "next-intl";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -19,19 +19,18 @@ type Props = {
 }
 
 const Shoes = ({shoesData}: Props) => {
-  const d = useDictionaryTranslate("product")
-  const ds = useDictionaryTranslate("shoes")
+  const t = useTranslations()
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
   const isAdmin = useContext(IsAdminContext)
   const isEditor = useContext(IsEditorContext)
   const isEditAccess = isAdmin || isEditor
   const [selectedSize, setSelectedSize] = useState<number | null>(null)
-  const [sizeDesc, setSizeDesc] = useState<string>(ds('select_size'))
+  const [sizeDesc, setSizeDesc] = useState<string>(t('shoes.select_size'))
   const [editMode, setEditMode] = useState<null | 'price' | 'sizes'>(null)
-  const textLength = ds('insole_length')
-  const textSelect = ds('select_size')
-  const textNotAvailable = d('notAvailable')
-  const textSizes = ds('sizes')
+  const textLength = t('shoes.insole_length')
+  const textSelect = t('shoes.select_size')
+  const textNotAvailable = t('product.notAvailable')
+  const textSizes = t('shoes.sizes')
 
   const changeLengthText = (length: number | null) => {
     const lengthText = length ? `${textLength} ${length}cm` : ''

@@ -21,7 +21,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import React, {useState} from "react";
 import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 import {useRouter} from "next/navigation";
-import {serverActionDeleteTagUrl, serverActionTagUrl} from "@/app/[lang]/admin/tagUrls/add/actions";
+import {serverActionDeleteTagUrl, serverActionTagUrl} from "@/app/[locale]/admin/tagUrls/add/actions";
 
 interface Props {
   defaultValues: TagUrlsFormSchema,

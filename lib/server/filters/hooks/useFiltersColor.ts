@@ -1,4 +1,4 @@
-import {FilterColor, FilterColorType} from "@/app/[lang]/[urlTag]/types";
+import {FilterColor, FilterColorType} from "@/app/[locale]/[urlTag]/types";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {createUrl} from "@/lib/format";
 import {ColorType} from "@/components/Container/FilterMenu/ShoesMenu/Color";

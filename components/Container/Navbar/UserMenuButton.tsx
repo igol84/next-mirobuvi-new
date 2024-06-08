@@ -13,11 +13,11 @@ import {
 } from "@chakra-ui/react";
 import React, {useContext} from "react";
 import {BiUser} from "react-icons/bi";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import Link from "next/link";
 import {IsAdminContext} from "@/app/providers";
-import {LangContext} from "@/locale/LangProvider";
 import {useStore} from "@/lib/store";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 
 export default function UserMenuButton() {
@@ -25,10 +25,10 @@ export default function UserMenuButton() {
     (state) => state.user
   )
   const {onOpen, onClose, isOpen} = useDisclosure()
-  const d = useDictionaryTranslate("home")
-  const lang = useContext(LangContext)
+  const t = useTranslations('home')
+  const locale = useLocale() as Locale
   const isAdmin = useContext(IsAdminContext)
-  const text = {admin: d('admin'), orders: d('orders'), signOut: d('signOut'), signIn: d('signIn')}
+  const text = {admin: t('admin'), orders: t('orders'), signOut: t('signOut'), signIn: t('signIn')}
   return (
     <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} autoFocus={false}>
       <PopoverTrigger>
@@ -45,11 +45,11 @@ export default function UserMenuButton() {
           {user ? (
               <VStack align='flex-start'>
                 {isAdmin && (
-                  <Link href={`/${lang}/admin/orders`} onClick={onClose}>
+                  <Link href={`/${locale}/admin/orders`} onClick={onClose}>
                     {text.admin}
                   </Link>
                 )}
-                <Link href={`/${lang}/profile/orders-list`} onClick={onClose}>
+                <Link href={`/${locale}/profile/orders-list`} onClick={onClose}>
                   {text.orders}
                 </Link>
                 <Link href='#' onClick={() => signOut()}>

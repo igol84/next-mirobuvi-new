@@ -1,5 +1,5 @@
 import {ProductType} from "@/components/Products/types";
-import {allSeasons, FilterSeason, FilterSeasonType, isSeason} from "@/app/[lang]/[urlTag]/types";
+import {allSeasons, FilterSeason, FilterSeasonType, isSeason} from "@/app/[locale]/[urlTag]/types";
 
 type GetFilterSeason = {
   (

@@ -5,12 +5,12 @@ import {revalidatePath} from "next/cache";
 
 export const serverActionPushProductLike = async (userId: number, productUrl: string) => {
   const result = await pushFavoriteProduct(userId, productUrl)
-  revalidatePath("/[lang]/brands/[brandUrl]", "page")
+  revalidatePath("/[locale]/brands/[brandUrl]", "page")
   return result
 }
 
 export const serverActionPutProductLike = async (userId: number, productUrl: string) => {
   const result = await putFavoriteProduct(userId, productUrl)
-  revalidatePath("/[lang]/brands/[brandUrl]", "page")
+  revalidatePath("/[locale]/brands/[brandUrl]", "page")
   return result
 }

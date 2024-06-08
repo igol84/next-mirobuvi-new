@@ -1,4 +1,4 @@
-import {FilterSeason, FilterSeasonType} from "@/app/[lang]/[urlTag]/types";
+import {FilterSeason, FilterSeasonType} from "@/app/[locale]/[urlTag]/types";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {createUrl} from "@/lib/format";
 import {SeasonType} from "@/components/Container/FilterMenu/ShoesMenu/Season";

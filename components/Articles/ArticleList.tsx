@@ -5,11 +5,12 @@ import {IsAdminContext} from "@/app/providers";
 import {Box, IconButton, Link, Wrap, WrapItem} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {AddIcon} from "@chakra-ui/icons";
-import {LangContext} from "@/locale/LangProvider";
 import Article from "@/components/Articles/Article";
 import {ListItem} from "@/components/Articles/type";
 import {useBrandCrumbs} from "@/components/Articles/hooks";
 import BreadCrumb from "@/components/base/BreadCrumb";
+import {useLocale} from "next-intl";
+import {Locale} from "@/i18n";
 
 
 interface ArticleListProps {
@@ -17,7 +18,7 @@ interface ArticleListProps {
 }
 
 const ArticleList = ({listItems}: ArticleListProps) => {
-  const lang = useContext(LangContext)
+  const locale = useLocale() as Locale
   const isAdmin = useContext(IsAdminContext)
   const breadCrumbs = useBrandCrumbs()
   return (
@@ -27,7 +28,7 @@ const ArticleList = ({listItems}: ArticleListProps) => {
       </Box>
       {isAdmin && (
         <Box pb={2}>
-          <Link as={NextLink} href={`/${lang}/articles/add`} _hover={{color: 'hoverLinkTextColor'}}>
+          <Link as={NextLink} href={`/${locale}/articles/add`} _hover={{color: 'hoverLinkTextColor'}}>
             <IconButton aria-label={'addBrand'} icon={<AddIcon/>}/>
           </Link>
         </Box>

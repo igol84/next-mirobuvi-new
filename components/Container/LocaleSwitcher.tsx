@@ -2,9 +2,9 @@
 
 import {usePathname} from 'next/navigation'
 import Link from 'next/link'
-import {useContext} from "react";
-import {LangContext} from "@/locale/LangProvider";
 import {Button} from "@chakra-ui/react";
+import {useLocale} from "next-intl";
+import {Locale} from "@/i18n";
 
 
 export default function LocaleSwitcher() {
@@ -15,10 +15,10 @@ export default function LocaleSwitcher() {
     segments[1] = locale
     return segments.join('/')
   }
-  const lang = useContext(LangContext)
-  const locale = lang === 'en' ? 'ua' : 'en'
+  const locale = useLocale() as Locale
+  const anotherLocale = locale === 'en' ? 'ua' : 'en'
   return (
-    <Button as={Link} px={1} href={redirectedPathName(locale)} fontSize={[15, 20, 25, 30]} minW={[1, 2]}
+    <Button as={Link} px={1} href={redirectedPathName(anotherLocale)} fontSize={[15, 20, 25, 30]} minW={[1, 2]}
             sx={{fontWeight: '2px'}} variant='outline'
     >
       {locale}

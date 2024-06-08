@@ -1,8 +1,8 @@
-import {Lang} from "@/dictionaries/get-dictionary";
+import {Locale} from "@/i18n";
 
-export function formatPrice(price: number, lang: Lang = 'ua') {
+export function formatPrice(price: number, locale: Locale = 'ua') {
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
-  const prefix = lang === 'ua' ? 'грн.' : '₴'
+  const prefix = locale === 'ua' ? 'грн.' : '₴'
   return `${UAHFormat.format(price)}${prefix}`
 }
 

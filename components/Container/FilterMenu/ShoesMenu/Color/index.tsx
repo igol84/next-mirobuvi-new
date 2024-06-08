@@ -1,8 +1,8 @@
 import React from 'react';
-import {allColors, FilterColor, FilterColorType} from "@/app/[lang]/[urlTag]/types";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {allColors, FilterColor, FilterColorType} from "@/app/[locale]/[urlTag]/types";
 import {Wrap} from "@chakra-ui/react";
 import ColorItem from "@/components/Container/FilterMenu/ShoesMenu/Color/ColorItem";
+import {useTranslations} from "next-intl";
 
 export type ColorType = {
   filterColorType: FilterColorType
@@ -15,13 +15,13 @@ interface Props {
 }
 
 const Color = ({colorType: {filterColorType: {selectedColor, colors}, onClick}}: Props) => {
-  const d = useDictionaryTranslate("filterColor")
+  const t = useTranslations('filterColor')
   return (
     <Wrap>
       {allColors.map(color => {
         const selected = color === selectedColor
         const active = colors.includes(color)
-        return <ColorItem key={color} color={color} label={d(color)} selected={selected} active={active}
+        return <ColorItem key={color} color={color} label={t(color)} selected={selected} active={active}
                            onClick={onClick}/>
       })}
     </Wrap>

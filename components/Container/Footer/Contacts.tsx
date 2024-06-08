@@ -1,12 +1,12 @@
 import React from 'react';
 import {Box, Flex, Heading, Link} from "@chakra-ui/react";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 const Contacts = () => {
-  const d = useDictionaryTranslate("footer")
+  const t = useTranslations('footer')
   return (
     <Box>
-      <Heading size='xl' pb={2}>{d('contacts')}</Heading>
+      <Heading size='xl' pb={2}>{t('contacts')}</Heading>
       <Link href="tel:+380933375372" _hover={{color: 'hoverLinkTextColor'}}>
         <Flex alignItems='center' gap={1} p={2}>
           <span className="_icon-phone"/>
@@ -22,7 +22,7 @@ const Contacts = () => {
       <Box>
         <Flex alignItems='center' gap={1} p={2}>
           <span className="_icon-clock"/>
-          {d('monFri')} 9:00-19:00
+          {t('monFri')} 9:00-19:00
         </Flex>
       </Box>
     </Box>

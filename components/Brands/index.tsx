@@ -1,10 +1,10 @@
 'use client'
 import React, {useContext} from 'react'
+import {useTranslations} from 'next-intl';
 import {Box, IconButton, Wrap, WrapItem} from "@chakra-ui/react"
 import BrandCard from "@/components/Brands/BrandCard"
 import {BrandCardPropsWithFirst} from "@/components/Brands/types"
 import {AddIcon} from "@chakra-ui/icons";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {useRouter} from 'next/navigation'
 import {IsAdminContext} from "@/app/providers";
 
@@ -15,8 +15,7 @@ type Props = {
 
 const Brands = ({brands}: Props) => {
   const isAdmin = useContext(IsAdminContext)
-  const d = useDictionaryTranslate("brandsAdmin")
-  const dict = {'addBrand': d('addBrand')}
+  const t = useTranslations('brandsAdmin')
   const router = useRouter()
   const onAddClick = () => {
     router.push('/brands/add')
@@ -25,7 +24,7 @@ const Brands = ({brands}: Props) => {
     <>
       {isAdmin && (
         <Box pb={2}>
-          <IconButton aria-label={dict.addBrand} onClick={onAddClick} icon={<AddIcon/>}/>
+          <IconButton aria-label={t('addBrand')} onClick={onAddClick} icon={<AddIcon/>}/>
         </Box>
       )}
       <Wrap align='center' justify={{base: 'center', lg: 'flex-start'}} spacing={[4, 4, 4, 2, 4]}>

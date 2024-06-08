@@ -2,10 +2,8 @@
 
 import {usePathname} from 'next/navigation'
 import Link from 'next/link'
-import {languages} from "@/locale/settings";
-import {useContext} from "react";
-import {LangContext} from "@/locale/LangProvider";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale, locales} from "@/i18n";
 
 
 export default function LocaleSwitcher() {
@@ -16,17 +14,17 @@ export default function LocaleSwitcher() {
     segments[1] = locale
     return segments.join('/')
   }
-  const lang = useContext(LangContext)
-  const d = useDictionaryTranslate("switcher")
+  const t = useTranslations('switcher')
+  const locale = useLocale() as Locale
   return (
     <div>
-      <p>{d('localeSwitcher')}</p>
+      <p>{t('localeSwitcher')}</p>
       <ul>
-        {languages.map((locale) => {
-          if (locale !== lang)
+        {locales.map((lang) => {
+          if (lang !== locale)
             return (
-              <li key={locale}>
-                <Link href={redirectedPathName(locale)}>{locale}</Link>
+              <li key={lang}>
+                <Link href={redirectedPathName(lang)}>{lang}</Link>
               </li>
             )
         })}

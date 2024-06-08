@@ -1,5 +1,5 @@
 import 'server-only'
-import {FilterMenuType, isColor, isGender, isProductType, isSeason} from "@/app/[lang]/[urlTag]/types";
+import {FilterMenuType, isColor, isGender, isProductType, isSeason} from "@/app/[locale]/[urlTag]/types";
 import {ProductType} from "@/components/Products/types";
 import getFilterMenuPrice from "@/lib/server/filters/serverFunctions/getFilterMenuPrice";
 import getFilterSizes from "@/lib/server/filters/serverFunctions/getFilterSizes";

@@ -1,5 +1,5 @@
 import {PriceFilterType} from "@/components/Container/FilterMenu/PriceFilter";
-import {FilterMenuPriceType, FilterMenuType, FilterProductType} from "@/app/[lang]/[urlTag]/types";
+import {FilterMenuPriceType, FilterMenuType, FilterProductType} from "@/app/[locale]/[urlTag]/types";
 import {ProductTypeType} from "@/components/Container/FilterMenu/ProductType";
 import useFiltersProductType from "@/lib/server/filters/hooks/useFiltersProductType";
 import useFiltersPrice from "@/lib/server/filters/hooks/useFiltersPrice";

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Center} from "@chakra-ui/react";
-import {FilterColor} from "@/app/[lang]/[urlTag]/types";
+import {FilterColor} from "@/app/[locale]/[urlTag]/types";
 
 
 interface Props {

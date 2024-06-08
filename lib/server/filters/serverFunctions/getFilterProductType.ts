@@ -1,4 +1,4 @@
-import {FilterProductType, FilterProductTypeType as ProductTypeType} from "@/app/[lang]/[urlTag]/types";
+import {FilterProductType, FilterProductTypeType as ProductTypeType} from "@/app/[locale]/[urlTag]/types";
 import {isShoes, ProductType} from "@/components/Products/types";
 
 

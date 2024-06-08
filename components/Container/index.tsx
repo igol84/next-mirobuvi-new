@@ -13,7 +13,7 @@ import 'swiper/scss/free-mode';
 import 'swiper/scss/navigation';
 import 'swiper/scss/thumbs';
 import './styles.scss';
-import {TagUrl} from "@/app/[lang]/[urlTag]/types";
+import {TagUrl} from "@/app/[locale]/[urlTag]/types";
 
 type Props = {
   children: ReactNode

@@ -1,11 +1,19 @@
 import {
-  Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay
 } from "@chakra-ui/react";
 import React from "react";
 import Navbar from "@/components/Container/Navbar/index";
 import {Item} from "@/components/Container/Navbar/types";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
-import {TagUrl} from "@/app/[lang]/[urlTag]/types";
+import {TagUrl} from "@/app/[locale]/[urlTag]/types";
+import {useTranslations} from "next-intl";
+
 type Props = {
   isOpen: boolean,
   onClose: () => void
@@ -15,7 +23,7 @@ type Props = {
 
 const DrawerMenu = ({isOpen, onClose, brandsItems, tagsUrl}: Props) => {
   const btnRef = React.useRef(null)
-  const d = useDictionaryTranslate("home")
+  const t = useTranslations('home')
   return (
     <>
       <Drawer
@@ -24,10 +32,10 @@ const DrawerMenu = ({isOpen, onClose, brandsItems, tagsUrl}: Props) => {
         onClose={onClose}
         finalFocusRef={btnRef}
       >
-        <DrawerOverlay />
+        <DrawerOverlay/>
         <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>{d('menu')}</DrawerHeader>
+          <DrawerCloseButton/>
+          <DrawerHeader>{t('menu')}</DrawerHeader>
 
           <DrawerBody>
             <Navbar brandsItems={brandsItems} isMobile={true} onClose={onClose} tagsUrl={tagsUrl}/>
@@ -35,7 +43,7 @@ const DrawerMenu = ({isOpen, onClose, brandsItems, tagsUrl}: Props) => {
 
           <DrawerFooter>
             <Button variant='outline' mr={3} onClick={onClose}>
-              {d('close')}
+              {t('close')}
             </Button>
           </DrawerFooter>
         </DrawerContent>

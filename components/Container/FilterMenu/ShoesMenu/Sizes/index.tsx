@@ -1,6 +1,6 @@
 import React from 'react';
 import {Wrap} from "@chakra-ui/react";
-import {FilterSizesType} from "@/app/[lang]/[urlTag]/types";
+import {FilterSizesType} from "@/app/[locale]/[urlTag]/types";
 import Size from "@/components/Container/FilterMenu/ShoesMenu/Sizes/Size";
 
 export type SizesType = {

@@ -3,8 +3,8 @@ import {Flex, Tooltip} from "@chakra-ui/react";
 import {Icon} from "@chakra-ui/icons";
 import {serverActionPushProductLike, serverActionPutProductLike} from "@/components/product/actions";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {useStore} from "@/lib/store";
+import {useTranslations} from "next-intl";
 
 
 interface Props {
@@ -16,9 +16,9 @@ const Like = ({productUrl}: Props) => {
     (state) => [state.user, state.pushFavoriteProduct, state.putFavoriteProduct]
   )
   const isFavorite = user ? user.favoriteProducts.has(productUrl) : false
-  const d = useDictionaryTranslate("favorite")
+  const t = useTranslations('favorite')
   const isAuth = !!user
-  const label = isAuth ? isFavorite ? d('inFan') : d('fan') : d('loginIn')
+  const label = isAuth ? isFavorite ? t('inFan') : t('fan') : t('loginIn')
 
   const color = isFavorite ? 'secondary' : 'primary'
   const onLikeClick = !isAuth

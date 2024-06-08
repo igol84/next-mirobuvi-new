@@ -1,4 +1,4 @@
-import {FilterMenuPriceType} from "@/app/[lang]/[urlTag]/types";
+import {FilterMenuPriceType} from "@/app/[locale]/[urlTag]/types";
 import {PriceFilterType} from "@/components/Container/FilterMenu/PriceFilter";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {useEffect, useState} from "react";

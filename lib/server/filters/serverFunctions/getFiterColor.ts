@@ -1,5 +1,5 @@
 import {ProductType} from "@/components/Products/types";
-import {allColors, FilterColor, FilterColorType, isColor} from "@/app/[lang]/[urlTag]/types";
+import {allColors, FilterColor, FilterColorType, isColor} from "@/app/[locale]/[urlTag]/types";
 
 type GetFilterColor = {
   (

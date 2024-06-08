@@ -1,28 +1,28 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Center, Flex, Link, Text} from "@chakra-ui/react";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
-import {LangContext} from "@/locale/LangProvider";
 import {ShoesType} from "@/components/Products/types";
 import Sizes from "@/components/Products/ShoesCard/Sizes";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 type Props = {
   product: ShoesType
 }
 
 const ShoesCard = ({product}: Props) => {
-  const d = useDictionaryTranslate("product")
-  const textNotAvailable = d('notAvailable')
+  const t = useTranslations('product')
+  const locale = useLocale() as Locale
+  const textNotAvailable = t('notAvailable')
   const {name, price, price_prefix, sizes, url} = product
-  const lang = useContext(LangContext)
   let UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
   const filter = product.isAvailable ? undefined : 'auto'
   const brightness = product.isAvailable ? undefined : '40%'
   return (
     <Flex flexDirection='column' gap={4} w={249}>
-      <Link as={NextLink} href={`/${lang}/products/${url}`} _hover={{color: 'hoverLinkTextColor'}}>
+      <Link as={NextLink} href={`/${locale}/products/${url}`} _hover={{color: 'hoverLinkTextColor'}}>
         <ChakraNextImage
           borderRadius={[30, 15]} as={NextImage} width={249} height={249} alt={name} filter={filter}
           brightness={brightness}

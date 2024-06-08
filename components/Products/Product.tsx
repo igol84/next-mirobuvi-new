@@ -8,9 +8,9 @@ import {useFavorite} from "@/components/Products/favorirwHooks";
 import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import {EditIcon} from "@chakra-ui/icons";
-import {LangContext} from "@/locale/LangProvider";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {IsAdminContext} from "@/app/providers";
+import {useLocale, useTranslations} from "next-intl";
+import {Locale} from "@/i18n";
 
 const FavoriteIcon = dynamic(() => import('@/components/Products/FavoriteIcon'), {ssr: false})
 
@@ -21,12 +21,9 @@ interface Props {
 
 const Product = ({product}: Props) => {
   const isAdmin = useContext(IsAdminContext)
-  const lang = useContext(LangContext)
+  const t = useTranslations('productAdmin')
+  const locale = useLocale() as Locale
   const [isHover, setIsHover] = useState(false)
-  const d = useDictionaryTranslate("productAdmin")
-  const dict = {
-    'editProduct': d('editProduct'),
-  }
   const ProductComponent = productCardFactory(product)
   const {isFavorite, favoriteHidden, onClick} = useFavorite(product.url, isHover)
   const favoriteIcon = isFavorite ? <FaHeart/> : <FaRegHeart/>
@@ -37,8 +34,8 @@ const Product = ({product}: Props) => {
       {isAdmin
         ? (
           <Box position='absolute' top={2} right={2} hidden={!isHover} zIndex={99999}>
-            <Link as={NextLink} href={`/${lang}/products/${product.url}/edit`} _hover={{color: 'hoverLinkTextColor'}}>
-              <IconButton aria-label={dict.editProduct} icon={<EditIcon/>}/>
+            <Link as={NextLink} href={`/${locale}/products/${product.url}/edit`} _hover={{color: 'hoverLinkTextColor'}}>
+              <IconButton aria-label={t('editProduct')} icon={<EditIcon/>}/>
             </Link>
           </Box>
         )

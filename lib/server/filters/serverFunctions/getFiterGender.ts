@@ -1,5 +1,5 @@
 import {ProductType} from "@/components/Products/types";
-import {allGenders, FilterGender, FilterGenderType, isGender} from "@/app/[lang]/[urlTag]/types";
+import {allGenders, FilterGender, FilterGenderType, isGender} from "@/app/[locale]/[urlTag]/types";
 import _ from "lodash";
 
 type GetFilterGender = {

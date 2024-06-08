@@ -1,6 +1,5 @@
 'use client'
 
-
 import {ArticleFormSchema, schema} from "@/components/Articles/admin/types";
 import {useDict} from "@/components/Articles/admin/hooks";
 import {useRouter} from "next/navigation";
@@ -21,9 +20,7 @@ import {
 } from "@chakra-ui/react";
 import AlertDeleteDialog from "@/components/base/AlertDeleteDialog";
 import {convertTextForUrl} from "@/utility/functions";
-import {da} from "date-fns/locale";
-import {serverActionCreateOrEditArticle, serverActionDeleteArticle} from "@/app/[lang]/articles/actions";
-import {serverActionDeleteBrand} from "@/app/[lang]/brands/actions";
+import {serverActionCreateOrEditArticle, serverActionDeleteArticle} from "@/app/[locale]/articles/actions";
 
 
 type Props = {

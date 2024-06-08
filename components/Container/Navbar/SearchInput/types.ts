@@ -1,6 +1,6 @@
-import {Lang} from "@/dictionaries/get-dictionary";
+import {Locale} from "@/i18n";
 
 export interface searchData {
   search: string
-  lang: Lang
+  locale: Locale
 }

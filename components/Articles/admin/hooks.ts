@@ -1,8 +1,8 @@
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 export const useDict = () => {
-  const d = useDictionaryTranslate("articlesAdmin")
-  const dg = useDictionaryTranslate("global")
+  const d =  useTranslations("articlesAdmin")
+  const dg = useTranslations("global")
   const dict = {
     'titleUa': d('titleUa'),
     'addNewArticle': d('addNewArticle'),

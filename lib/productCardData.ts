@@ -1,13 +1,13 @@
-import {Lang} from "@/dictionaries/get-dictionary";
 import {PageType, ProductType, ShoesType, SimpleProductProps} from "@/components/Products/types";
 import {dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {env} from "@/lib/env";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
+import {Locale} from "@/i18n";
 
 interface CreateProduct {
   (
     product: ProductWithDetailsDBType,
-    lang: Lang,
+    locale: Locale,
     page?: PageType
   ): ProductType
 }
@@ -16,9 +16,9 @@ export const getProductImageUrl = (productName: string, key: number = 0, imgName
   return `${env.FTP_URL}/products/${productName}/${imgName}?key=${key}`
 }
 
-export const createProduct: CreateProduct = (product, lang, page = 'catalog') => {
-  const name = lang === 'en' ? product.name_en : product.name_ua
-  const price_prefix = lang === 'en' ? '₴' : 'грн.'
+export const createProduct: CreateProduct = (product, locale, page = 'catalog') => {
+  const name = locale === 'en' ? product.name_en : product.name_ua
+  const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const date = product.date
   const daysInterval = dateDiffInDays(date, new Date())
   const isNew = daysInterval < DAYS_IS_NEW

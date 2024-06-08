@@ -9,10 +9,10 @@ import {SortingType} from "@/components/base/SortingSelect/types";
 import FilterMenu from "@/components/Container/FilterMenu";
 import {FaFilter} from "react-icons/fa";
 import DrawerMenu from "@/components/Container/FilterMenu/DrawerMenu";
-import {FilterMenuType} from "@/app/[lang]/[urlTag]/types";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {FilterMenuType} from "@/app/[locale]/[urlTag]/types";
 import useScroll from "@/lib/server/filters/hooks/useScroll";
 import useFilters from "@/lib/server/filters/hooks/useFilters";
+import {useTranslations} from "next-intl";
 
 
 interface Props {
@@ -33,14 +33,14 @@ const FiltersLayout = ({children, desc, sortingBy, breadCrumbs, viewedProducts, 
     productTypeType,
     shoesMenuType
   } = useFilters(filterMenuPriceType, filterProductType, filterMenuType)
-  const d = useDictionaryTranslate("filter")
+  const t = useTranslations('filter')
   return (
     <Box>
       <Flex justifyContent='space-between' flexWrap='wrap' alignItems="center" pb={[2, 4]}>
         <BreadCrumb breadCrumbs={breadCrumbs}/>
         <Flex justifyContent='space-between' flexWrap='wrap' alignItems="center">
           <SortingSelect value={sortingBy}/>
-          <IconButton display={{base: "inherit", lg: "none"}} aria-label={d('openFilterMenu')} icon={<FaFilter/>}
+          <IconButton display={{base: "inherit", lg: "none"}} aria-label={t('openFilterMenu')} icon={<FaFilter/>}
                       onClick={mobileFilterMenu.onOpen} isRound={true}  variant='outline'
           />
         </Flex>

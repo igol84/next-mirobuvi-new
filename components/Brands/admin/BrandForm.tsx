@@ -15,7 +15,7 @@ import React, {useState} from "react";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {BrandFormSchema, schema} from "@/components/Brands/admin/types";
-import {serverActionCreateOrEditBrand, serverActionDeleteBrand} from "@/app/[lang]/brands/actions";
+import {serverActionCreateOrEditBrand, serverActionDeleteBrand} from "@/app/[locale]/brands/actions";
 import {useRouter} from "next/navigation";
 import {useDict} from "@/components/Brands/admin/hooks";
 import NextImage from "next/image";

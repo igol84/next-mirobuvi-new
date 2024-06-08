@@ -1,3 +1,7 @@
+const createNextIntlPlugin = require('next-intl/plugin');
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
 const path = require('path')
 const nextConfig = {
@@ -6,11 +10,10 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
-      {hostname: 'mirobuvi.com.ua'},
       {hostname: 'sweetshoes.com.ua'},
       {hostname: 'lh3.googleusercontent.com'},
     ],
   },
 }
 
-module.exports = nextConfig
+module.exports = withNextIntl(nextConfig);

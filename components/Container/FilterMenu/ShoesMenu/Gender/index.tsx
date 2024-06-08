@@ -1,8 +1,8 @@
 import React from 'react';
-import {allGenders, FilterGender, FilterGenderType} from "@/app/[lang]/[urlTag]/types";
+import {allGenders, FilterGender, FilterGenderType} from "@/app/[locale]/[urlTag]/types";
 import {Wrap} from "@chakra-ui/react";
 import GenderItem from "@/components/Container/FilterMenu/ShoesMenu/Gender/GenderItem";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 export type GenderType = {
   filterGenderType: FilterGenderType
@@ -15,13 +15,13 @@ interface Props {
 }
 
 const Gender = ({genderType: {filterGenderType: {selectedGender, genders}, onClick}}: Props) => {
-  const d = useDictionaryTranslate("filterGender")
+  const t = useTranslations('filterGender')
   return (
     <Wrap>
       {allGenders.map(gender => {
         const selected = gender === selectedGender
         const active = genders.includes(gender)
-        return <GenderItem key={gender} gender={gender} label={d(gender)} selected={selected} active={active}
+        return <GenderItem key={gender} gender={gender} label={t(gender)} selected={selected} active={active}
                            onClick={onClick}/>
       })}
     </Wrap>

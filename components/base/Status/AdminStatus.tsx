@@ -1,20 +1,20 @@
 "use client"
 import React, {useState} from 'react';
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {Badge, Box, Select} from "@chakra-ui/react";
 import {getColorScheme} from "./functions";
 import {allStatus, OrderStatusType, StatusProps} from "./types";
 import {serverActionChangeOrderStatus} from "@/components/base/Status/actions";
+import {useTranslations} from "next-intl";
 
 
 const Status = ({orderId, status}: StatusProps) => {
-  const d = useDictionaryTranslate("status")
+  const t = useTranslations('status')
   const [isDisabled, setIsDisabled] = useState(true)
   const [viewStatus, setViewStatus] = useState<OrderStatusType>(status)
   const colorScheme = getColorScheme(viewStatus)
   const allStatusTranslated = new Map<OrderStatusType, string>()
   for (const status of allStatus) {
-    allStatusTranslated.set(status, d(status))
+    allStatusTranslated.set(status, t(status))
   }
   const onClick = () => {
     setIsDisabled(false)
@@ -35,7 +35,7 @@ const Status = ({orderId, status}: StatusProps) => {
       {isDisabled
         ? (
           <Badge colorScheme={colorScheme} variant='solid'>
-            {d(viewStatus)}
+            {t(viewStatus)}
           </Badge>
         ) : (
           <Select onBlur={onBlur} value={viewStatus} autoFocus={true} size='xs' onChange={handlerChangeStatus}>

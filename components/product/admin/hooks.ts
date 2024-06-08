@@ -1,10 +1,10 @@
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
+import {useTranslations} from "next-intl";
 
 export const useDict = () => {
-  const d = useDictionaryTranslate("productAdmin")
-  const dc = useDictionaryTranslate("filterColor")
-  const ds = useDictionaryTranslate("filterSeason")
-  const dg = useDictionaryTranslate("global")
+  const d = useTranslations("productAdmin")
+  const dc = useTranslations("filterColor")
+  const ds = useTranslations("filterSeason")
+  const dg = useTranslations("global")
   const dict = {
     'nameUa': d('nameUa'),
     'nameEn': d('nameEn'),

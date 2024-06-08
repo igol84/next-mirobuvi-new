@@ -4,9 +4,9 @@ import {Flex, Text} from "@chakra-ui/react";
 import {SimpleProductProps} from "@/components/product/types";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import dynamic from "next/dynamic";
-import {useDictionaryTranslate} from "@/dictionaries/hooks";
 import {IsAdminContext, IsEditorContext} from "@/app/providers";
 import PriceEditor from "@/components/product/PriceEditor";
+import {useTranslations} from "next-intl";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -18,9 +18,9 @@ const SimpleProduct = ({productData}: Props) => {
   const isAdmin = useContext(IsAdminContext)
   const isEditor = useContext(IsEditorContext)
   const isEditAccess = isAdmin || isEditor
-  const d = useDictionaryTranslate("product")
+  const t = useTranslations('product')
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
-  const textNotAvailable = d('notAvailable')
+  const textNotAvailable = t('notAvailable')
   const [priceEdit, setPriceEdit] = useState(false)
 
   const onPriceClick = isEditAccess ? () => {

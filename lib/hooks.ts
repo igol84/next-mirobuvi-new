@@ -1,7 +1,7 @@
-import {useContext} from "react";
-import {LangContext} from "@/locale/LangProvider";
+import {useLocale} from "next-intl";
+import {Locale} from "@/i18n";
 
 export const usePricePrefix = () => {
-  const lang = useContext(LangContext)
-  return lang === 'en' ? '₴' : 'грн.'
+  const locale = useLocale() as Locale
+  return locale === 'en' ? '₴' : 'грн.'
 }

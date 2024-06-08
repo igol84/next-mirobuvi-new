@@ -36,7 +36,7 @@ import {
   serverActionDeleteImage,
   serverActionDeleteProduct,
   serverActionRenameImages
-} from "@/app/[lang]/brands/[brandUrl]/actions";
+} from "@/app/[locale]/brands/[brandUrl]/actions";
 import {convertTextForUrl} from "@/utility/functions";
 import ProductImages from "@/components/product/admin/ProductImages";
 import {Image} from "@/components/product/admin/ProductImage";

@@ -1,5 +1,5 @@
 import {isShoes, ProductType} from "@/components/Products/types";
-import {FilterProductTypeType} from "@/app/[lang]/[urlTag]/types";
+import {FilterProductTypeType} from "@/app/[locale]/[urlTag]/types";
 import _ from "lodash";
 
 export const filterProductsByMinPrice = (products: ProductType[], minPrice: number): ProductType[] => {

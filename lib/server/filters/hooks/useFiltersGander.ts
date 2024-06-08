@@ -1,4 +1,4 @@
-import {FilterGender, FilterGenderType} from "@/app/[lang]/[urlTag]/types";
+import {FilterGender, FilterGenderType} from "@/app/[locale]/[urlTag]/types";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
 import {createUrl} from "@/lib/format";
 import {GenderType} from "@/components/Container/FilterMenu/ShoesMenu/Gender";

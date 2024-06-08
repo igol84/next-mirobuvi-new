@@ -1,4 +1,4 @@
-import {FilterMenuType} from "@/app/[lang]/[urlTag]/types";
+import {FilterMenuType} from "@/app/[locale]/[urlTag]/types";
 import useSizesType from "@/lib/server/filters/hooks/useSizesType";
 import {ShoesMenuType} from "@/components/Container/FilterMenu/ShoesMenu";
 import useFiltersGender from "@/lib/server/filters/hooks/useFiltersGander";

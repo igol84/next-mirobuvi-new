@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {allColors, allSeasons} from "@/app/[lang]/[urlTag]/types";
+import {allColors, allSeasons} from "@/app/[locale]/[urlTag]/types";
 
 export const productTypes: [string, ...string[]] = ['product', 'shoes']
 export const seasons: [string, ...string[]] = ['none', ...allSeasons]
