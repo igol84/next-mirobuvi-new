@@ -17,9 +17,10 @@ export default function LocaleSwitcher() {
   }
   const locale = useLocale() as Locale
   const anotherLocale = locale === 'en' ? 'ua' : 'en'
+  const hrefLang = locale === 'en' ? 'uk' : 'en'
   return (
     <Button as={Link} px={1} href={redirectedPathName(anotherLocale)} fontSize={[15, 20, 25, 30]} minW={[1, 2]}
-            sx={{fontWeight: '2px'}} variant='outline'
+            sx={{fontWeight: '2px'}} variant='outline' rel="alternate" hrefLang={hrefLang}
     >
       {locale}
     </Button>

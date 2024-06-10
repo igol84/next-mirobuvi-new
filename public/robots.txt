@@ -8,4 +8,8 @@ Disallow: *search=*
 Disallow: *sortingBy=*
 
 
-Host: mir-obuvi.vercel.app
+# Host
+Host: https://mirobuvi.com.ua
+
+# Sitemaps
+Sitemap: https://mirobuvi.com.ua/sitemap.xml
