@@ -49,9 +49,8 @@ const Page = async ({params: {locale}}: Props) => {
   })
   const TagUrl = await getTagUrl('home')
   const desc = TagUrl ? locale === 'en' ? TagUrl.text_en : TagUrl.text_ua : t('description')
-  const title = TagUrl ? locale === 'en' ? TagUrl.title_en : TagUrl.title_ua : t('title')
   return (
-    <Home brands={brands} header={title} desc={desc}/>
+    <Home brands={brands} desc={desc}/>
   );
 };
 

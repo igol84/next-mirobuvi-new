@@ -74,7 +74,7 @@ const Page = async ({params: {brandUrl, locale}, searchParams}: Props) => {
   const [productsSlice, paginationBar] = await getPageData(products, parseInt(page), true)
   const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth)
   return (
-    <FiltersLayout header={brand.brandName} desc={brand.desc} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts}
+    <FiltersLayout desc={brand.desc} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts}
                    sortingBy={sortingBy} filterMenuType={filterProducts.filterMenuType}>
       <ProductsList products={productsSlice} brandData={brand} paginationBar={paginationBar}/>
     </FiltersLayout>
