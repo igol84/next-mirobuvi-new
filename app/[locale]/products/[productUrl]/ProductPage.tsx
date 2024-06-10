@@ -4,6 +4,7 @@ import {ProductType as CardProductType} from "@/components/Products/types";
 import {productFactory} from "@/components/product/ProductFactory";
 import React from "react";
 import {Box, Flex, Heading} from "@chakra-ui/react";
+import '@/app/theme/style.scss'
 import Gallery from "@/components/product/Galarey";
 import BreadCrumb, {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {saveViewedProducts} from "@/app/[locale]/products/[productUrl]/functions";
@@ -34,7 +35,7 @@ const ProductPage = ({productData, breadCrumbData, viewedProducts}: Props) => {
         </Box>
       </Flex>
       <header>
-        <Heading>{productData.name}</Heading>
+        <Heading as='h1'>{productData.name}</Heading>
       </header>
       <section>
         <div className='desc' dangerouslySetInnerHTML={{__html: productData.desc}}/>

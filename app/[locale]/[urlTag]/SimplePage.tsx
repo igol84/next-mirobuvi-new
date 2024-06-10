@@ -2,6 +2,7 @@
 import React, {useEffect} from 'react';
 import {Box} from "@chakra-ui/react";
 import {useSearchParams} from "next/navigation";
+import '@/app/theme/style.scss'
 import BreadCrumb, {BreadCrumbData} from "@/components/base/BreadCrumb";
 import ViewedProducts from "@/components/Container/ViewedProducts";
 import {ProductType} from "@/components/Products/types";

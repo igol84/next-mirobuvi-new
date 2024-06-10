@@ -1,4 +1,4 @@
-import {getTagUrls} from "@/lib/db/tagUrl";
+import {getAllTagUrls} from "@/lib/db/tagUrl";
 import React from "react";
 import TagUrlsPage from "@/app/[locale]/admin/tagUrls/TagUrlsPage";
 import {TagUrlTypeWithoutText} from "@/app/[locale]/admin/tagUrls/types";
@@ -21,7 +21,7 @@ export async function generateMetadata({params: {locale}}: Props) {
 
 const Page = async ({params: {locale}}: Props) => {
   const t = await getTranslations({locale, namespace: 'tagAdmin'})
-  const tagsData = await getTagUrls()
+  const tagsData = await getAllTagUrls()
   if (!tagsData) {
     return <div>{t('tagsNotFound')}</div>
   }

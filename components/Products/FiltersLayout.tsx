@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import {Box, Flex, IconButton, useDisclosure} from "@chakra-ui/react";
+import {Box, Flex, Heading, IconButton, useDisclosure} from "@chakra-ui/react";
 import BreadCrumb, {BreadCrumbData} from "@/components/base/BreadCrumb";
 import ViewedProducts from "@/components/Container/ViewedProducts";
 import {ProductType} from "@/components/Products/types";
@@ -17,6 +17,7 @@ import {useTranslations} from "next-intl";
 
 interface Props {
   children: React.ReactNode
+  header: string
   desc: string
   sortingBy: SortingType
   breadCrumbs: BreadCrumbData[]
@@ -24,7 +25,7 @@ interface Props {
   filterMenuType: FilterMenuType
 }
 
-const FiltersLayout = ({children, desc, sortingBy, breadCrumbs, viewedProducts, filterMenuType}: Props) => {
+const FiltersLayout = ({children, header, desc, sortingBy, breadCrumbs, viewedProducts, filterMenuType}: Props) => {
   const {filterMenuPriceType, filterProductType} = filterMenuType
   useScroll()
   const mobileFilterMenu = useDisclosure();
@@ -41,20 +42,26 @@ const FiltersLayout = ({children, desc, sortingBy, breadCrumbs, viewedProducts, 
         <Flex justifyContent='space-between' flexWrap='wrap' alignItems="center">
           <SortingSelect value={sortingBy}/>
           <IconButton display={{base: "inherit", lg: "none"}} aria-label={t('openFilterMenu')} icon={<FaFilter/>}
-                      onClick={mobileFilterMenu.onOpen} isRound={true}  variant='outline'
+                      onClick={mobileFilterMenu.onOpen} isRound={true} variant='outline'
           />
         </Flex>
       </Flex>
       <Flex gap={5}>
-      <Box display={{base: "none", lg: "inline"}}>
-        <FilterMenu priceFilterType={priceFilterType} productTypeType={productTypeType}
-                    shoesMenuType={shoesMenuType}/>
-      </Box>
-      <Box>
-        {children}
-      </Box>
-    </Flex>
-      <div className='desc' dangerouslySetInnerHTML={{__html: desc}}/>
+        <Box display={{base: "none", lg: "inline"}}>
+          <FilterMenu priceFilterType={priceFilterType} productTypeType={productTypeType}
+                      shoesMenuType={shoesMenuType}/>
+        </Box>
+        <Box>
+          {children}
+        </Box>
+      </Flex>
+      <header>
+        <Heading as='h1'>{header}</Heading>
+      </header>
+      <section>
+        <div className='desc' dangerouslySetInnerHTML={{__html: desc}}/>
+      </section>
+
       {viewedProducts.length > 0 && (
         <Box pt={4}>
           <ViewedProducts viewedProducts={viewedProducts}/>

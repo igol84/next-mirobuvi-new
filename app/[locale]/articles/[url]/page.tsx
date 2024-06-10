@@ -50,7 +50,7 @@ const Page = async ({params: {url, locale}}: Props) => {
     <Box>
       <BreadCrumb breadCrumbs={breadCrumbs}/>
       <header>
-        <Heading>{header}</Heading>
+        <Heading as='h1'>{header}</Heading>
       </header>
       <section>
         <div className='desc' dangerouslySetInnerHTML={{__html: text}}/>

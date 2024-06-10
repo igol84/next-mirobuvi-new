@@ -6,6 +6,8 @@ import {getProductImageUrl} from "@/lib/productCardData";
 
 export const revalidate = 60 * 60 // seconds * minutes * hours
 
+const PROM_RATE = 0.16
+
 type Offer = {
   id: string,
   group_id: string,
@@ -48,7 +50,7 @@ export async function GET() {
         name: product.name_ru,
         name_ua: product.name_ua,
         categoryId: String(product.brand_id),
-        price: String(_.ceil(product.price / 0.84, -1) + 10),
+        price: String(_.ceil(product.price / (1 - PROM_RATE), -1) + 10),
         vendor: product.brand.name_en,
         description: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
         description_ua: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),

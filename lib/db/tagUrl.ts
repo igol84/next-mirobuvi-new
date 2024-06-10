@@ -6,8 +6,12 @@ export type TagUrl = Prisma.TagUrlGetPayload<{}>
 export type CreateTagUrlType = Prisma.TagUrlCreateInput
 export type UpdateTagUrlType = Prisma.TagUrlUncheckedUpdateInput
 
-export const getTagUrls = cache(async (): Promise<TagUrl[]> => {
+export const getAllTagUrls = cache(async (): Promise<TagUrl[]> => {
   return await prisma.tagUrl.findMany()
+})
+
+export const getTagUrls = cache(async (): Promise<TagUrl[]> => {
+  return await prisma.tagUrl.findMany({where: {NOT: {url: {contains: 'home'}}}})
 })
 
 export const getTagUrl = cache(async (url: string): Promise<TagUrl | null> => {

@@ -42,16 +42,16 @@ type Props = {
 export async function generateMetadata({params: {locale, urlTag}}: Props) {
   unstable_setRequestLocale(locale)
   const fetchData = await getTagUrl(urlTag)
-  const articlesUrls = await getArticles().then(articles=> articles.map(article => article.url))
-  const productsUrls = await getProducts().then(product=> product.map(product => product.url))
-  const brandsUrls = await getBrands().then(brand=> brand.map(brand => brand.url))
-  if(articlesUrls.includes(urlTag)) {
+  const articlesUrls = await getArticles().then(articles => articles.map(article => article.url))
+  const productsUrls = await getProducts().then(product => product.map(product => product.url))
+  const brandsUrls = await getBrands().then(brand => brand.map(brand => brand.url))
+  if (articlesUrls.includes(urlTag)) {
     redirect(`/${locale}/articles/${urlTag}`)
   }
-  if(productsUrls.includes(urlTag)) {
+  if (productsUrls.includes(urlTag)) {
     redirect(`/${locale}/products/${urlTag}`)
   }
-  if(brandsUrls.includes(urlTag)) {
+  if (brandsUrls.includes(urlTag)) {
     redirect(`/${locale}/brands/${urlTag}`)
   }
   if (!fetchData) redirect(`/`)
@@ -111,8 +111,8 @@ const Page = async ({params: {locale, urlTag}, searchParams}: Props) => {
   products = sortingProducts(products, sortingBy)
   const [productsSlice, paginationBar] = await getPageData(products, parseInt(page))
   return (
-    <FiltersLayout desc={tagData.text} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts} sortingBy={sortingBy}
-                   filterMenuType={filterProducts.filterMenuType}
+    <FiltersLayout header={tagData.search} desc={tagData.text} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts}
+                   sortingBy={sortingBy} filterMenuType={filterProducts.filterMenuType}
     >
       <ProductsList products={productsSlice} paginationBar={paginationBar}/>
     </FiltersLayout>
