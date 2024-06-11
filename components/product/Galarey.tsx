@@ -2,10 +2,13 @@
 import React, {CSSProperties, useState} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
 import type {Swiper as TypeSwiper} from 'swiper';
-import {FreeMode, Navigation, Thumbs} from 'swiper/modules';
+import {FreeMode, Navigation, Thumbs, Zoom as SZoom} from 'swiper/modules';
 import {Box, Flex} from "@chakra-ui/react";
 import NextImage from "next/image";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
+import {Controlled as ControlledZoom} from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
 
 type Props = {
   images: string[]
@@ -13,6 +16,9 @@ type Props = {
 
 export default function Gallery({images}: Props) {
   const [thumbsSwiper, setThumbsSwiper] = useState<TypeSwiper | null>(null);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false)
+
+  const handleZoomChange = (shouldZoom: boolean) => setIsZoomed(shouldZoom)
   return (
     <Flex gap={2}>
       <Box w='10%'>
@@ -22,8 +28,9 @@ export default function Gallery({images}: Props) {
           slidesPerView={5}
           freeMode={true}
           watchSlidesProgress={true}
-          modules={[FreeMode, Navigation, Thumbs]}
+          modules={[FreeMode, Navigation, Thumbs, SZoom]}
           className="ProductThumb"
+          zoom={true}
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
@@ -46,16 +53,16 @@ export default function Gallery({images}: Props) {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <ChakraNextImage
-                as={NextImage} src={image} alt={'image'} width={0} height={0} sizes="100vw"
-                style={{width: '100%', height: 'auto'}} priority={true}
-              />
+              <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
+                <ChakraNextImage
+                  as={NextImage} src={image} alt={'image'} width={0} height={0} sizes="100vw"
+                  style={{width: '100%', height: 'auto'}} priority={true}
+                />
+              </ControlledZoom>
             </SwiperSlide>
           ))}
         </Swiper>
       </Box>
-
-
     </Flex>
   );
 }
