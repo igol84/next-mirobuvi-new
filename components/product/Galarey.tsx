@@ -16,9 +16,14 @@ type Props = {
 
 export default function Gallery({images}: Props) {
   const [thumbsSwiper, setThumbsSwiper] = useState<TypeSwiper | null>(null);
-  const [isZoomed, setIsZoomed] = useState<boolean>(false)
+  const [isZoomed, setIsZoomed] = useState<boolean[]>(images.map(_ => false))
 
-  const handleZoomChange = (shouldZoom: boolean) => setIsZoomed(shouldZoom)
+  const onZoomed = (index: number, value: boolean) => {
+    const isZoomed = images.map(_ => false)
+    isZoomed[index] = value
+    setIsZoomed(isZoomed)
+  }
+
   return (
     <Flex gap={2}>
       <Box w='10%'>
@@ -53,7 +58,7 @@ export default function Gallery({images}: Props) {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <ControlledZoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
+              <ControlledZoom isZoomed={isZoomed[index]} onZoomChange={(value)=>onZoomed(index, value)}>
                 <ChakraNextImage
                   as={NextImage} src={image} alt={'image'} width={0} height={0} sizes="100vw"
                   style={{width: '100%', height: 'auto'}} priority={true}
