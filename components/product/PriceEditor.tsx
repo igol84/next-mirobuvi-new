@@ -39,7 +39,7 @@ const PriceEditor = ({id, defaultPrice, defaultDiscount, onClose}: Props) => {
   }
 
   return (
-    <Flex gap={4} py={4}>
+    <Flex gap={4} py={4} flexWrap='wrap'>
       <NumberInput value={price} onChange={(_: string, value: number) => setPrice(value)} min={0} step={100}
                    isDisabled={loading}>
         <NumberInputField/>
