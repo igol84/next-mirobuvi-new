@@ -15,17 +15,19 @@ import {serverActionPriceEdit} from "@/components/product/actions";
 interface Props {
   id: number,
   defaultPrice: number,
+  defaultDiscount: number,
   onClose: () => void
 }
 
-const PriceEditor = ({id, defaultPrice, onClose}: Props) => {
+const PriceEditor = ({id, defaultPrice, defaultDiscount, onClose}: Props) => {
   const [price, setPrice] = useState<number>(defaultPrice)
+  const [discount, setDiscount] = useState<number>(defaultDiscount)
   const [loading, setLoading] = useState<boolean>(false)
 
   const onSubmit = async () => {
-    if(price != defaultPrice) {
+    if (price !== defaultPrice || discount !== defaultDiscount) {
       setLoading(true)
-      await serverActionPriceEdit(id, price)
+      await serverActionPriceEdit(id, price, discount)
       await waitSecond()
       setLoading(false)
     }
@@ -39,6 +41,14 @@ const PriceEditor = ({id, defaultPrice, onClose}: Props) => {
   return (
     <Flex gap={4} py={4}>
       <NumberInput value={price} onChange={(_: string, value: number) => setPrice(value)} min={0} step={100}
+                   isDisabled={loading}>
+        <NumberInputField/>
+        <NumberInputStepper>
+          <NumberIncrementStepper/>
+          <NumberDecrementStepper/>
+        </NumberInputStepper>
+      </NumberInput>
+      <NumberInput value={discount} onChange={(_: string, value: number) => setDiscount(value)} min={0} step={5}
                    isDisabled={loading}>
         <NumberInputField/>
         <NumberInputStepper>

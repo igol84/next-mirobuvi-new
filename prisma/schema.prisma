@@ -140,7 +140,7 @@ model Product {
   text_ru        String
   text_en        String
   price          Float
-  old_price      Float
+  discount       Float     @default(0)
   prom_active    Boolean
   prom_add_to_id Int
   season         String

@@ -127,7 +127,7 @@
     "private": "Private",
     "isAvailable": "In stock",
     "price": "Price",
-    "oldPrice": "Old price",
+    "discount": "Discount %",
     "promActive": "Prom Active",
     "promAddToId": "Prom add to id",
     "file": "Image",

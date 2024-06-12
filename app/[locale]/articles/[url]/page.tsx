@@ -47,13 +47,13 @@ const Page = async ({params: {url, locale}}: Props) => {
   const breadCrumbs = await getBreadCrumb(locale, header, articleData.url)
 
   return (
-    <Box>
+    <Box className='desc'>
       <BreadCrumb breadCrumbs={breadCrumbs}/>
       <header>
         <Heading as='h1'>{header}</Heading>
       </header>
       <section>
-        <div className='desc' dangerouslySetInnerHTML={{__html: text}}/>
+        <div dangerouslySetInnerHTML={{__html: text}}/>
       </section>
     </Box>
   )

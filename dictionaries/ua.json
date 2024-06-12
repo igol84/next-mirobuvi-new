@@ -127,7 +127,7 @@
     "private": "Приватний",
     "isAvailable": "В наявності",
     "price": "Ціна",
-    "oldPrice": "Стара ціна",
+    "discount": "Знижка %",
     "promActive": "Prom Активний",
     "promAddToId": "Пром додати до id",
     "file": "Зображення",

@@ -7,6 +7,7 @@ import {ShoesType} from "@/components/Products/types";
 import Sizes from "@/components/Products/ShoesCard/Sizes";
 import {useLocale, useTranslations} from "next-intl";
 import {Locale} from "@/i18n";
+import Price from "@/components/Products/Price";
 
 type Props = {
   product: ShoesType
@@ -16,8 +17,7 @@ const ShoesCard = ({product}: Props) => {
   const t = useTranslations('product')
   const locale = useLocale() as Locale
   const textNotAvailable = t('notAvailable')
-  const {name, price, price_prefix, sizes, url} = product
-  let UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
+  const {name, price, oldPrice, price_prefix, sizes, url} = product
   const filter = product.isAvailable ? undefined : 'auto'
   const brightness = product.isAvailable ? undefined : '40%'
   return (
@@ -29,11 +29,9 @@ const ShoesCard = ({product}: Props) => {
           src={product.imageUrl}
         />
         <Center><Text>{name}</Text></Center>
-        <Center alignItems='baseline' color='price'>
-          <Text fontSize={24} fontWeight='bold'>
-            {UAHFormat.format(price)}
-          </Text>
-          <Text fontSize={16}>{price_prefix}</Text>
+        <Center>
+          {oldPrice && <Price price={oldPrice} prefix={price_prefix} isOld/>}
+          <Price price={price} prefix={price_prefix}/>
         </Center>
         <Center>
           {product.isAvailable ? <Sizes sizes={sizes}/> : <Text color='red.400'>{textNotAvailable}</Text>}

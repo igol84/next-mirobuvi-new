@@ -1,6 +1,6 @@
 'use client'
 import React, {useContext, useState} from 'react';
-import {Box, Flex, IconButton, Text} from "@chakra-ui/react";
+import {Box, Flex, HStack, IconButton, Text} from "@chakra-ui/react";
 import {ShoesType} from "@/components/product/types";
 import Size from "@/components/product/Shoes/Size";
 import AddToCartButton from "@/components/product/AddToCartButton";
@@ -11,6 +11,7 @@ import {EditIcon} from "@chakra-ui/icons";
 import SizesEditForm from "@/components/product/Shoes/SizesEditForm";
 import {SizeType} from "@/components/product/admin/shoes/types";
 import {useTranslations} from "next-intl";
+import Price from "@/components/product/Price";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -20,7 +21,6 @@ type Props = {
 
 const Shoes = ({shoesData}: Props) => {
   const t = useTranslations()
-  const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
   const isAdmin = useContext(IsAdminContext)
   const isEditor = useContext(IsEditorContext)
   const isEditAccess = isAdmin || isEditor
@@ -73,26 +73,25 @@ const Shoes = ({shoesData}: Props) => {
   const defaultSizes: SizeType[] = shoesData.sizes.map(size => ({
     size: size.size, isAvailable: size.inStock, length: size.length!
   }))
+  const defaultPrice = shoesData.oldPrice ? shoesData.oldPrice : shoesData.price
   return (
     <>
       <Text fontSize={36}>
         {shoesData.name}
       </Text>
-      {isPriceEditMod && <PriceEditor id={shoesData.id} defaultPrice={shoesData.price} onClose={onStopEdit}/>}
-      <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={editMode === 'price'}>
-        <Flex alignItems='baseline' color='price' cursor={isEditAccess ? 'pointer' : 'default'}
-              onClick={onPriceClick}>
-          <Text fontSize={64} fontWeight='bold'>
-            {UAHFormat.format(shoesData.price)}
-          </Text>
-          <Text fontSize={24}>
-            {shoesData.price_prefix}
-          </Text>
-        </Flex>
+      {isPriceEditMod && <PriceEditor id={shoesData.id} defaultPrice={defaultPrice} onClose={onStopEdit}
+                                      defaultDiscount={shoesData.discount}/>}
+      <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={editMode === 'price'}
+            onClick={onPriceClick} cursor={isEditAccess ? 'pointer' : 'default'}>
+        <HStack align='baseline'>
+          {shoesData.oldPrice && <Price price={shoesData.oldPrice} prefix={shoesData.price_prefix} isOld/>}
+          <Price price={shoesData.price} prefix={shoesData.price_prefix}/>
+        </HStack>
+
         <Like productUrl={shoesData.url}/>
       </Flex>
       {isSizesEditMod && <SizesEditForm shoesId={shoesData.id} defaultSizes={defaultSizes} onClose={onStopEdit}/>}
-      {isEditAccess && !isSizesEditMod &&(
+      {isEditAccess && !isSizesEditMod && (
         <IconButton aria-label='Edit' fontSize='20px' icon={<EditIcon/>} onClick={onSizesEditClick}/>
       )}
       <Flex gap={2} hidden={isSizesEditMod}>

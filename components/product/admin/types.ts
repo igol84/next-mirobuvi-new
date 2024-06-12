@@ -24,7 +24,7 @@ export const schema = z.object({
   private: z.boolean(),
   isAvailable: z.boolean(),
   price: z.number(),
-  oldPrice: z.number().nullable(),
+  discount: z.number(),
   promActive: z.boolean(),
   promAddToId: z.number(),
   season: z.enum(seasons),
@@ -70,7 +70,7 @@ export const defaultValues: Omit<ProductFormSchema, 'filesImg'> = {
   season: "none",
   color: "none",
   price: 100,
-  oldPrice: null,
+  discount: 0,
   promActive: true,
   promAddToId: 0,
   brandId: 0

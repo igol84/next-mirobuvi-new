@@ -30,6 +30,10 @@ const semanticTokens = {
       default: 'green.600',
       _dark: 'green.200',
     },
+    oldPrice: {
+      default: 'gray.600',
+      _dark: 'gray.200',
+    },
   },
 
 }

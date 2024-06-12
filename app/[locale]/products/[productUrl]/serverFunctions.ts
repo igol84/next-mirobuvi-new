@@ -21,7 +21,10 @@ type ProductFabrice = {
 export const productFabrice: ProductFabrice = (locale, product, urlImages, userId, isFavorite) => {
   const name = locale === 'en' ? product.name_en : product.name_ua
   const desc = locale === 'en' ? product.text_en : product.text_ua
+  const oldPrice = product.discount ? product.price : null
+  const price = oldPrice ? _.ceil(product.price * (1 - product.discount / 100), -1) : product.price
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
+  const discount = product.discount
   const date = product.date
   const daysInterval = dateDiffInDays(date, new Date())
   const isNew = daysInterval < DAYS_IS_NEW
@@ -31,15 +34,15 @@ export const productFabrice: ProductFabrice = (locale, product, urlImages, userI
         size: shoes.size, length: shoes.length, inStock: shoes.is_available
       }))
       const sortedSizes = _.sortBy(sizes, 'size')
-       const shoes: ShoesType = {
-        id:product.id, name, price: product.price, price_prefix, type: 'shoes', url: product.url,
+      const shoes: ShoesType = {
+        id: product.id, name, price, oldPrice, price_prefix, discount, type: 'shoes', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, sizes: sortedSizes, inStock: !!product.is_available
       }
       return shoes
     }
     default: {
       const singleProduct: SimpleProductProps = {
-        id:product.id, name, price: product.price, price_prefix, type: 'product', url: product.url,
+        id: product.id, name, price, oldPrice, price_prefix, discount, type: 'product', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, inStock: !!product.is_available
       }
       return singleProduct

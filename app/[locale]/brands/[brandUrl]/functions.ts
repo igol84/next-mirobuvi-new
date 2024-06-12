@@ -3,6 +3,7 @@ import {dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {Locale} from "@/i18n";
+import _ from "lodash";
 
 interface CreateProduct {
   (
@@ -14,6 +15,8 @@ interface CreateProduct {
 
 export const createProduct: CreateProduct = (product, locale, page = 'catalog') => {
   const name = locale === 'en' ? product.name_en : product.name_ua
+  const oldPrice = product.discount ? product.price : null
+  const price = oldPrice ? _.ceil(product.price * (1 - product.discount / 100), -1): product.price
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const date = product.date
   const daysInterval = dateDiffInDays(product.date, new Date())
@@ -25,14 +28,14 @@ export const createProduct: CreateProduct = (product, locale, page = 'catalog') 
       const isAvailable = !!product.is_available && sizes.length > 0
       return {
         id: product.id, name, url: product.url, imageUrl, isAvailable, color: product.color,
-        price: product.price, price_prefix, type: 'shoes', sizes, page, date, isNew, tags: product.tags,
+        price, oldPrice, price_prefix, type: 'shoes', sizes, page, date, isNew, tags: product.tags,
         season: product.season
       }
     }
     default: {
       return {
         id: product.id, name, url: product.url, imageUrl, isAvailable: !!product.is_available, color: product.color,
-        price: product.price, price_prefix, type: 'product', page, date, isNew, tags: product.tags,
+        price, oldPrice, price_prefix, type: 'product', page, date, isNew, tags: product.tags,
         season: product.season
       }
     }

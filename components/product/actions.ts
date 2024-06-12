@@ -19,13 +19,14 @@ export const serverActionPutProductLike = async (userId: number, productUrl: str
   return result
 }
 
-export const serverActionPriceEdit = async (id: number, price: number) => {
-  const parse: SafeParseReturnType<ProductEditorSchema, ProductEditorSchema> = schema.safeParse({id, price})
+export const serverActionPriceEdit = async (id: number, price: number, discount: number) => {
+  console.log(id,price,discount )
+  const parse: SafeParseReturnType<ProductEditorSchema, ProductEditorSchema> = schema.safeParse({id, price, discount})
   if (parse.success) {
     const formDate = parse.data
     const product = await getProduct(formDate.id)
-    if (product && product.price !== formDate.price) {
-      await updateProductPrice(id, formDate.price)
+    if (product && (product.price !== formDate.price || product.discount !== formDate.discount)) {
+      await updateProductPrice(id, formDate.price, formDate.discount)
       revalidatePath("/[locale]/products/[productUrl]", 'page')
     }
   }

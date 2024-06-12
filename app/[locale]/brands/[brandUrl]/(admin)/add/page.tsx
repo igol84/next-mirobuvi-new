@@ -11,13 +11,13 @@ import {SizeType} from "@/components/product/admin/shoes/types";
 import {Locale} from "@/i18n";
 import {getTranslations} from "next-intl/server";
 
+
 type Props = {
   params: {
     locale: Locale
     brandUrl: string
   }
 }
-
 
 const AddNewProductPage = async ({params: {locale, brandUrl}}: Props) => {
   const t = await getTranslations({locale, namespace: 'productAdmin'})
@@ -27,7 +27,7 @@ const AddNewProductPage = async ({params: {locale, brandUrl}}: Props) => {
   const allProductUrls = await getProductUrls()
   const nexId = await getProductNexId()
   const defaultValuesWithBrandId: DefaultValues = {...defaultValues, brandId: brandData.id, id: nexId}
-  const shoeses: SizeType = {size: 36, isAvailable: false, length: 23.5}
+  const shoeses: SizeType = {size: 36, isAvailable: true, length: 23.5}
   const brandsData = await getBrands()
   const brands: BrandType[] = brandsData.map(brand => ({
     id: brand.id,

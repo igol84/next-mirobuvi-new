@@ -8,6 +8,7 @@ export interface ProductBase {
   url: string
   name: string
   price: number
+  oldPrice: number | null
   price_prefix: string
   page: PageType
   date: Date

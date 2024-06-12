@@ -3,6 +3,7 @@ import {z} from "zod";
 export const schema = z.object({
   id: z.number(),
   price: z.number(),
+  discount: z.number(),
 })
 
 export type ProductEditorSchema = z.infer<typeof schema>

@@ -65,7 +65,7 @@ const ProductEditPage = async ({params: {locale, productUrl}}: Props) => {
     private: productData.private,
     isAvailable: !!productData.is_available,
     price: productData.price,
-    oldPrice: productData.old_price,
+    discount: productData.discount,
     promActive: productData.prom_active,
     promAddToId: productData.prom_add_to_id,
     season: productData.season,

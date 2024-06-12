@@ -8,6 +8,8 @@ export interface ProductBase {
   name: string
   desc: string
   price: number
+  oldPrice: number | null
+  discount: number
   price_prefix: string
   images: string[]
   userId: string | undefined

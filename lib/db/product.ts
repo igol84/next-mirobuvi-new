@@ -65,10 +65,10 @@ export const updateProduct = async (id: number, data: UpdateProductType, shoes?:
   return product
 }
 
-export const updateProductPrice = async (id: number, price: number): Promise<void> => {
+export const updateProductPrice = async (id: number, price: number, discount:number): Promise<void> => {
   await prisma.product.update({
     where: {id},
-    data: {price}
+    data: {price, discount}
   })
 }
 
