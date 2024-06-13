@@ -1,9 +1,8 @@
 import {PageType, ProductType} from "@/components/Products/types";
-import {dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
+import {countPrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {Locale} from "@/i18n";
-import _ from "lodash";
 
 interface CreateProduct {
   (
@@ -16,7 +15,7 @@ interface CreateProduct {
 export const createProduct: CreateProduct = (product, locale, page = 'catalog') => {
   const name = locale === 'en' ? product.name_en : product.name_ua
   const oldPrice = product.discount ? product.price : null
-  const price = oldPrice ? _.ceil(product.price * (1 - product.discount / 100), -1): product.price
+  const price = countPrice(product.price, product.discount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const date = product.date
   const daysInterval = dateDiffInDays(product.date, new Date())

@@ -3,7 +3,7 @@ import {ShoppingCart} from "@/lib/db/cart";
 import {getProductByUrl} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {Locale} from "@/i18n";
-import _ from "lodash";
+import {countPrice} from "@/utility/functions";
 
 export interface ProductCart {
   url: string
@@ -21,7 +21,7 @@ export const getCartData = async (cart: ShoppingCart, locale: Locale): Promise<P
     const product = await getProductByUrl(item.productId)
     if (product) {
       const name = locale === 'en' ? product.name_en : product.name_ua
-      const price = product.discount ? _.ceil(product.price * (1 - product.discount / 100), -1) : product.price
+      const price = countPrice(product.price, product.discount)
       const img = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime())
       const productCart: ProductCart = {
         url: product.url, name, type: product.type,

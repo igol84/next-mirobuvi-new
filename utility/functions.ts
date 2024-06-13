@@ -1,12 +1,18 @@
 import {parse} from "date-fns";
 import slugify from "slugify";
+import _ from "lodash";
 
 export const DAYS_IS_NEW = 30
 
 export const waitSecond = async (sec: number = 1) => {
   await new Promise(resolve => setTimeout(resolve, sec*1000))
 }
-
+export const countPrice = (price: number, discount: number) => {
+  return discount ? _.ceil(price * (1 - discount / 100), -1) : price
+}
+export const countPromPrice = (price: number, discount: number) => {
+  return _.ceil(price / (1 - discount), -1)
+}
 export const formatStringToData = (data: string) => parse(data, 'yyyy-MM-dd', new Date())
 
 export function dateDiffInDays(start: Date, end: Date) {

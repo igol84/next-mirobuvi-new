@@ -3,6 +3,7 @@ import {getBrands} from "@/lib/db/brand";
 import {getProducts} from "@/lib/db/product";
 import _ from "lodash";
 import {getProductImageUrl} from "@/lib/productCardData";
+import {countPrice, countPromPrice} from "@/utility/functions";
 
 export const revalidate = 60 * 60 // seconds * minutes * hours
 
@@ -15,6 +16,7 @@ type Offer = {
   name_ua: string,
   categoryId: string,
   price: string,
+  oldPrice: string | null
   vendor: string,
   description: string,
   description_ua: string,
@@ -39,6 +41,9 @@ export async function GET() {
   const offers: Offer[] = []
   let offersXML = ''
   for (const product of promProducts) {
+    const price = countPrice(product.price, product.discount)
+    const promPrice = countPromPrice(price, PROM_RATE)
+    const promOldPrice = product.discount ? String(countPromPrice(product.price, PROM_RATE)) : null
     const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpeg`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')
@@ -50,7 +55,8 @@ export async function GET() {
         name: product.name_ru,
         name_ua: product.name_ua,
         categoryId: String(product.brand_id),
-        price: String(_.ceil(product.price / (1 - PROM_RATE), -1) + 10),
+        price: String(promPrice),
+        oldPrice: promOldPrice,
         vendor: product.brand.name_en,
         description: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
         description_ua: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
@@ -80,7 +86,8 @@ export async function GET() {
           name,
           name_ua,
           categoryId: String(product.brand_id),
-          price: String(_.ceil(product.price / 0.84, -1) + 10),
+          price: String(promPrice),
+          oldPrice: promOldPrice,
           vendor: product.brand.name_en,
           description: _.escape(description),
           description_ua: _.escape(description_ua),
@@ -99,7 +106,7 @@ export async function GET() {
             <categoryId>${data.categoryId}</categoryId>
             <portal_category_id>3220713</portal_category_id>
             <price>${data.price}</price>
-            <oldprice/>
+            ${data.oldPrice ? `<oldprice>${data.oldPrice}</oldprice>` : '<oldprice/>'}
             <currencyId>UAH</currencyId>
             ${data.images}
             <vendor>${data.vendor}</vendor>

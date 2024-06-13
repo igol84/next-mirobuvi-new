@@ -279,8 +279,8 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
           <FormControl isInvalid={!!errors.discount}>
             <Flex direction='row' alignItems='center' gap={2}>
               <Text>{d('discount')}</Text>
-              <NumberInput name={register('discount').name} step={10}
-                           defaultValue={defaultValues.discount ?? 0} min={0}>
+              <NumberInput name={register('discount').name} min={0} max={100}
+                           defaultValue={defaultValues.discount ?? 0}>
                 <NumberInputField/>
                 <NumberInputStepper>
                   <NumberIncrementStepper/>

@@ -7,7 +7,7 @@ import {deleteCart, getCart} from "@/lib/db/cart";
 import {getProductByUrl} from "@/lib/db/product";
 import {sendEmail} from "@/lib/email";
 import {env} from "@/lib/env";
-import _ from "lodash";
+import {countPrice} from "@/utility/functions";
 
 export const serverAction = async (orderFormData: OrderFormSchema): Promise<Response> => {
   const result: SafeParseReturnType<OrderFormSchema, OrderFormSchema> = schema.safeParse(orderFormData)
@@ -25,9 +25,7 @@ export const serverAction = async (orderFormData: OrderFormSchema): Promise<Resp
     for (const item of cart.items) {
       const productData = await getProductByUrl(item.productId)
       if (productData) {
-        const price = productData.discount
-          ? _.ceil(productData.price * (1 - productData.discount / 100), -1)
-          : productData.price
+        const price = countPrice(productData.price, productData.discount)
         productDetailsByUrl.set(item.productId,
           {ua: productData.name_ua, en: productData.name_en, price}
         )
