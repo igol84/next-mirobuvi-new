@@ -1,5 +1,6 @@
 import {Prisma} from "@prisma/client";
 import {prisma} from "@/lib/db/prisma";
+import {countUserDiscount} from "@/utility/functions";
 
 
 export type UserWithOrders = Prisma.UserGetPayload<{
@@ -74,5 +75,29 @@ export const putFavoriteProduct = async (userId: number, productUrl: string): Pr
     return Array.from(userFavoriteProducts)
   } catch {
     return null
+  }
+}
+
+
+export const getUserDiscount = async (userId: number): Promise<number> => {
+  try {
+    let summa = 0
+    const user = await prisma.user.findUnique({
+      where: {id: userId},
+      include: {orders: {include: {orderItems: true}, orderBy: {createdAt: 'desc'}}}
+    })
+    if (user) {
+      user.orders.forEach(order => {
+        if (order.status === 'Done') {
+          order.orderItems.forEach(orderItem => {
+            summa += orderItem.quantity * orderItem.price
+          })
+        }
+      })
+      return countUserDiscount(summa)
+    }
+    return 0
+  } catch {
+    return 0
   }
 }

@@ -12,11 +12,12 @@ import {getBreadCrumb} from "@/app/[locale]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import ProductsList from "@/components/Products/ProductsList";
 import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/brand";
-import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import {checkForAdmin, checkForAuth, getAuthUser} from "@/utility/auth";
 import {createProduct} from "@/app/[locale]/brands/[brandUrl]/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {Locale} from "@/i18n";
 import {unstable_setRequestLocale} from "next-intl/server";
+import {getUserDiscount} from "@/lib/db/user";
 
 type Props = {
   params: {
@@ -54,6 +55,8 @@ const Page = async ({params: {brandUrl, locale}, searchParams}: Props) => {
   const {page = '1', sortingBy = 'byOrder', ...filtersValues} = searchParams
   const isAdmin = await checkForAdmin()
   const isAuth = await checkForAuth()
+  const userId = await getAuthUser()
+  const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   const brandData = await getBrandWithProductsByUrl(brandUrl)
   if (!brandData) redirect(`/`)
   if (!isAuth && brandData.private) redirect(`/`)
@@ -67,12 +70,12 @@ const Page = async ({params: {brandUrl, locale}, searchParams}: Props) => {
   }
   const breadCrumbs = await getBreadCrumb(locale, brand.brandName, brand.url)
 
-  let products = productsData.map(product => createProduct(product, locale))
+  let products = productsData.map(product => createProduct(product, locale, userDiscount))
   const filterProducts = getFilterProducts(products, filtersValues)
   products = filterProducts.products
   products = sortingProducts(products, sortingBy)
   const [productsSlice, paginationBar] = await getPageData(products, parseInt(page), true)
-  const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth)
+  const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth, userDiscount)
   return (
     <FiltersLayout desc={brand.desc} breadCrumbs={breadCrumbs} viewedProducts={viewedProducts}
                    sortingBy={sortingBy} filterMenuType={filterProducts.filterMenuType}>

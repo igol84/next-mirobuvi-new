@@ -7,7 +7,7 @@ import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
-import {getUser} from "@/lib/db/user";
+import {getUser, getUserDiscount} from "@/lib/db/user";
 import {getBreadCrumbData, productFabrice} from "@/app/[locale]/products/[productUrl]/serverFunctions";
 import {getProductByUrl, getProducts} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
@@ -56,6 +56,7 @@ async function Page({params: {productUrl, locale}}: Props) {
   if (!isAdmin && !productDBData.brand.active) redirect(`/`)
   const session = await getServerSession(authOptions)
   const userId = session?.user.id
+  const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   const favoriteProducts = []
   if (userId) {
     const user = await getUser(Number(userId))
@@ -69,9 +70,9 @@ async function Page({params: {productUrl, locale}}: Props) {
     return getProductImageUrl(productDBData.url, productDBData.imgUpdatedAt?.getTime(), image)
   })
   const isProductFavorite = favoriteProducts.includes(productUrl)
-  const productData = productFabrice(locale, productDBData, urlImages, userId, isProductFavorite)
+  const productData = productFabrice(locale, productDBData, urlImages, userId, isProductFavorite, userDiscount)
   const breadCrumbData: BreadCrumbData[] = await getBreadCrumbData(locale, productDBData)
-  const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth)
+  const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth, userDiscount)
   return (
     <ProductPage productData={productData} breadCrumbData={breadCrumbData} viewedProducts={viewedProducts}/>
   )

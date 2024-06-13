@@ -8,6 +8,7 @@ type Props = {
 }
 
 const Footer = ({isAuthorized}: Props) => {
+  const yearNow = new Date().getFullYear()
   return (
     <Flex direction={{base: 'column', md: 'row'}} justifyContent={{md: 'space-between'}}>
       <Flex direction={{base: 'column', md: 'row'}} p={[1, 4, 8]} gap={[8, 16]} justifyContent='end'>
@@ -18,7 +19,7 @@ const Footer = ({isAuthorized}: Props) => {
       <Flex p={[1, 4, 8]} justifyContent='end' alignSelf='end'>
         <Flex direction='column' alignItems='center'>
           <Box className="_icon-logo"/>
-          2009-2024
+          2009-{yearNow}
         </Flex>
       </Flex>
     </Flex>

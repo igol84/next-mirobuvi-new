@@ -2,7 +2,7 @@ import React from 'react'
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
 import {redirect} from "next/navigation";
-import {getUser, putFavoriteProduct} from "@/lib/db/user";
+import {getUser, getUserDiscount, putFavoriteProduct} from "@/lib/db/user";
 import FavoriteProductsPage from "@/app/[locale]/profile/favorite-products/FavoriteProductsPage";
 import {createProduct} from "@/lib/productCardData";
 import {ProductType} from "@/components/Products/types";
@@ -36,7 +36,7 @@ const Page = async ({params: {locale}}: Props) => {
     }
     if (user.favoriteProducts === '')
       return <NotFavoriteProducts/>
-
+    const userDiscount = await getUserDiscount(user.id)
     const favoriteProductUrls = user.favoriteProducts.split('|')
     const favoriteProducts: ProductType[] = []
     for (const favoriteProductUrl of favoriteProductUrls) {
@@ -47,7 +47,7 @@ const Page = async ({params: {locale}}: Props) => {
         await putFavoriteProduct(user.id, favoriteProductUrl)
         continue
       }
-      const product = createProduct(productFetchData, locale)
+      const product = createProduct(productFetchData, locale, userDiscount)
       favoriteProducts.push(product)
     }
 

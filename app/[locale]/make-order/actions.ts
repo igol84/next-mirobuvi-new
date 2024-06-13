@@ -8,6 +8,8 @@ import {getProductByUrl} from "@/lib/db/product";
 import {sendEmail} from "@/lib/email";
 import {env} from "@/lib/env";
 import {countPrice} from "@/utility/functions";
+import {getAuthUser} from "@/utility/auth";
+import {getUserDiscount} from "@/lib/db/user";
 
 export const serverAction = async (orderFormData: OrderFormSchema): Promise<Response> => {
   const result: SafeParseReturnType<OrderFormSchema, OrderFormSchema> = schema.safeParse(orderFormData)
@@ -20,12 +22,14 @@ export const serverAction = async (orderFormData: OrderFormSchema): Promise<Resp
     return {success: false, errors: zodErrors}
   }
   const cart = await getCart()
+  const userId = await getAuthUser()
+  const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   if (cart && cart.items.length) {
     const productDetailsByUrl: ProductDetailsByUrl = new Map()
     for (const item of cart.items) {
       const productData = await getProductByUrl(item.productId)
       if (productData) {
-        const price = countPrice(productData.price, productData.discount)
+        const price = countPrice(productData.price, productData.discount, userDiscount)
         productDetailsByUrl.set(item.productId,
           {ua: productData.name_ua, en: productData.name_en, price}
         )

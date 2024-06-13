@@ -1,13 +1,13 @@
 import {Roboto} from 'next/font/google'
 import React from "react";
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages, getNow, getTranslations, unstable_setRequestLocale} from 'next-intl/server';
+import {getMessages, getTranslations, unstable_setRequestLocale} from 'next-intl/server';
 import {Providers} from "@/app/providers";
 import './globals.scss'
 import {getCart} from "@/lib/db/cart";
 import {getCartData, ProductCart} from "@/lib/server/cart/cartFunctions";
 import {env} from "@/lib/env";
-import {getUser} from "@/lib/db/user";
+import {getUser, getUserDiscount} from "@/lib/db/user";
 import {userConvertFromDB} from "@/lib/store/user";
 import {convertToTagUrlFromDB, TagUrl} from "@/app/[locale]/[urlTag]/types";
 import _ from "lodash";
@@ -57,6 +57,7 @@ export default async function RootLayout(
   const isAdmin = await checkForAdmin()
   const isEditor = await checkForEditor()
   const userId = await getAuthUser()
+  const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   const isAuth = !!userId
   let brandsData = await getBrands()
   if (!isAuth)
@@ -93,7 +94,7 @@ export default async function RootLayout(
     <html lang={locale === 'ua' ? 'uk' : locale} suppressHydrationWarning={true}>
     <body className={roboto.className} suppressHydrationWarning={true}>
     <NextIntlClientProvider messages={messages}>
-      <Providers isAdmin={isAdmin} isEditor={isEditor}>
+      <Providers isAdmin={isAdmin} isEditor={isEditor} userDiscount={userDiscount}>
         <Container brandsItems={brandsItems} cartProducts={cartProducts} user={user} tagsUrl={tagsUrl}>
           {children}
         </Container>

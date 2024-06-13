@@ -174,7 +174,8 @@
     "profile": "Profile",
     "signOut": "Sign Out",
     "signIn": "Sign In",
-    "orders": "Orders"
+    "orders": "Orders",
+    "discount": "Discount"
   },
   "admin": {
     "title": "Admin",

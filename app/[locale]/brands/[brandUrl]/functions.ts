@@ -1,3 +1,4 @@
+import 'server-only'
 import {PageType, ProductType} from "@/components/Products/types";
 import {countPrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
@@ -8,14 +9,15 @@ interface CreateProduct {
   (
     product: ProductWithDetailsDBType,
     locale: Locale,
+    userDiscount: number,
     page?: PageType
   ): ProductType
 }
 
-export const createProduct: CreateProduct = (product, locale, page = 'catalog') => {
+export const createProduct: CreateProduct = (product, locale, userDiscount, page = 'catalog') => {
   const name = locale === 'en' ? product.name_en : product.name_ua
-  const oldPrice = product.discount ? product.price : null
-  const price = countPrice(product.price, product.discount)
+  const oldPrice = product.discount || userDiscount ? product.price : null
+  const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const date = product.date
   const daysInterval = dateDiffInDays(product.date, new Date())

@@ -14,15 +14,16 @@ type ProductFabrice = {
     product: ProductWithDetailsDBType,
     urlImages: string[],
     userId: string | undefined,
-    isFavorite: boolean
+    isFavorite: boolean,
+    userDiscount: number
   ): ProductType
 }
 
-export const productFabrice: ProductFabrice = (locale, product, urlImages, userId, isFavorite) => {
+export const productFabrice: ProductFabrice = (locale, product, urlImages, userId, isFavorite, userDiscount) => {
   const name = locale === 'en' ? product.name_en : product.name_ua
   const desc = locale === 'en' ? product.text_en : product.text_ua
-  const oldPrice = product.discount ? product.price : null
-  const price = countPrice(product.price, product.discount)
+  const oldPrice = product.discount || userDiscount ? product.price : null
+  const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const discount = product.discount
   const date = product.date

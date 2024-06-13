@@ -8,6 +8,7 @@ interface CreateProduct {
   (
     product: ProductWithDetailsDBType,
     locale: Locale,
+    userDiscount: number,
     page?: PageType
   ): ProductType
 }
@@ -16,10 +17,10 @@ export const getProductImageUrl = (productName: string, key: number = 0, imgName
   return `${env.FTP_URL}/products/${productName}/${imgName}?key=${key}`
 }
 
-export const createProduct: CreateProduct = (product, locale, page = 'catalog') => {
+export const createProduct: CreateProduct = (product, locale, userDiscount, page = 'catalog') => {
   const name = locale === 'en' ? product.name_en : product.name_ua
-  const oldPrice = product.discount ? product.price : null
-  const price = countPrice(product.price, product.discount)
+  const oldPrice = product.discount || userDiscount ? product.price : null
+  const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const date = product.date
   const daysInterval = dateDiffInDays(date, new Date())

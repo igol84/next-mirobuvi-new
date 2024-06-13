@@ -5,7 +5,7 @@ import {
   Adidas,
   Asics,
   Boots, Conv,
-  Converse,
+  Converse, Discount,
   FlipFlops,
   NewBalanceIcon,
   Nike,
@@ -45,6 +45,7 @@ export const icons: Icon[] = [
   {name: 'brands/Puma', icon: Puma},
   {name: 'brands/Reebok', icon: Reebok},
   {name: 'brands/new-balance', icon: NewBalanceIcon},
+  {name: 'discount', icon: Discount},
 ]
 
 export const getIcon = (name: string) => icons.find(icon => name === icon.name.toLowerCase())?.icon

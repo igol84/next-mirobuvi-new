@@ -5,10 +5,10 @@ import {getProductByUrl} from "@/lib/db/product";
 import {Locale} from "@/i18n";
 
 type Type = {
-  (locale: Locale, isAdmin: boolean, isAuth: boolean): Promise<ProductType[]>
+  (locale: Locale, isAdmin: boolean, isAuth: boolean, userDiscount: number): Promise<ProductType[]>
 }
 
-export const getViewedProducts: Type = async (locale, isAdmin, isAuth) => {
+export const getViewedProducts: Type = async (locale, isAdmin, isAuth, userDiscount) => {
   const page: PageType = 'viewed'
   const viewedProductsJSON: string | undefined = cookies().get("viewedProducts")?.value
   const viewedProductUrls: string[] = viewedProductsJSON ? JSON.parse(viewedProductsJSON) : []
@@ -26,7 +26,7 @@ export const getViewedProducts: Type = async (locale, isAdmin, isAuth) => {
           access = false
       }
       if (access)
-        viewedProducts.push(createProduct(productData, locale, page))
+        viewedProducts.push(createProduct(productData, locale, userDiscount, page))
     }
 
   }

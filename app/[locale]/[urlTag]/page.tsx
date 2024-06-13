@@ -21,11 +21,12 @@ import {FiltersValues} from "@/lib/server/filters/serverFunctions/types";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import {getProducts} from "@/lib/db/product";
 import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
-import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import {checkForAdmin, checkForAuth, getAuthUser} from "@/utility/auth";
 import {getArticles} from "@/lib/db/article";
 import {getBrands} from "@/lib/db/brand";
 import {Locale} from "@/i18n";
 import {unstable_setRequestLocale} from "next-intl/server";
+import {getUserDiscount} from "@/lib/db/user";
 
 type Props = {
   params: {
@@ -77,11 +78,13 @@ const Page = async ({params: {locale, urlTag}, searchParams}: Props) => {
   } = searchParams
   const isAdmin = await checkForAdmin()
   const isAuth = await checkForAuth()
+  const userId = await getAuthUser()
+  const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   const tagsUrlData = await getTagUrls()
   const fetchData = tagsUrlData.find(tag => tag.url === urlTag)
   if (!fetchData) redirect(`/`)
   const tagData = convertToTagUrlFromDB(fetchData, locale)
-  const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth)
+  const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth, userDiscount)
   if (isSinglePage(tagData)) {
     const breadCrumbs = getBreadCrumbDataSinglePage(tagData.desc)
     return (
@@ -104,7 +107,7 @@ const Page = async ({params: {locale, urlTag}, searchParams}: Props) => {
     productsData = searchProducts(productsData, search)
   if (tagData.search !== 'header')
     productsData = searchProductsByTag(productsData, tagData.search)
-  let products: ProductType[] = productsData.map(product => createProduct(product, locale))
+  let products: ProductType[] = productsData.map(product => createProduct(product, locale, userDiscount))
 
   const filterProducts = getFilterProducts(products, filtersValues)
   products = filterProducts.products
