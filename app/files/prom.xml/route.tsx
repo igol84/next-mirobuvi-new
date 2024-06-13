@@ -16,7 +16,6 @@ type Offer = {
   name_ua: string,
   categoryId: string,
   price: string,
-  oldPrice: string | null
   vendor: string,
   description: string,
   description_ua: string,
@@ -43,7 +42,7 @@ export async function GET() {
   for (const product of promProducts) {
     const price = countPrice(product.price, product.discount)
     const promPrice = countPromPrice(price, PROM_RATE)
-    const promOldPrice = product.discount ? String(countPromPrice(product.price, PROM_RATE)) : null
+    // const promOldPrice = product.discount ? String(countPromPrice(product.price, PROM_RATE)) : null
     const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpeg`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')
@@ -56,7 +55,6 @@ export async function GET() {
         name_ua: product.name_ua,
         categoryId: String(product.brand_id),
         price: String(promPrice),
-        oldPrice: promOldPrice,
         vendor: product.brand.name_en,
         description: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
         description_ua: _.escape("<div style='text-align: center'>Доставка 1-2 дня.</div>"),
@@ -87,7 +85,6 @@ export async function GET() {
           name_ua,
           categoryId: String(product.brand_id),
           price: String(promPrice),
-          oldPrice: promOldPrice,
           vendor: product.brand.name_en,
           description: _.escape(description),
           description_ua: _.escape(description_ua),
@@ -106,7 +103,7 @@ export async function GET() {
             <categoryId>${data.categoryId}</categoryId>
             <portal_category_id>3220713</portal_category_id>
             <price>${data.price}</price>
-            ${data.oldPrice ? `<oldprice>${data.oldPrice}</oldprice>` : '<oldprice/>'}
+            <oldprice/>
             <currencyId>UAH</currencyId>
             ${data.images}
             <vendor>${data.vendor}</vendor>
