@@ -68,7 +68,7 @@ export default async function RootLayout(
   const cart = await getCart();
 
 
-  const cartProducts: ProductCart[] = cart ? await getCartData(cart, locale) : []
+  const cartProducts: ProductCart[] = cart ? await getCartData(cart, locale, userDiscount) : []
   const fetchTagsUrl = await getTagUrls()
   const fetchParentTagsUrl = fetchTagsUrl.filter(tag => tag.parent === '')
   const orderedFetchParentTagsUrl = _.orderBy(fetchParentTagsUrl, ['order_number'], ['asc'])

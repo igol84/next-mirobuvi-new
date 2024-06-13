@@ -15,13 +15,13 @@ export interface ProductCart {
   img: string
 }
 
-export const getCartData = async (cart: ShoppingCart, locale: Locale): Promise<ProductCart[]> => {
+export const getCartData = async (cart: ShoppingCart, locale: Locale, userDiscount: number): Promise<ProductCart[]> => {
   const cartItems: ProductCart[] = []
   for (let item of cart.items) {
     const product = await getProductByUrl(item.productId)
     if (product) {
       const name = locale === 'en' ? product.name_en : product.name_ua
-      const price = countPrice(product.price, product.discount)
+      const price = countPrice(product.price, product.discount, userDiscount)
       const img = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime())
       const productCart: ProductCart = {
         url: product.url, name, type: product.type,
