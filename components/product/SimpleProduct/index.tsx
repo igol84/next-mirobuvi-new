@@ -31,6 +31,7 @@ const SimpleProduct = ({productData}: Props) => {
   function onStopEdit() {
     setPriceEdit(false)
   }
+
   const defaultPrice = productData.oldPrice ? productData.oldPrice : productData.price
   return (
     <>
@@ -41,7 +42,8 @@ const SimpleProduct = ({productData}: Props) => {
         <Flex alignItems='baseline' color='price' cursor={isEditAccess ? 'pointer' : 'default'}
               onClick={onPriceClick}>
           <HStack align='baseline'>
-            {productData.oldPrice && <Price price={productData.oldPrice} prefix={productData.price_prefix} isOld/>}
+            {productData.oldPrice && productData.oldPrice !== productData.price &&
+              <Price price={productData.oldPrice} prefix={productData.price_prefix} isOld/>}
             <Price price={productData.price} prefix={productData.price_prefix}/>
           </HStack>
         </Flex>

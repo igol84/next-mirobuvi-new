@@ -30,7 +30,7 @@ const ShoesCard = ({product}: Props) => {
         />
         <Center><Text>{name}</Text></Center>
         <Center>
-          {oldPrice && <Price price={oldPrice} prefix={price_prefix} isOld/>}
+          {(oldPrice && oldPrice !== price) && <Price price={oldPrice} prefix={price_prefix} isOld/>}
           <Price price={price} prefix={price_prefix}/>
         </Center>
         <Center>

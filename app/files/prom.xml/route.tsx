@@ -3,11 +3,9 @@ import {getBrands} from "@/lib/db/brand";
 import {getProducts} from "@/lib/db/product";
 import _ from "lodash";
 import {getProductImageUrl} from "@/lib/productCardData";
-import {countPrice, countPromPrice} from "@/utility/functions";
+import {countPromPrice} from "@/utility/functions";
 
 export const revalidate = 60 * 60 // seconds * minutes * hours
-
-const PROM_RATE = 0.16
 
 type Offer = {
   id: string,
@@ -40,9 +38,7 @@ export async function GET() {
   const offers: Offer[] = []
   let offersXML = ''
   for (const product of promProducts) {
-    const price = countPrice(product.price, product.discount)
-    const promPrice = countPromPrice(price, PROM_RATE)
-    // const promOldPrice = product.discount ? String(countPromPrice(product.price, PROM_RATE)) : null
+    const promPrice = countPromPrice(product.price, product.discount)
     const imagesNames = _.times(product.imgCount, index => `${index + 1}.jpeg`)
     const urlImages = imagesNames.map(name => getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), name))
     const images = urlImages.map(image => `<picture>${image}</picture>`).join('\n')

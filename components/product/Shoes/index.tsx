@@ -84,7 +84,8 @@ const Shoes = ({shoesData}: Props) => {
       <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={editMode === 'price'}
             onClick={onPriceClick} cursor={isEditAccess ? 'pointer' : 'default'}>
         <HStack align='baseline'>
-          {shoesData.oldPrice && <Price price={shoesData.oldPrice} prefix={shoesData.price_prefix} isOld/>}
+          {(shoesData.oldPrice && shoesData.oldPrice !== shoesData.price) &&
+            <Price price={shoesData.oldPrice} prefix={shoesData.price_prefix} isOld/>}
           <Price price={shoesData.price} prefix={shoesData.price_prefix}/>
         </HStack>
 

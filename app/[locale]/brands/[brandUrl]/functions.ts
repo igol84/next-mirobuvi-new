@@ -1,6 +1,6 @@
 import 'server-only'
 import {PageType, ProductType} from "@/components/Products/types";
-import {countPrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
+import {countPrice, countRatePrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {Locale} from "@/i18n";
@@ -16,7 +16,7 @@ interface CreateProduct {
 
 export const createProduct: CreateProduct = (product, locale, userDiscount, page = 'catalog') => {
   const name = locale === 'en' ? product.name_en : product.name_ua
-  const oldPrice = product.discount || userDiscount ? product.price : null
+  const oldPrice = product.discount || userDiscount ? countRatePrice(product.price) : null
   const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const date = product.date

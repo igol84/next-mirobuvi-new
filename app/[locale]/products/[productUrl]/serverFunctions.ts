@@ -1,7 +1,7 @@
 import 'server-only'
 
 import {ProductType, ShoesType, SimpleProductProps, SizeType} from "@/components/product/types";
-import {countPrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
+import {countPrice, countRatePrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import _ from "lodash";
@@ -22,7 +22,7 @@ type ProductFabrice = {
 export const productFabrice: ProductFabrice = (locale, product, urlImages, userId, isFavorite, userDiscount) => {
   const name = locale === 'en' ? product.name_en : product.name_ua
   const desc = locale === 'en' ? product.text_en : product.text_ua
-  const oldPrice = product.discount || userDiscount ? product.price : null
+  const oldPrice = product.discount || userDiscount ? countRatePrice(product.price) : null
   const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const discount = product.discount

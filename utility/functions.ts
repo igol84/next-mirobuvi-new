@@ -3,21 +3,36 @@ import slugify from "slugify";
 import _ from "lodash";
 
 export const DAYS_IS_NEW = 30
+const RATE = 0.16
+const PROM_RATE = 0.16
 
 export const waitSecond = async (sec: number = 1) => {
-  await new Promise(resolve => setTimeout(resolve, sec*1000))
+  await new Promise(resolve => setTimeout(resolve, sec * 1000))
+}
+
+
+export const countRatePrice = (price: number) => {
+  return _.ceil(price / (1 - RATE), -1)
 }
 export const countPrice = (price: number, discount: number, userDiscount?: number) => {
-  if(discount)
-    return _.ceil(price * (1 - discount / 100), -1)
-  if(userDiscount)
-    return _.ceil(price * (1 - userDiscount / 100), -1)
-  return price
+  if (discount)
+    return countRatePrice(_.ceil(price * (1 - discount / 100), -1))
+  if (userDiscount)
+    return countRatePrice(_.ceil(price * (1 - userDiscount / 100), -1))
+  return countRatePrice(price)
+}
 
-}
+
 export const countPromPrice = (price: number, discount: number) => {
-  return _.ceil(price / (1 - discount), -1)
+  const countPromRatePrice = (price: number) => {
+    return _.ceil(price / (1 - PROM_RATE), -1)
+  }
+  if (discount)
+    return countPromRatePrice(_.ceil(price * (1 - discount / 100), -1))
+  return countPromRatePrice(price)
 }
+
+
 export const countUserDiscount = (summa: number): number => {
   if (summa >= 10000) return 10
   if (summa >= 5000) return 7
