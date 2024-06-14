@@ -73,7 +73,7 @@ const Shoes = ({shoesData}: Props) => {
   const defaultSizes: SizeType[] = shoesData.sizes.map(size => ({
     size: size.size, isAvailable: size.inStock, length: size.length!
   }))
-  const defaultPrice = shoesData.oldPrice ? shoesData.oldPrice : shoesData.price
+  const defaultPrice = shoesData.defaultPrice
   return (
     <>
       <Text fontSize={36}>

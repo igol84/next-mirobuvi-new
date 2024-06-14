@@ -32,7 +32,7 @@ const SimpleProduct = ({productData}: Props) => {
     setPriceEdit(false)
   }
 
-  const defaultPrice = productData.oldPrice ? productData.oldPrice : productData.price
+  const defaultPrice = productData.defaultPrice
   return (
     <>
       <Text fontSize={36}>{productData.name}</Text>

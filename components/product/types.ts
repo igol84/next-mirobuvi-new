@@ -7,6 +7,7 @@ export interface ProductBase {
   url: string
   name: string
   desc: string
+  defaultPrice: number
   price: number
   oldPrice: number | null
   discount: number

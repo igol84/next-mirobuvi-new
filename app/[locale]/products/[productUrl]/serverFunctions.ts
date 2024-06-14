@@ -22,6 +22,7 @@ type ProductFabrice = {
 export const productFabrice: ProductFabrice = (locale, product, urlImages, userId, isFavorite, userDiscount) => {
   const name = locale === 'en' ? product.name_en : product.name_ua
   const desc = locale === 'en' ? product.text_en : product.text_ua
+  const defaultPrice = product.price
   const oldPrice = product.discount || userDiscount ? countRatePrice(product.price) : null
   const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
@@ -36,14 +37,14 @@ export const productFabrice: ProductFabrice = (locale, product, urlImages, userI
       }))
       const sortedSizes = _.sortBy(sizes, 'size')
       const shoes: ShoesType = {
-        id: product.id, name, price, oldPrice, price_prefix, discount, type: 'shoes', url: product.url,
+        id: product.id, name, defaultPrice, price, oldPrice, price_prefix, discount, type: 'shoes', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, sizes: sortedSizes, inStock: !!product.is_available
       }
       return shoes
     }
     default: {
       const singleProduct: SimpleProductProps = {
-        id: product.id, name, price, oldPrice, price_prefix, discount, type: 'product', url: product.url,
+        id: product.id, name, defaultPrice, price, oldPrice, price_prefix, discount, type: 'product', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, inStock: !!product.is_available
       }
       return singleProduct

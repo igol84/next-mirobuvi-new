@@ -20,7 +20,6 @@ export const serverActionPutProductLike = async (userId: number, productUrl: str
 }
 
 export const serverActionPriceEdit = async (id: number, price: number, discount: number) => {
-  console.log(id,price,discount )
   const parse: SafeParseReturnType<ProductEditorSchema, ProductEditorSchema> = schema.safeParse({id, price, discount})
   if (parse.success) {
     const formDate = parse.data
