@@ -61,7 +61,11 @@ const Page = async ({params: {brandUrl, locale}, searchParams}: Props) => {
   if (!brandData) redirect(`/`)
   if (!isAuth && brandData.private) redirect(`/`)
   if (!isAdmin && !brandData.active) redirect(`/`)
-  const productsData = brandData.products as ProductWithDetailsDBType[]
+  let productsData = brandData.products as ProductWithDetailsDBType[]
+  if(!isAuth)
+    productsData = productsData.filter(product=>!product.private)
+  if(!isAdmin)
+    productsData = productsData.filter(product=>product.active)
   const desc = locale === 'en' ? brandData.text_en : brandData.text_ua
   const brandName = locale === 'en' ? brandData.name_en : brandData.name_en
   const imgUrl = getBrandsImageUrl(brandData.url, brandData.updatedAt?.getTime())
