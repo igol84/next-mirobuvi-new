@@ -8,6 +8,7 @@ import {IsAdminContext, IsEditorContext} from "@/app/providers";
 import PriceEditor from "@/components/product/PriceEditor";
 import {useTranslations} from "next-intl";
 import Price from "@/components/product/Price";
+import GroupOfLikeProducts from "@/components/product/GroupOfLikeProducts";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -39,9 +40,9 @@ const SimpleProduct = ({productData}: Props) => {
       {priceEdit && <PriceEditor id={productData.id} defaultPrice={defaultPrice} onClose={onStopEdit}
                                  defaultDiscount={productData.discount}/>}
       <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={priceEdit}>
-        <Flex alignItems='baseline' color='price' cursor={isEditAccess ? 'pointer' : 'default'}
-              onClick={onPriceClick}>
-          <HStack align='baseline'>
+        <Flex alignItems='baseline' color='price'>
+          <HStack align='baseline'  cursor={isEditAccess ? 'pointer' : 'default'}
+                  onClick={onPriceClick}>
             {productData.oldPrice && productData.oldPrice !== productData.price &&
               <Price price={productData.oldPrice} prefix={productData.price_prefix} isOld/>}
             <Price price={productData.price} prefix={productData.price_prefix}/>
@@ -52,7 +53,7 @@ const SimpleProduct = ({productData}: Props) => {
       {productData.inStock ? (
         <AddToCartButton productId={productData.url}/>
       ) : <Text color='red.400'>{textNotAvailable}</Text>}
-
+      <GroupOfLikeProducts products={productData.similarProducts}/>
     </>
   );
 };

@@ -12,6 +12,7 @@ import SizesEditForm from "@/components/product/Shoes/SizesEditForm";
 import {SizeType} from "@/components/product/admin/shoes/types";
 import {useTranslations} from "next-intl";
 import Price from "@/components/product/Price";
+import GroupOfLikeProducts from "@/components/product/GroupOfLikeProducts";
 
 const Like = dynamic(() => import('@/components/product/Like'), {ssr: false})
 
@@ -81,14 +82,13 @@ const Shoes = ({shoesData}: Props) => {
       </Text>
       {isPriceEditMod && <PriceEditor id={shoesData.id} defaultPrice={defaultPrice} onClose={onStopEdit}
                                       defaultDiscount={shoesData.discount}/>}
-      <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={editMode === 'price'}
-            onClick={onPriceClick} cursor={isEditAccess ? 'pointer' : 'default'}>
-        <HStack align='baseline'>
+      <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={editMode === 'price'}>
+        <HStack align='baseline' hidden={editMode === 'price'}
+                onClick={onPriceClick} cursor={isEditAccess ? 'pointer' : 'default'}>
           {(shoesData.oldPrice && shoesData.oldPrice !== shoesData.price) &&
             <Price price={shoesData.oldPrice} prefix={shoesData.price_prefix} isOld/>}
           <Price price={shoesData.price} prefix={shoesData.price_prefix}/>
         </HStack>
-
         <Like productUrl={shoesData.url}/>
       </Flex>
       {isSizesEditMod && <SizesEditForm shoesId={shoesData.id} defaultSizes={defaultSizes} onClose={onStopEdit}/>}
@@ -116,6 +116,7 @@ const Shoes = ({shoesData}: Props) => {
           </Box>
         ) : <Text color='red.400'>{textNotAvailable}</Text>}
       </Flex>
+      <GroupOfLikeProducts products={shoesData.similarProducts}/>
     </>
   );
 };

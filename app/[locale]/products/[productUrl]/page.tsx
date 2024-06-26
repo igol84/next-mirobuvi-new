@@ -8,8 +8,12 @@ import {getViewedProducts} from "@/lib/productsGetter";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
 import {getUser, getUserDiscount} from "@/lib/db/user";
-import {getBreadCrumbData, productFabrice} from "@/app/[locale]/products/[productUrl]/serverFunctions";
-import {getProductByUrl, getProducts} from "@/lib/db/product";
+import {
+  getBreadCrumbData,
+  getSimilarProducts,
+  productFabrice
+} from "@/app/[locale]/products/[productUrl]/serverFunctions";
+import {getProductByUrl, getProducts, getProductsByGroupName} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import _ from "lodash";
@@ -70,7 +74,10 @@ async function Page({params: {productUrl, locale}}: Props) {
     return getProductImageUrl(productDBData.url, productDBData.imgUpdatedAt?.getTime(), image)
   })
   const isProductFavorite = favoriteProducts.includes(productUrl)
-  const productData = productFabrice(locale, productDBData, urlImages, userId, isProductFavorite, userDiscount)
+  const similarProducts = await getSimilarProducts(productDBData, locale, isAuth, isAdmin)
+  const productData = productFabrice(
+    locale, productDBData, urlImages, userId, isProductFavorite, userDiscount, similarProducts
+  )
   const breadCrumbData: BreadCrumbData[] = await getBreadCrumbData(locale, productDBData)
   const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth, userDiscount)
   return (

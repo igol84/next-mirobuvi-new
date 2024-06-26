@@ -1,10 +1,18 @@
 export type productType = 'product' | 'shoes'
 
+export type SimilarProduct = {
+  name: string
+  url: string
+  urlImage: string
+}
+
+
 export interface ProductBase {
   id: number
   type: productType
   inStock: boolean
   url: string
+  similarProducts: SimilarProduct[]
   name: string
   desc: string
   defaultPrice: number

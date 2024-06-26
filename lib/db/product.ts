@@ -28,6 +28,12 @@ export const getProductByUrl = cache(async (url: string): Promise<ProductWithDet
   })
 })
 
+export const getProductsByGroupName = cache(async (groupName: string): Promise<ProductDBType[]> => {
+  return await prisma.product.findMany({
+    where: {group_name: groupName}
+  })
+})
+
 export const getProductUrls = cache(async (): Promise<string[]> => {
   const products = await prisma.product.findMany()
   return products.map(product => product.url)
