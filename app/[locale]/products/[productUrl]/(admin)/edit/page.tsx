@@ -57,6 +57,7 @@ const ProductEditPage = async ({params: {locale, productUrl}}: Props) => {
     metaDescEn: productData.meta_desc_en,
     metaDescUa: productData.meta_desc_ua,
     tags: productData.tags,
+    groupName: productData.group_name,
     url: productData.url,
     textEn: productData.text_en,
     textUa: productData.text_ua,

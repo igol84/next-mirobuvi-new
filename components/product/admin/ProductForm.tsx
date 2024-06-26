@@ -147,7 +147,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
         <Flex alignItems="center" gap={3} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.nameUa} isRequired>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{dict.nameUa}</Text>
+              <Text whiteSpace='nowrap'>{dict.nameUa}</Text>
               <Input {...register('nameUa')} placeholder={dict.nameUa}/>
               {errors.nameUa && (
                 <FormErrorMessage>{dict.nameUa} {dict.gt2}</FormErrorMessage>
@@ -157,7 +157,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
 
           <FormControl isInvalid={!!errors.nameEn} isRequired>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{dict.nameEn}</Text>
+              <Text whiteSpace='nowrap'>{dict.nameEn}</Text>
               <Input {...register('nameEn')} placeholder={dict.nameEn}/>
               {errors.nameEn && (
                 <FormErrorMessage>{dict.nameEn} {dict.gt2}</FormErrorMessage>
@@ -167,7 +167,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
 
           <FormControl isInvalid={!!errors.nameRu} isRequired>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{dict.nameRu}</Text>
+              <Text whiteSpace='nowrap'>{dict.nameRu}</Text>
               <Input {...register('nameRu')} placeholder={dict.nameRu}/>
               {errors.nameRu && (
                 <FormErrorMessage>{dict.nameRu} {dict.gt2}</FormErrorMessage>
@@ -179,14 +179,14 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
         <Flex alignItems="center" gap={2} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.titleUa}>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{d('titleUa')}</Text>
+              <Text whiteSpace='nowrap'>{d('titleUa')}</Text>
               <Input {...register('titleUa')} placeholder={d('titleUa')}/>
             </Flex>
           </FormControl>
 
           <FormControl isInvalid={!!errors.titleEn}>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{d('titleEn')}</Text>
+              <Text whiteSpace='nowrap'>{d('titleEn')}</Text>
               <Input {...register('titleEn')} placeholder={d('titleEn')}/>
             </Flex>
           </FormControl>
@@ -195,14 +195,14 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
         <Flex alignItems="center" gap={2} direction={{base: 'column', md: 'row'}}>
           <FormControl isInvalid={!!errors.metaDescUa}>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{d('metaDescUa')}</Text>
+              <Text whiteSpace='nowrap'>{d('metaDescUa')}</Text>
               <Input {...register('metaDescUa')} placeholder={d('metaDescUa')}/>
             </Flex>
           </FormControl>
 
           <FormControl isInvalid={!!errors.metaDescEn}>
             <Flex direction='row' alignItems='center' gap={2}>
-              <Text>{d('metaDescEn')}</Text>
+              <Text whiteSpace='nowrap'>{d('metaDescEn')}</Text>
               <Input {...register('metaDescEn')} placeholder={d('metaDescEn')}/>
             </Flex>
           </FormControl>
@@ -225,12 +225,22 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
               )}
             </Flex>
           </FormControl>
-
-          <Select {...register('brandId', {valueAsNumber: true})} placeholder={d('brand')} isRequired maxW={200}>
-            {brands.map(brand => (
-              <option key={brand.id} value={brand.id}>{brand.name}</option>
-            ))}
-          </Select>
+          <FormControl>
+            <Flex direction='row' alignItems='center' gap={2}>
+              <Text whiteSpace='nowrap'>{d('groupName')}</Text>
+              <Input {...register('groupName')} placeholder={d('groupName')}/>
+            </Flex>
+          </FormControl>
+          <FormControl>
+            <Flex direction='row' alignItems='center' gap={2}>
+              <Text>{d('brand')}</Text>
+              <Select {...register('brandId', {valueAsNumber: true})} placeholder={d('brand')} isRequired maxW={200}>
+                {brands.map(brand => (
+                  <option key={brand.id} value={brand.id}>{brand.name}</option>
+                ))}
+              </Select>
+            </Flex>
+          </FormControl>
         </Flex>
 
         <FormControl isInvalid={!!errors.textUa}>

@@ -1,0 +1,40 @@
+-- RedefineTables
+PRAGMA defer_foreign_keys=ON;
+PRAGMA foreign_keys=OFF;
+CREATE TABLE "new_Product" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "active" BOOLEAN NOT NULL,
+    "private" BOOLEAN NOT NULL,
+    "url" TEXT NOT NULL,
+    "is_available" BOOLEAN,
+    "tags" TEXT NOT NULL,
+    "group_name" TEXT NOT NULL DEFAULT '',
+    "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "type" TEXT NOT NULL,
+    "name_en" TEXT NOT NULL,
+    "name_ru" TEXT NOT NULL,
+    "name_ua" TEXT NOT NULL,
+    "title_en" TEXT NOT NULL,
+    "title_ua" TEXT NOT NULL,
+    "meta_desc_en" TEXT NOT NULL,
+    "meta_desc_ua" TEXT NOT NULL,
+    "text_ua" TEXT NOT NULL,
+    "text_ru" TEXT NOT NULL,
+    "text_en" TEXT NOT NULL,
+    "price" REAL NOT NULL,
+    "discount" REAL NOT NULL DEFAULT 0,
+    "prom_active" BOOLEAN NOT NULL,
+    "prom_add_to_id" INTEGER NOT NULL,
+    "season" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
+    "imgCount" INTEGER NOT NULL DEFAULT 0,
+    "imgUpdatedAt" DATETIME DEFAULT CURRENT_TIMESTAMP,
+    "brand_id" INTEGER NOT NULL,
+    CONSTRAINT "Product_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+INSERT INTO "new_Product" ("active", "brand_id", "color", "date", "discount", "id", "imgCount", "imgUpdatedAt", "is_available", "meta_desc_en", "meta_desc_ua", "name_en", "name_ru", "name_ua", "price", "private", "prom_active", "prom_add_to_id", "season", "tags", "text_en", "text_ru", "text_ua", "title_en", "title_ua", "type", "url") SELECT "active", "brand_id", "color", "date", "discount", "id", "imgCount", "imgUpdatedAt", "is_available", "meta_desc_en", "meta_desc_ua", "name_en", "name_ru", "name_ua", "price", "private", "prom_active", "prom_add_to_id", "season", "tags", "text_en", "text_ru", "text_ua", "title_en", "title_ua", "type", "url" FROM "Product";
+DROP TABLE "Product";
+ALTER TABLE "new_Product" RENAME TO "Product";
+CREATE UNIQUE INDEX "Product_url_key" ON "Product"("url");
+PRAGMA foreign_keys=ON;
+PRAGMA defer_foreign_keys=OFF;

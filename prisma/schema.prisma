@@ -127,6 +127,7 @@ model Product {
   url            String    @unique
   is_available   Boolean?
   tags           String
+  group_name     String
   date           DateTime  @default(now())
   type           String
   name_en        String

@@ -137,7 +137,8 @@
     "season": "Season",
     "color": "Color",
     "editProduct": "Edit product",
-    "brand": "Brand"
+    "brand": "Brand",
+    "groupName": "Group Name"
   },
   "product": {
     "buy": "Buy",

@@ -137,7 +137,8 @@
     "season": "Сезон",
     "color": "Колір",
     "editProduct": "Редагувати товар",
-    "brand": "Бренд"
+    "brand": "Бренд",
+    "groupName": "Назва групи"
   },
   "product": {
     "buy": "Купити",

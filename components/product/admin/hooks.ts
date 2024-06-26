@@ -1,6 +1,6 @@
 import {useTranslations} from "next-intl";
 
-export const useDict = () => {
+export const    useDict = () => {
   const d = useTranslations("productAdmin")
   const dc = useTranslations("filterColor")
   const ds = useTranslations("filterSeason")
