@@ -28,9 +28,10 @@ export const getProductByUrl = cache(async (url: string): Promise<ProductWithDet
   })
 })
 
-export const getProductsByGroupName = cache(async (groupName: string): Promise<ProductDBType[]> => {
+export const getProductsByGroupName = cache(async (groupName: string): Promise<ProductWithDetailsDBType[]> => {
   return await prisma.product.findMany({
-    where: {group_name: groupName}
+    where: {group_name: groupName},
+    include: {shoeses: true, brand: true}
   })
 })
 

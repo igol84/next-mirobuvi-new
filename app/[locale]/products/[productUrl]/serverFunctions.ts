@@ -8,6 +8,7 @@ import _ from "lodash";
 import {Locale} from "@/i18n";
 import {getTranslations} from "next-intl/server";
 import {getProductImageUrl} from "@/lib/productCardData";
+import {isAvailable} from "@/lib/server/filters/serverFunctions/product";
 
 type ProductFabrice = {
   (
@@ -95,6 +96,7 @@ export const getSimilarProducts: GetSimilarProducts = async (productDBData, loca
   if (!productDBData.group_name) return []
   let similarProductsDB = await getProductsByGroupName(productDBData.group_name)
   similarProductsDB = similarProductsDB.filter(product => product.url !== productDBData.url)
+  similarProductsDB = similarProductsDB.filter(product => isAvailable(product))
   if (!isAuth)
     similarProductsDB = similarProductsDB.filter(product => !product.private)
   if (!isAdmin)
