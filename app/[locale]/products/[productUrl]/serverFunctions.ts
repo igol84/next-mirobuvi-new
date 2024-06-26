@@ -92,13 +92,13 @@ type GetSimilarProducts = {
 }
 
 export const getSimilarProducts: GetSimilarProducts = async (productDBData, locale, isAuth, isAdmin) => {
-  if(!productDBData.group_name) return []
+  if (!productDBData.group_name) return []
   let similarProductsDB = await getProductsByGroupName(productDBData.group_name)
-  similarProductsDB = similarProductsDB.filter(product=>product.url!==productDBData.url)
-  if(!isAuth)
-    similarProductsDB = similarProductsDB.filter(product=>!product.private)
-  if(!isAdmin)
-    similarProductsDB = similarProductsDB.filter(product=>product.active)
+  similarProductsDB = similarProductsDB.filter(product => product.url !== productDBData.url)
+  if (!isAuth)
+    similarProductsDB = similarProductsDB.filter(product => !product.private)
+  if (!isAdmin)
+    similarProductsDB = similarProductsDB.filter(product => product.active)
   return similarProductsDB.map(product => {
     const urlImage = getProductImageUrl(product.url, product.imgUpdatedAt?.getTime(), '1.jpeg')
     return {

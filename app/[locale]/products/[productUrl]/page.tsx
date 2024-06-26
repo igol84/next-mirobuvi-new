@@ -13,7 +13,7 @@ import {
   getSimilarProducts,
   productFabrice
 } from "@/app/[locale]/products/[productUrl]/serverFunctions";
-import {getProductByUrl, getProducts, getProductsByGroupName} from "@/lib/db/product";
+import {getProductByUrl, getProducts} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {checkForAdmin, checkForAuth} from "@/utility/auth";
 import _ from "lodash";

@@ -41,7 +41,7 @@ const SimpleProduct = ({productData}: Props) => {
                                  defaultDiscount={productData.discount}/>}
       <Flex wrap='wrap' alignItems='center' justifyContent='space-between' hidden={priceEdit}>
         <Flex alignItems='baseline' color='price'>
-          <HStack align='baseline'  cursor={isEditAccess ? 'pointer' : 'default'}
+          <HStack align='baseline' cursor={isEditAccess ? 'pointer' : 'default'}
                   onClick={onPriceClick}>
             {productData.oldPrice && productData.oldPrice !== productData.price &&
               <Price price={productData.oldPrice} prefix={productData.price_prefix} isOld/>}
