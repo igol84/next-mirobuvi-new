@@ -1,5 +1,4 @@
 import {Roboto} from 'next/font/google'
-import { GoogleAnalytics } from '@next/third-parties/google'
 import React from "react";
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, getTranslations, unstable_setRequestLocale} from 'next-intl/server';
@@ -102,7 +101,6 @@ export default async function RootLayout(
       </Providers>
     </NextIntlClientProvider>
     </body>
-    <GoogleAnalytics gaId="G-YZ460H3L3B" />
     </html>
   )
 }
