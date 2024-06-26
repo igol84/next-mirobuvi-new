@@ -17,6 +17,7 @@ interface Props {
 const GroupOfLikeProducts = ({products}: Props) => {
   const locale = useLocale() as Locale
   const t = useTranslations("product")
+  if(products.length===0) return undefined
   return (
     <Box>
       <Text>{t('similarProducts')}:</Text>
