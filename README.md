@@ -21,7 +21,7 @@ npx prisma migrate dev --name desc
 ssh admin@mirobuvi.com.ua
 cd core/
 git pull
-npm i
+npm ci
 npx pm2 stop next
 npx prisma migrate deploy
 npx prisma generate
