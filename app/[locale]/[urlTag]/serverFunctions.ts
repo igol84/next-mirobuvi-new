@@ -11,9 +11,7 @@ export const isSinglePage = (tagData: TagUrl): boolean => tagData.search === ''
 
 export function getBreadCrumbDataSinglePage(pageName: string): BreadCrumbData[] {
   const breadCrumbs: BreadCrumbData[] = []
-  const pageCrumb: BreadCrumbData = {
-    label: pageName, href: ''
-  }
+  const pageCrumb: BreadCrumbData = {label: pageName, href: ''}
   breadCrumbs.push(pageCrumb)
   return breadCrumbs
 }
@@ -75,6 +73,6 @@ export const searchProducts: SearchProducts = (products, searchValue) => {
     const searchInTags = product.tags.toLowerCase()
     const whatSearch = searchValue.trim().toLowerCase()
     return searchInNameUa.includes(whatSearch) || searchInNameRu.includes(whatSearch) ||
-      searchInNameEn.includes(whatSearch) ||searchInTags.includes(whatSearch)
+      searchInNameEn.includes(whatSearch) || searchInTags.includes(whatSearch)
   })
 }
