@@ -33,6 +33,7 @@ export const schema = z.object({
   filesImg: z.any(),
   type: z.enum(productTypes),
   brandId: z.number(),
+  setNew: z.boolean(),
 })
 
 export type ProductFormSchema = z.infer<typeof schema>
@@ -75,7 +76,8 @@ export const defaultValues: Omit<ProductFormSchema, 'filesImg'> = {
   discount: 0,
   promActive: true,
   promAddToId: 0,
-  brandId: 0
+  brandId: 0,
+  setNew: false
 }
 
 export type DefaultValues = typeof defaultValues

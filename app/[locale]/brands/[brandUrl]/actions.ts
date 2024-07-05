@@ -7,7 +7,7 @@ import {
   CreateProductType,
   deleteProduct,
   getProduct,
-  getProductUrls,
+  getProductUrls, ProductDBType,
   updateProduct,
   UpdateProductType
 } from "@/lib/db/product";
@@ -64,6 +64,8 @@ export const serverActionCreateOrEditProduct = async (formData: FormData): Promi
     color: formData.get("color") as string,
     filesImg: formData.getAll("filesImg") as File[],
     type: formData.get("type") as string,
+    setNew: formData.get("setNew") === 'on',
+
   }
   let shoes = JSON.parse(String(formData.get("shoes"))) as SizeType[]
   const addedShoes: SizeType[] = []
@@ -135,9 +137,9 @@ const addNewProduct = async (productData: ProductFormSchema, shoes: SizeType[]):
 const editProduct = async (selectedId: number, productData: ProductFormSchema, shoes: SizeType[]): Promise<Response> => {
 
   let isFileEdited = false
-  const oldProduct = await getProduct(productData.id as number)
-  let imgCount = oldProduct?.imgCount as number
-  const urlIsChanged = oldProduct?.url !== productData.url
+  const oldProduct = await getProduct(productData.id as number) as ProductDBType
+  let imgCount = oldProduct.imgCount as number
+  const urlIsChanged = oldProduct.url !== productData.url
 
   if (urlIsChanged) {
     const ftpClient = await getFTPClient(env.FTP_HOST, env.FTP_USER, env.FTP_PASS)
@@ -186,6 +188,7 @@ const editProduct = async (selectedId: number, productData: ProductFormSchema, s
     season: productData.season,
     color: productData.color,
     brand_id: productData.brandId,
+    date: productData.setNew ? new Date() : oldProduct.date
   }
   if (isFileEdited) {
     product = {...product, imgUpdatedAt: new Date(), imgCount}

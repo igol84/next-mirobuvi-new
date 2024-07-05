@@ -32,8 +32,7 @@ export const productFabrice: ProductFabrice = (
   const price = countPrice(product.price, product.discount, userDiscount)
   const price_prefix = locale === 'en' ? '₴' : 'грн.'
   const discount = product.discount
-  const date = product.date
-  const daysInterval = dateDiffInDays(date, new Date())
+  const daysInterval = dateDiffInDays(product.date, new Date())
   const isNew = daysInterval < DAYS_IS_NEW
   switch (product.type) {
     case "shoes": {

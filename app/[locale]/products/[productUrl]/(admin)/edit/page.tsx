@@ -73,7 +73,8 @@ const ProductEditPage = async ({params: {locale, productUrl}}: Props) => {
     color: productData.color,
     filesImg: [],
     type: productData.type,
-    brandId: productData.brand_id
+    brandId: productData.brand_id,
+    setNew: false
   }
   const brandsData = await getBrands()
   const brands: BrandType[] = brandsData.map(brand => ({

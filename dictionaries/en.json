@@ -138,7 +138,8 @@
     "color": "Color",
     "editProduct": "Edit product",
     "brand": "Brand",
-    "groupName": "Group Name"
+    "groupName": "Group Name",
+    "setNew": "Set new"
   },
   "product": {
     "buy": "Buy",
@@ -213,7 +214,7 @@
   },
   "sortingForm": {
     "sortingBy": "Sorting:",
-    "byOrder": "by order",
+    "byDate": "new ones first",
     "byIncreasingPrice": "by increasing price",
     "byDecreasingPrice": "by decreasing price",
     "byName": "by name"

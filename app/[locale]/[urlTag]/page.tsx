@@ -74,7 +74,7 @@ export async function generateStaticParams() {
 
 const Page = async ({params: {locale, urlTag}, searchParams}: Props) => {
   const {
-    page = '1', sortingBy = 'byOrder', search, ...filtersValues
+    page = '1', sortingBy = 'byDate', search, ...filtersValues
   } = searchParams
   const isAdmin = await checkForAdmin()
   const isAuth = await checkForAuth()

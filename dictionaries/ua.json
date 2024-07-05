@@ -138,7 +138,8 @@
     "color": "Колір",
     "editProduct": "Редагувати товар",
     "brand": "Бренд",
-    "groupName": "Назва групи"
+    "groupName": "Назва групи",
+    "setNew": "Встановити новим"
   },
   "product": {
     "buy": "Купити",
@@ -213,7 +214,7 @@
   },
   "sortingForm": {
     "sortingBy": "Сортування:",
-    "byOrder": "за порядком",
+    "byDate": "спочатку нові",
     "byIncreasingPrice": "за зростанням ціни",
     "byDecreasingPrice": "за зниженням ціни",
     "byName": "за назвою"

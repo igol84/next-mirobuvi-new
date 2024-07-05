@@ -1,5 +1,5 @@
 export enum Sorting {
-  byOrder,
+  byDate,
   byIncreasingPrice,
   byDecreasingPrice,
   byName

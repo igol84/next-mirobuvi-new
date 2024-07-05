@@ -268,6 +268,7 @@ const ProductForm = ({defaultValues, urlList, urlImages = [], shoeses, brands}: 
           <Checkbox {...register('active')}>{d('active')}</Checkbox>
           <Checkbox {...register('private')}>{d('private')}</Checkbox>
           <Checkbox {...register('isAvailable')}>{d('isAvailable')}</Checkbox>
+          <Checkbox {...register('setNew')}>{d('setNew')}</Checkbox>
         </Flex>
 
 
