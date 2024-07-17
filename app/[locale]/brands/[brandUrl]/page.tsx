@@ -12,7 +12,7 @@ import {getBreadCrumb} from "@/app/[locale]/brands/[brandUrl]/serverFunctions";
 import FiltersLayout from "@/components/Products/FiltersLayout";
 import ProductsList from "@/components/Products/ProductsList";
 import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/brand";
-import {checkForAdmin, checkForAuth, getAuthUser} from "@/utility/auth";
+import {checkForAdmin, checkForAuth, checkForEditor, getAuthUser} from "@/utility/auth";
 import {createProduct} from "@/app/[locale]/brands/[brandUrl]/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {Locale} from "@/i18n";
@@ -54,13 +54,14 @@ export async function generateStaticParams() {
 const Page = async ({params: {brandUrl, locale}, searchParams}: Props) => {
   const {page = '1', sortingBy = 'byDate', ...filtersValues} = searchParams
   const isAdmin = await checkForAdmin()
+  const isEditor = await checkForEditor()
   const isAuth = await checkForAuth()
   const userId = await getAuthUser()
   const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   const brandData = await getBrandWithProductsByUrl(brandUrl)
   if (!brandData) redirect(`/`)
-  if (!isAuth && brandData.private) redirect(`/`)
-  if (!isAdmin && !brandData.active) redirect(`/`)
+  if (!isAuth && !isEditor && brandData.private) redirect(`/`)
+  if (!isAdmin && !isEditor && !brandData.active) redirect(`/`)
   let productsData = brandData.products as ProductWithDetailsDBType[]
   if(!isAuth)
     productsData = productsData.filter(product=>!product.private)

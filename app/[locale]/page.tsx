@@ -2,7 +2,7 @@ import React from 'react';
 import Home from "@/app/[locale]/Home";
 import {BrandCardPropsWithFirst, getBrandsImageUrl} from "@/components/Brands/types";
 import {getBrands} from "@/lib/db/brand";
-import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import {checkForAdmin, checkForAuth, checkForEditor} from "@/utility/auth";
 import _ from "lodash";
 import {Locale} from "@/i18n";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
@@ -34,11 +34,12 @@ const Page = async ({params: {locale}}: Props) => {
   unstable_setRequestLocale(locale)
   const t = await getTranslations({locale, namespace: 'home'})
   const isAdminUser = await checkForAdmin()
+  const isEditor = await checkForEditor()
   const isAuth = await checkForAuth()
   let brandsData = await getBrands()
   if (!isAuth)
     brandsData = brandsData.filter(brand => !brand.private)
-  if (!isAdminUser)
+  if (!isAdminUser && !isEditor)
     brandsData = brandsData.filter(brand => brand.active)
   brandsData = _.orderBy(brandsData, 'order_number')
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {

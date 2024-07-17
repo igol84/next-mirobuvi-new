@@ -3,7 +3,7 @@ import {BrandCardPropsWithFirst, getBrandsImageUrl} from "@/components/Brands/ty
 import BrandPage from "@/app/[locale]/brands/BrandPage";
 import {getViewedProducts} from "@/lib/productsGetter";
 import {getBrands} from "@/lib/db/brand";
-import {checkForAdmin, checkForAuth, getAuthUser} from "@/utility/auth";
+import {checkForAdmin, checkForAuth, checkForEditor, getAuthUser} from "@/utility/auth";
 import _ from "lodash";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {Locale} from "@/i18n";
@@ -29,14 +29,17 @@ export async function generateMetadata({params: {locale}}: Props) {
 
 const BrandsPage = async ({params: {locale}}: Props) => {
   const isAdmin = await checkForAdmin()
+  const isEditor = await checkForEditor()
   const isAuth = await checkForAuth()
   const userId = await getAuthUser()
   const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
   let brandsData = await getBrands()
   if (!isAuth)
     brandsData = brandsData.filter(brand => !brand.private)
-  if (!isAdmin)
+  if (!isAdmin && !isEditor)
     brandsData = brandsData.filter(brand => brand.active)
+
+
   brandsData = _.orderBy(brandsData, 'order_number')
   const brands: BrandCardPropsWithFirst[] = brandsData.map((brand, index) => {
     const imgUrl = getBrandsImageUrl(brand.url, brand.updatedAt?.getTime())

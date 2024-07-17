@@ -15,7 +15,7 @@ import {
 } from "@/app/[locale]/products/[productUrl]/serverFunctions";
 import {getProductByUrl, getProducts} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
-import {checkForAdmin, checkForAuth} from "@/utility/auth";
+import {checkForAdmin, checkForAuth, checkForEditor} from "@/utility/auth";
 import _ from "lodash";
 import {Locale} from "@/i18n";
 import {unstable_setRequestLocale} from "next-intl/server";
@@ -51,13 +51,14 @@ export async function generateStaticParams() {
 
 async function Page({params: {productUrl, locale}}: Props) {
   const isAdmin = await checkForAdmin()
+  const isEditor = await checkForEditor()
   const isAuth = await checkForAuth()
   const productDBData = await getProductByUrl(productUrl)
   if (!productDBData) redirect(`/`)
   if (!isAuth && productDBData.private) redirect(`/`)
   if (!isAuth && productDBData.brand.private) redirect(`/`)
-  if (!isAdmin && !productDBData.active) redirect(`/`)
-  if (!isAdmin && !productDBData.brand.active) redirect(`/`)
+  if (!isAdmin && !isEditor && !productDBData.active) redirect(`/`)
+  if (!isAdmin && !isEditor && !productDBData.brand.active) redirect(`/`)
   const session = await getServerSession(authOptions)
   const userId = session?.user.id
   const userDiscount = userId ? await getUserDiscount(Number(userId)) : 0
