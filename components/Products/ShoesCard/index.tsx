@@ -29,10 +29,10 @@ const ShoesCard = ({product}: Props) => {
           src={product.imageUrl}
         />
         <Center><Text>{name}</Text></Center>
-        <Center>
+        <Flex gap={1} alignItems="center" justifyContent="center">
           {(oldPrice && oldPrice !== price) && <Price price={oldPrice} prefix={price_prefix} isOld/>}
           <Price price={price} prefix={price_prefix}/>
-        </Center>
+        </Flex>
         <Center>
           {product.isAvailable ? <Sizes sizes={sizes}/> : <Text color='red.400'>{textNotAvailable}</Text>}
         </Center>
