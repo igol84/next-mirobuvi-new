@@ -145,7 +145,8 @@
     "buy": "Buy",
     "notAvailable": "Not available",
     "addedOnCart": "Added on Cart",
-    "similarProducts": "Similar products"
+    "similarProducts": "Similar products",
+    "prepayment": "We send on prepayment of 150UAH."
   },
   "shoes": {
     "sizes": "Sizes:",

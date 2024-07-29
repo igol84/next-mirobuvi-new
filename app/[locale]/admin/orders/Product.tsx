@@ -16,10 +16,11 @@ const Product = ({item}: Props) => {
   const locale = useLocale() as Locale
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})
   const productName = locale === 'en' ? item.productNameEn : item.productNameUa
-  const size = item.size ? ' ' + item.size : ''
+  const size = item.size ? ': ' + item.size : ''
+  const sizeLink = item.size ? `?size=${item.size}` : ''
   return (
     <Box>
-      <Link as={NextLink} href={`/${locale}/products/${item.url}`} display='flex' alignItems='center'
+      <Link as={NextLink} href={`/${locale}/products/${item.url}${sizeLink}`} display='flex' alignItems='center'
             _hover={{color: 'hoverLinkTextColor'}}
       >
         <ChakraNextImage

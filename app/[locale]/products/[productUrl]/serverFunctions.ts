@@ -18,12 +18,13 @@ type ProductFabrice = {
     userId: string | undefined,
     isFavorite: boolean,
     userDiscount: number,
-    similarProducts: SimilarProduct[]
+    similarProducts: SimilarProduct[],
+    selectedSize: number | null
   ): ProductType
 }
 
 export const productFabrice: ProductFabrice = (
-  locale, product, urlImages, userId, isFavorite, userDiscount, similarProducts
+  locale, product, urlImages, userId, isFavorite, userDiscount, similarProducts, selectedSize
 ) => {
   const name = locale === 'en' ? product.name_en : product.name_ua
   const desc = locale === 'en' ? product.text_en : product.text_ua
@@ -43,7 +44,7 @@ export const productFabrice: ProductFabrice = (
       const shoes: ShoesType = {
         id: product.id, name, defaultPrice, price, oldPrice, price_prefix, discount, type: 'shoes', url: product.url,
         images: urlImages, desc, userId, isFavorite, isNew, sizes: sortedSizes, inStock: !!product.is_available,
-        similarProducts: similarProducts
+        similarProducts: similarProducts, selectedSize
       }
       return shoes
     }

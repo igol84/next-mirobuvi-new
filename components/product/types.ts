@@ -39,6 +39,7 @@ export interface SizeType {
 export interface ShoesType extends ProductBase {
   type: 'shoes'
   sizes: SizeType[]
+  selectedSize: number | null
 }
 
 export type ProductType = SimpleProductProps | ShoesType

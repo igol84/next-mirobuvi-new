@@ -18,11 +18,12 @@ const OrderItem = ({orderItem}: Props) => {
   const productName = locale === 'en' ? orderItem.productNameEn : orderItem.productNameUa
 
   const size = orderItem.size ? ' ' + orderItem.size : ''
+  const sizeLink = orderItem.size ? `?size=${orderItem.size}` : ''
   return (
     <Flex p={4} gap={8} w='full' direction={{base: "column", sm: "row"}} sx={{borderWidth: '1px 0 0 0'}}>
       <Box w={{base: 200, sm: 320}}>
         <Link
-          as={NextLink} href={`/${locale}/products/${orderItem.url}`}
+          as={NextLink} href={`/${locale}/products/${orderItem.url}${sizeLink}`}
           _hover={{color: 'hoverLinkTextColor'}}
         >
           <ChakraNextImage

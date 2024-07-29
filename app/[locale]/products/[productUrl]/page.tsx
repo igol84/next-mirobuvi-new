@@ -26,6 +26,9 @@ type Props = {
     productUrl: string
     locale: Locale
   }
+  searchParams: {
+    size?: string
+  }
 }
 
 export async function generateMetadata({params: {productUrl, locale}}: Props) {
@@ -49,7 +52,9 @@ export async function generateStaticParams() {
   return products.map((product) => ({productUrl: product.url}))
 }
 
-async function Page({params: {productUrl, locale}}: Props) {
+async function Page({params: {productUrl, locale}, searchParams}: Props) {
+  const {size = null} = searchParams
+  const selectedSize = size === null ? null : Number(size)
   const isAdmin = await checkForAdmin()
   const isEditor = await checkForEditor()
   const isAuth = await checkForAuth()
@@ -77,7 +82,7 @@ async function Page({params: {productUrl, locale}}: Props) {
   const isProductFavorite = favoriteProducts.includes(productUrl)
   const similarProducts = await getSimilarProducts(productDBData, locale, isAuth, isAdmin)
   const productData = productFabrice(
-    locale, productDBData, urlImages, userId, isProductFavorite, userDiscount, similarProducts
+    locale, productDBData, urlImages, userId, isProductFavorite, userDiscount, similarProducts, selectedSize
   )
   const breadCrumbData: BreadCrumbData[] = await getBreadCrumbData(locale, productDBData)
   const viewedProducts = await getViewedProducts(locale, isAdmin, isAuth, userDiscount)

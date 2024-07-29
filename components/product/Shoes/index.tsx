@@ -22,16 +22,22 @@ type Props = {
 
 const Shoes = ({shoesData}: Props) => {
   const t = useTranslations()
-  const isAdmin = useContext(IsAdminContext)
-  const isEditor = useContext(IsEditorContext)
-  const isEditAccess = isAdmin || isEditor
-  const [selectedSize, setSelectedSize] = useState<number | null>(null)
-  const [sizeDesc, setSizeDesc] = useState<string>(t('shoes.select_size'))
-  const [editMode, setEditMode] = useState<null | 'price' | 'sizes'>(null)
   const textLength = t('shoes.insole_length')
   const textSelect = t('shoes.select_size')
   const textNotAvailable = t('product.notAvailable')
   const textSizes = t('shoes.sizes')
+  const isAdmin = useContext(IsAdminContext)
+  const isEditor = useContext(IsEditorContext)
+  const isEditAccess = isAdmin || isEditor
+  const sizeData = shoesData.sizes.find(size => size.size === shoesData.selectedSize)
+  let lengthText = t('shoes.select_size')
+  if (sizeData && sizeData.length && sizeData.inStock) {
+    lengthText = shoesData.selectedSize ? `${textLength} ${shoesData.selectedSize}cm` : ''
+  }
+  const [selectedSize, setSelectedSize] = useState<number | null>(shoesData.selectedSize)
+  const [sizeDesc, setSizeDesc] = useState<string>(lengthText)
+  const [editMode, setEditMode] = useState<null | 'price' | 'sizes'>(null)
+
 
   const changeLengthText = (length: number | null) => {
     const lengthText = length ? `${textLength} ${length}cm` : ''
@@ -111,7 +117,7 @@ const Shoes = ({shoesData}: Props) => {
               })}
             </Flex>
             <Box color='secondary' pb={6}>{sizeDesc}</Box>
-            <Box pb={6} color='secondary'>Відправляємо за передоплатою 150грн.</Box>
+            <Box pb={6} color='secondary'>{t('product.prepayment')}</Box>
             <AddToCartButton productId={shoesData.url} size={selectedSize}/>
           </Box>
         ) : <Text color='red.400'>{textNotAvailable}</Text>}

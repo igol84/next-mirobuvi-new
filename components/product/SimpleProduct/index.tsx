@@ -1,6 +1,6 @@
 'use client'
 import React, {useContext, useState} from 'react';
-import {Flex, HStack, Text} from "@chakra-ui/react";
+import {Box, Flex, HStack, Text} from "@chakra-ui/react";
 import {SimpleProductProps} from "@/components/product/types";
 import AddToCartButton from "@/components/product/AddToCartButton";
 import dynamic from "next/dynamic";
@@ -51,7 +51,10 @@ const SimpleProduct = ({productData}: Props) => {
         <Like productUrl={productData.url}/>
       </Flex>
       {productData.inStock ? (
-        <AddToCartButton productId={productData.url}/>
+        <Box>
+          <Box pb={6} color='secondary'>{t('prepayment')}</Box>
+          <AddToCartButton productId={productData.url}/>
+        </Box>
       ) : <Text color='red.400'>{textNotAvailable}</Text>}
       <GroupOfLikeProducts products={productData.similarProducts}/>
     </>
