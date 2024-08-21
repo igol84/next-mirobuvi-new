@@ -64,7 +64,7 @@ export async function GET() {
       for (const shoes of sortedShoes) {
         if (shoes.is_available) {
           allSizes.push(shoes.size)
-          descSizes += ` <tr><td>${shoes.size}</td><td>${shoes.length}см.</td></tr> `
+          descSizes += ` <tr><td>${shoes.size}</td><td> ${shoes.length}см.</td></tr> `
         }
       }
       for (const shoes of sortedShoes) {
