@@ -15,7 +15,7 @@ type GetPageData = {
     paginationBar: PaginationBarProps,
   ]>
 }
-const defaultItemsOnPage = 25
+const defaultItemsOnPage = 100
 export const getPageData: GetPageData = async (items, currentPage, withoutOneProduct = false) => {
   const itemsOnPage = withoutOneProduct ? defaultItemsOnPage - 1 : defaultItemsOnPage
   const totalProductsCount = items.length
