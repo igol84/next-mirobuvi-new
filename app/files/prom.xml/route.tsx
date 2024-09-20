@@ -97,7 +97,6 @@ export async function GET() {
             <name_ua>${data.name_ua}</name_ua>
             <delivery>true</delivery>
             <categoryId>${data.categoryId}</categoryId>
-            <portal_category_id>3220713</portal_category_id>
             <price>${data.price}</price>
             <oldprice/>
             <currencyId>UAH</currencyId>
