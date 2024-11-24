@@ -11,6 +11,7 @@ export const waitSecond = async (sec: number = 1) => {
 }
 
 
+
 export const countRatePrice = (price: number) => {
   return _.ceil(price / (1 - RATE), -1)
 }
