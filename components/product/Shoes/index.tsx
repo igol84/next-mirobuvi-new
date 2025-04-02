@@ -32,7 +32,8 @@ const Shoes = ({shoesData}: Props) => {
   const sizeData = shoesData.sizes.find(size => size.size === shoesData.selectedSize)
   let lengthText = t('shoes.select_size')
   if (sizeData && sizeData.length && sizeData.inStock) {
-    lengthText = shoesData.selectedSize ? `${textLength} ${shoesData.selectedSize}cm` : ''
+    const sizeData = shoesData.sizes.find(size => size.size === shoesData.selectedSize)
+    lengthText = shoesData.selectedSize ? `${textLength} ${sizeData?.length}cm` : ''
   }
   const [selectedSize, setSelectedSize] = useState<number | null>(shoesData.selectedSize)
   const [sizeDesc, setSizeDesc] = useState<string>(lengthText)
