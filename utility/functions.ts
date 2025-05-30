@@ -4,7 +4,7 @@ import _ from "lodash";
 
 export const DAYS_IS_NEW = 30
 const RATE = 0.16
-const PROM_RATE = 0.16 + 0.3
+const PROM_RATE = 0.16
 
 export const waitSecond = async (sec: number = 1) => {
   await new Promise(resolve => setTimeout(resolve, sec * 1000))
