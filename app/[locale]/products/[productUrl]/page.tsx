@@ -17,7 +17,7 @@ import {getProductByUrl, getProducts} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {checkForAdmin, checkForAuth, checkForEditor} from "@/utility/auth";
 import _ from "lodash";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {unstable_setRequestLocale} from "next-intl/server";
 
 

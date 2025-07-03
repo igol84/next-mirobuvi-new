@@ -3,7 +3,7 @@ import {getArticles} from "@/lib/db/article";
 import {ListItem} from "@/components/Articles/type";
 import {checkForAdmin} from "@/utility/auth";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 type Props = {
   params: {

@@ -2,7 +2,7 @@ import BrandForm from "@/components/Brands/admin/BrandForm";
 import {BrandFormSchema, defaultValues} from "@/components/Brands/admin/types";
 import {getBrandNexId, getBrandUrls} from "@/lib/db/brand";
 import {getBreadCrumb} from "@/app/[locale]/brands/(admin)/add/serverFunctions";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 type Props = {

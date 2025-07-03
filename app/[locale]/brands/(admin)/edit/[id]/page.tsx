@@ -3,7 +3,7 @@ import {getBrand, getBrands, getBrandUrls} from "@/lib/db/brand";
 import BrandForm from "@/components/Brands/admin/BrandForm";
 import {BrandFormSchema} from "@/components/Brands/admin/types";
 import {getBrandsImageUrl} from "@/components/Brands/types";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getBreadCrumb} from "@/app/[locale]/brands/(admin)/edit/[id]/serverFunctions";
 
 export async function generateStaticParams() {

@@ -1,4 +1,4 @@
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 export function formatPrice(price: number, locale: Locale = 'ua') {
   const UAHFormat = new Intl.NumberFormat('ru-RU', {style: 'decimal'})

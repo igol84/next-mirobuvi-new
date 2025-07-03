@@ -7,7 +7,7 @@ import {BrandCardPropsWithFirstAdmin} from "@/components/Brands/types";
 import {EditIcon} from "@chakra-ui/icons";
 import {IsAdminContext} from "@/app/providers";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 const BrandCard = ({brandId, brandName, url, isFirst, imgUrl}: BrandCardPropsWithFirstAdmin) => {
   const t = useTranslations('brandsAdmin')

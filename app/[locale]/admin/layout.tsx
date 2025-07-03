@@ -4,7 +4,7 @@ import {authOptions} from "@/configs/auth";
 import {env} from "@/lib/env";
 import {redirect} from "next/navigation";
 import Container from "./Container";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 

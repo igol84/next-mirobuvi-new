@@ -9,7 +9,7 @@ import ButtonMinus from "@/components/Container/Navbar/Cart/ButtonMinus";
 import ButtonPlus from "@/components/Container/Navbar/Cart/ButtonPlus";
 import ButtonTrash from "@/components/Container/Navbar/Cart/ButtonTrash";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   cartItem: ProductCart

@@ -15,7 +15,7 @@ import {getBrands} from "@/lib/db/brand";
 import {Item} from "@/components/Container/Navbar/types";
 import {getTagUrls} from "@/lib/db/tagUrl";
 import {checkForAdmin, checkForEditor, getAuthUser} from "@/utility/auth";
-import {Locale, locales} from "@/i18n";
+import {Locale, locales} from "@/i18n/request";
 import Container from "@/components/Container";
 
 

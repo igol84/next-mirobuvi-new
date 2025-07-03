@@ -1,6 +1,6 @@
 import {MetadataRoute} from 'next'
 import {env} from "@/lib/env"
-import {defaultLocale, locales} from "@/i18n"
+import {defaultLocale, locales} from "@/i18n/request"
 import {getArticles} from "@/lib/db/article";
 import {getProducts} from "@/lib/db/product";
 import {getBrands} from "@/lib/db/brand";

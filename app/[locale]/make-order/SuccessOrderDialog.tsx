@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import {useRouter} from "next/navigation";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   isOpen: boolean

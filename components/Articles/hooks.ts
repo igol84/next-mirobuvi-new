@@ -1,6 +1,6 @@
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 export const useBrandCrumbs = () => {
   const t = useTranslations('breadcrumb')

@@ -5,7 +5,7 @@ import ChakraNextImage from "@/components/base/ChakraNextImage";
 import NextImage from "next/image";
 import {IOrderItem} from "@/app/[locale]/admin/orders/types";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   item: IOrderItem

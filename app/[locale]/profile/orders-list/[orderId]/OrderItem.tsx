@@ -5,7 +5,7 @@ import NextImage from "next/image";
 import {IOrderItem} from "@/app/[locale]/profile/orders-list/[orderId]/types";
 import NextLink from "next/link";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   orderItem: IOrderItem

@@ -8,7 +8,7 @@ import {BiUser} from 'react-icons/bi';
 import Product from "@/app/[locale]/admin/orders/Product";
 import Status from "@/components/base/Status/AdminStatus";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   order: IOrder

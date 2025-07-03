@@ -15,7 +15,7 @@ import {Item} from "@/components/Container/Navbar/types";
 import FavoriteProductsIcon from "@/components/Container/FavoriteProductsIcon";
 import {TagUrl} from "@/app/[locale]/[urlTag]/types";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 type Props = {
   onMenuOpen: () => void

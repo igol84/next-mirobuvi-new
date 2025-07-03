@@ -3,7 +3,7 @@
 import {usePathname} from 'next/navigation'
 import Link from 'next/link'
 import {useLocale, useTranslations} from "next-intl";
-import {Locale, locales} from "@/i18n";
+import {Locale, locales} from "@/i18n/request";
 
 
 export default function LocaleSwitcher() {

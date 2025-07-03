@@ -3,7 +3,7 @@ import OrderForm from "@/app/[locale]/make-order/OrderForm";
 import {getCart} from "@/lib/db/cart";
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {unstable_setRequestLocale} from "next-intl/server";
 
 type Props = {

@@ -11,7 +11,7 @@ import {AddIcon} from "@chakra-ui/icons";
 import NextLink from "next/link";
 import {IsAdminContext} from "@/app/providers";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   products: ProductType[],

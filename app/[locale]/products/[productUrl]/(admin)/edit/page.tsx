@@ -13,7 +13,7 @@ import {Image} from "@/components/product/admin/ProductImage";
 import {SizeType} from "@/components/product/admin/shoes/types";
 import _ from "lodash";
 import {getProductImageUrl} from "@/lib/productCardData";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 type Props = {

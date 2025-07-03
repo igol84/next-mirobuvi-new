@@ -1,5 +1,5 @@
 import {redirect} from "next/navigation";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 type Props = {

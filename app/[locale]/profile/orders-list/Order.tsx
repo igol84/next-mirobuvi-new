@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 import {IOrder} from "@/app/[locale]/profile/orders-list/types";
 import Status from "@/components/base/Status/Status";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 interface Props {

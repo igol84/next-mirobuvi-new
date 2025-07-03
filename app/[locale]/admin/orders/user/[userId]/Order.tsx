@@ -8,7 +8,7 @@ import Product from "./Product";
 import {useDroppable} from "@dnd-kit/core";
 import Status from "@/components/base/Status/AdminStatus";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   order: IOrder

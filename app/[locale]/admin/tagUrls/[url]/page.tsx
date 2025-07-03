@@ -3,7 +3,7 @@ import React from "react";
 import EditTagUrlPage from "@/app/[locale]/admin/tagUrls/[url]/EditTagUrlPage";
 import {SafeParseReturnType} from "zod";
 import {schema, TagUrlsFormSchema} from "@/components/tagUrls/admin/types";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 import {getParents} from "@/app/[locale]/admin/tagUrls/utility";
 

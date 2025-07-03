@@ -4,7 +4,7 @@ import {getOrder} from "@/lib/db/order";
 import {IOrder, IOrderItem} from "@/app/[locale]/profile/orders-list/[orderId]/types";
 import {getProductByUrl} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 type Props = {

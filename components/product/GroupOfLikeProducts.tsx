@@ -5,7 +5,7 @@ import NextImage from "next/image";
 import React from "react";
 import NextLink from "next/link";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {Navigation} from 'swiper/modules';
 import {Swiper, SwiperSlide} from "swiper/react";
 import {MdArrowBackIosNew, MdArrowForwardIos} from "react-icons/md";

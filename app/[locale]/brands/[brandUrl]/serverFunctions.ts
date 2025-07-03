@@ -2,7 +2,7 @@ import 'server-only'
 
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {getTranslations} from "next-intl/server";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 

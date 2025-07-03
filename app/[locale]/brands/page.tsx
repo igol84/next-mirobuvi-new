@@ -6,7 +6,7 @@ import {getBrands} from "@/lib/db/brand";
 import {checkForAdmin, checkForAuth, checkForEditor, getAuthUser} from "@/utility/auth";
 import _ from "lodash";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getUserDiscount} from "@/lib/db/user";
 
 type Props = {

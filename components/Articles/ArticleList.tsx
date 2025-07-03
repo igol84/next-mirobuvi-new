@@ -10,7 +10,7 @@ import {ListItem} from "@/components/Articles/type";
 import {useBrandCrumbs} from "@/components/Articles/hooks";
 import BreadCrumb from "@/components/base/BreadCrumb";
 import {useLocale} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 interface ArticleListProps {

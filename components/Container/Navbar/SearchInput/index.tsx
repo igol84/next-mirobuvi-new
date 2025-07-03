@@ -5,7 +5,7 @@ import {usePathname, useSearchParams} from "next/navigation";
 import serverActionSearch from "@/components/Container/Navbar/SearchInput/actions";
 import {searchData} from "@/components/Container/Navbar/SearchInput/types";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 const isProductsPage = (path: string): boolean => {
   return path.includes('products')

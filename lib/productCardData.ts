@@ -2,7 +2,7 @@ import {PageType, ProductType, ShoesType, SimpleProductProps} from "@/components
 import {countPrice, countRatePrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {env} from "@/lib/env";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface CreateProduct {
   (

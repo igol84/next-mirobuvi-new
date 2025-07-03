@@ -5,7 +5,7 @@ import {countPrice, countRatePrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {getProductsByGroupName, ProductWithDetailsDBType} from "@/lib/db/product";
 import _ from "lodash";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 import {getProductImageUrl} from "@/lib/productCardData";
 import {isAvailable} from "@/lib/server/filters/serverFunctions/product";

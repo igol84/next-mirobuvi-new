@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import ChakraNextImage from "@/components/base/ChakraNextImage";
 import {SimpleProductProps} from "@/components/Products/types";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import Price from "@/components/Products/Price";
 
 type Props = {

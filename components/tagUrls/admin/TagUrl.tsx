@@ -4,7 +4,7 @@ import React from "react";
 import NextLink from "next/link";
 import {EditIcon} from "@chakra-ui/icons";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   tagUrl: TagUrlTypeWithoutText

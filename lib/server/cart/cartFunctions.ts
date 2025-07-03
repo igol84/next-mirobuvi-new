@@ -2,7 +2,7 @@
 import {ShoppingCart} from "@/lib/db/cart";
 import {getProductByUrl} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {countPrice} from "@/utility/functions";
 
 export interface ProductCart {

@@ -15,7 +15,7 @@ import {getBrandByUrl, getBrands, getBrandWithProductsByUrl} from "@/lib/db/bran
 import {checkForAdmin, checkForAuth, checkForEditor, getAuthUser} from "@/utility/auth";
 import {createProduct} from "@/app/[locale]/brands/[brandUrl]/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {unstable_setRequestLocale} from "next-intl/server";
 import {getUserDiscount} from "@/lib/db/user";
 

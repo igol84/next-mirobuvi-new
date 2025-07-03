@@ -4,7 +4,7 @@ import {usePathname} from 'next/navigation'
 import Link from 'next/link'
 import {Button} from "@chakra-ui/react";
 import {useLocale} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 export default function LocaleSwitcher() {

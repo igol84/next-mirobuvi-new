@@ -2,7 +2,7 @@ import React from 'react';
 import {Breadcrumb, BreadcrumbItem, BreadcrumbLink} from "@chakra-ui/react";
 import NextLink from "next/link";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 const BreadCrumb = ({text}: { text: string }) => {
   const t = useTranslations('orderList')

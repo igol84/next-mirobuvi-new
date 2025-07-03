@@ -10,7 +10,7 @@ import NextLink from "next/link";
 import {EditIcon} from "@chakra-ui/icons";
 import {IsAdminContext} from "@/app/providers";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 const FavoriteIcon = dynamic(() => import('@/components/Products/FavoriteIcon'), {ssr: false})
 

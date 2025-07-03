@@ -1,6 +1,6 @@
 
 import {TagUrl as TagUrlSchema} from "@/lib/db/tagUrl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 export interface TagUrl {
   url: string

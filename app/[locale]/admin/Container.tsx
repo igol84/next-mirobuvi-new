@@ -4,7 +4,7 @@ import {Box, Flex} from "@chakra-ui/react";
 import {usePathname} from "next/navigation";
 import CustomLink from "@/components/base/CustomLink";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 interface Props {

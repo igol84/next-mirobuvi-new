@@ -3,7 +3,7 @@ import React from "react";
 import TagUrlsPage from "@/app/[locale]/admin/tagUrls/TagUrlsPage";
 import {TagUrlTypeWithoutText} from "@/app/[locale]/admin/tagUrls/types";
 import _ from "lodash";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 interface Props {

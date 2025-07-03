@@ -6,7 +6,7 @@ import ChakraNextImage from "@/components/base/ChakraNextImage";
 import {ShoesType} from "@/components/Products/types";
 import Sizes from "@/components/Products/ShoesCard/Sizes";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import Price from "@/components/Products/Price";
 
 type Props = {

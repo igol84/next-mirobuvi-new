@@ -8,7 +8,7 @@ import {getBreadCrumb} from "@/app/[locale]/brands/[brandUrl]/(admin)/add/server
 import {BrandType, DefaultValues, defaultValues} from "@/components/product/admin/types";
 import {getProductNexId, getProductUrls} from "@/lib/db/product";
 import {SizeType} from "@/components/product/admin/shoes/types";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 

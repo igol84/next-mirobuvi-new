@@ -24,7 +24,7 @@ import {getTagUrl, getTagUrls} from "@/lib/db/tagUrl";
 import {checkForAdmin, checkForAuth, getAuthUser} from "@/utility/auth";
 import {getArticles} from "@/lib/db/article";
 import {getBrands} from "@/lib/db/brand";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {unstable_setRequestLocale} from "next-intl/server";
 import {getUserDiscount} from "@/lib/db/user";
 

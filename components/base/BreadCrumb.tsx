@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import {Icon} from "@chakra-ui/icons";
 import {AiFillHome} from "react-icons/ai";
 import {useLocale} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 export interface BreadCrumbData {
   label: string

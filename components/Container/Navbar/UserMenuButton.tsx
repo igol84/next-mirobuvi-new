@@ -17,7 +17,7 @@ import Link from "next/link";
 import {IsAdminContext} from "@/app/providers";
 import {useStore} from "@/lib/store";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 export default function UserMenuButton() {

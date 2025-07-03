@@ -18,7 +18,7 @@ import {formatPrice} from "@/lib/format";
 import {PiShoppingCart} from "react-icons/pi";
 import {useRouter} from "next/navigation";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 interface Props {

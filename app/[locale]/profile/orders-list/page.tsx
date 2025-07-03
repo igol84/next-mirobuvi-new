@@ -5,7 +5,7 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/configs/auth";
 import {redirect} from "next/navigation";
 import {IOrder, IOrderItem} from "@/app/[locale]/profile/orders-list/types";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 type Props = {

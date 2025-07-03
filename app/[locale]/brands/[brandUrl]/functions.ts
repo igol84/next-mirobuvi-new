@@ -3,7 +3,7 @@ import {PageType, ProductType} from "@/components/Products/types";
 import {countPrice, countRatePrice, dateDiffInDays, DAYS_IS_NEW} from "@/utility/functions";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
 import {getProductImageUrl} from "@/lib/productCardData";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface CreateProduct {
   (

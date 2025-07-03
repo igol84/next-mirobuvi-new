@@ -7,7 +7,7 @@ import {IOrderItem} from "@/app/[locale]/admin/orders/types";
 import {RiDraggable} from "react-icons/ri";
 import {useDraggable} from "@dnd-kit/core";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 interface Props {
   item: IOrderItem

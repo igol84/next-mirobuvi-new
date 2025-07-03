@@ -4,7 +4,7 @@ import _ from "lodash";
 import {BreadCrumbData} from "@/components/base/BreadCrumb";
 import {ParentTagForBreadCrumb, TagUrl} from "@/app/[locale]/[urlTag]/types";
 import {ProductWithDetailsDBType} from "@/lib/db/product";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 export const isSinglePage = (tagData: TagUrl): boolean => tagData.search === ''

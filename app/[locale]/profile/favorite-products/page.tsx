@@ -9,7 +9,7 @@ import {ProductType} from "@/components/Products/types";
 import NotFavoriteProducts from "@/app/[locale]/profile/favorite-products/NotFavoriteProducts";
 import UserNotFound from "@/components/base/UserNotFound";
 import {getProductByUrl} from "@/lib/db/product";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations} from "next-intl/server";
 
 type Props = {

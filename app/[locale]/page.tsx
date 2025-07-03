@@ -4,7 +4,7 @@ import {BrandCardPropsWithFirst, getBrandsImageUrl} from "@/components/Brands/ty
 import {getBrands} from "@/lib/db/brand";
 import {checkForAdmin, checkForAuth, checkForEditor} from "@/utility/auth";
 import _ from "lodash";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {getTagUrl} from "@/lib/db/tagUrl";
 import {env} from "@/lib/env";

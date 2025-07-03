@@ -2,7 +2,7 @@ import {cookies} from "next/headers";
 import {PageType, ProductType} from "@/components/Products/types";
 import {createProduct} from "@/lib/productCardData";
 import {getProductByUrl} from "@/lib/db/product";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 type Type = {
   (locale: Locale, isAdmin: boolean, isAuth: boolean, userDiscount: number): Promise<ProductType[]>

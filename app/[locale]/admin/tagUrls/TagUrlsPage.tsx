@@ -6,7 +6,7 @@ import NextLink from "next/link";
 import {TagUrlTypeWithoutText} from "@/app/[locale]/admin/tagUrls/types";
 import TagUrl from "@/components/tagUrls/admin/TagUrl";
 import {useLocale, useTranslations} from "next-intl";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 
 
 interface TagUrlsPageProps {

@@ -6,7 +6,7 @@ import '@/app/theme/style.scss'
 import {checkForAdmin} from "@/utility/auth";
 import {getBreadCrumb} from "@/app/[locale]/articles/[url]/serverFunctions";
 import BreadCrumb from "@/components/base/BreadCrumb";
-import {Locale} from "@/i18n";
+import {Locale} from "@/i18n/request";
 import {unstable_setRequestLocale} from "next-intl/server";
 
 type Props = {
